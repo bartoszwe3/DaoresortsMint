@@ -1,0 +1,272 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --color-bg-primary: #0E1208;
+  --color-bg-surface: #161E0F;
+  --color-bg-elevated: #1C2614;
+  --color-accent-gold: #C9A84C;
+  --color-accent-gold-hover: #D4B86A;
+  --color-accent-gold-muted: rgba(201, 168, 76, 0.15);
+  --color-accent-green: #2D5A3D;
+  --color-accent-green-light: #3D7A52;
+  --color-text-primary: #F5F0E8;
+  --color-text-secondary: #A8B89A;
+  --color-text-muted: #6B7A60;
+  --color-border-subtle: rgba(201, 168, 76, 0.12);
+  --color-border-default: rgba(201, 168, 76, 0.25);
+  --color-border-active: #C9A84C;
+
+  --background: var(--color-bg-primary);
+  --foreground: var(--color-text-primary);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.film-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glass-panel {
+  background: rgba(14, 18, 8, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.neon-text {
+  text-shadow: 0 0 10px rgba(201, 168, 76, 0.5);
+  /* Map generic text glow to gold */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #0a0f1c;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #0c4a6e;
+  /* dark blue */
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #38bdf8;
+  /* sky blue */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+button {
+  color: black;
+}
+
+li {
+  color: white;
+}
+
+section {
+  max-width: 1500px;
+  margin: 80px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-center {
+  justify-content: center;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+.flex-align-center {
+  align-items: center;
+}
+
+.gap-1 {
+  gap: 1em;
+}
+
+.bg-gradient {
+  background: linear-gradient(130deg, #6142f7, #3f2d53);
+}
+
+@media screen and (max-width: 768px) {
+  section {
+    margin: 2em auto;
+  }
+}
+
+.wallet-adapter-button {
+  background-color: transparent !important;
+  border: 1px solid rgb(36, 26, 26) !important;
+  /* border-radius: 1em; */
+  /* font-family: "Alro"; */
+}
+
+.social-icons {
+  font-size: 25px;
+}
+
+.listing {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  justify-content: center;
+}
+
+@media (min-width: 992px) {
+
+  /* lg screens */
+  .listing {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+  /* md screens */
+  .listing {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+
+  /* sm screens */
+  .listing {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 575px) {
+
+  /* xs screens */
+  .listing {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.listing {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  gap: 50px;
+}
+
+.listing {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.listing img {
+  /* flex: 0 0 auto; */
+  width: 230px;
+  background-size: cover;
+  /* object-fit:  */
+  /* background-size: c; */
+  height: 150px;
+  /* margin-right: 10px; */
+  /* object-fit: cover; */
+}
+
+.timer-comp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-box {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+}
+
+.timer-comp .time-item {
+  min-width: max-content;
+  display: flex;
+  color: #ffffff;
+  padding: 0px 2px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.timer-comp .time-item ._vale {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  height: 28px;
+  width: 28px;
+  padding: 2px;
+  border-radius: 4px;
+  background: transparent;
+
+  /* @include media("<=tablet") {
+    height: 18px;
+    width: 18px;
+  } */
+}
+
+.timer-comp .time-item ._tag {
+  color: #fff;
+  font-size: 14px;
+  margin-left: 4px;
+
+  /* @include media("<=phoneH") {
+    font-size: 10px;
+    margin-left: 2px;
+  } */
+}
+
+
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 12s linear infinite;
+}

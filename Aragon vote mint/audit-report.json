@@ -1,0 +1,202 @@
+{
+  "contract": "ThyroSENSE.sol",
+  "status": "Audit Completed",
+  "totalChecks": 27,
+  "summary": {
+    "passed": 27,
+    "failed": 0
+  },
+  "results": [
+    {
+      "id": "ERC20-transfer",
+      "title": "ERC20 transfer() compliance",
+      "level": "PASS",
+      "msg": "transfer inherited from OpenZeppelin ERC20 base contract.",
+      "evidence": null
+    },
+    {
+      "id": "ERC20-transferFrom",
+      "title": "ERC20 transferFrom() compliance",
+      "level": "PASS",
+      "msg": "transferFrom inherited from OpenZeppelin ERC20 base contract.",
+      "evidence": null
+    },
+    {
+      "id": "ERC20-approve",
+      "title": "ERC20 approve() compliance",
+      "level": "PASS",
+      "msg": "approve inherited from OpenZeppelin ERC20 base contract.",
+      "evidence": null
+    },
+    {
+      "id": "ERC20-allowance",
+      "title": "ERC20 allowance() compliance",
+      "level": "PASS",
+      "msg": "allowance inherited from OpenZeppelin ERC20 base contract.",
+      "evidence": null
+    },
+    {
+      "id": "ERC20-totalSupply",
+      "title": "ERC20 totalSupply() compliance",
+      "level": "PASS",
+      "msg": "totalSupply inherited from OpenZeppelin ERC20 base contract.",
+      "evidence": null
+    },
+    {
+      "id": "ERC20-symbol",
+      "title": "ERC20 symbol() compliance",
+      "level": "PASS",
+      "msg": "symbol inherited from OpenZeppelin ERC20 base contract.",
+      "evidence": null
+    },
+    {
+      "id": "ERC20-decimals",
+      "title": "ERC20 decimals() compliance",
+      "level": "PASS",
+      "msg": "decimals inherited from OpenZeppelin ERC20 base contract.",
+      "evidence": null
+    },
+    {
+      "id": "ERC20-name",
+      "title": "ERC20 name() compliance",
+      "level": "PASS",
+      "msg": "name inherited from OpenZeppelin ERC20 base contract.",
+      "evidence": null
+    },
+    {
+      "id": "ERC20-balanceOf",
+      "title": "ERC20 balanceOf() compliance",
+      "level": "PASS",
+      "msg": "balanceOf inherited from OpenZeppelin ERC20 base contract.",
+      "evidence": null
+    },
+    {
+      "id": "ERC20-Events",
+      "title": "ERC20 Transfer/Approval events present",
+      "level": "PASS",
+      "msg": "Standard ERC20 events found or inherited.",
+      "evidence": null
+    },
+    {
+      "id": "ADM-enableTrading",
+      "title": "Admin enableTrading owner-only",
+      "level": "PASS",
+      "msg": "enableTrading properly restricted by onlyOwner",
+      "evidence": null
+    },
+    {
+      "id": "ADM-setTreasury",
+      "title": "Admin setTreasury owner-only",
+      "level": "PASS",
+      "msg": "setTreasury properly restricted by onlyOwner",
+      "evidence": null
+    },
+    {
+      "id": "ADM-setTransferTax",
+      "title": "Admin setTransferTax owner-only",
+      "level": "PASS",
+      "msg": "setTransferTax properly restricted by onlyOwner",
+      "evidence": null
+    },
+    {
+      "id": "ADM-setWhitelist",
+      "title": "Admin setWhitelist owner-only",
+      "level": "PASS",
+      "msg": "setWhitelist properly restricted by onlyOwner",
+      "evidence": null
+    },
+    {
+      "id": "ADM-batchSetWhitelist",
+      "title": "Admin batchSetWhitelist owner-only",
+      "level": "PASS",
+      "msg": "batchSetWhitelist properly restricted by onlyOwner",
+      "evidence": null
+    },
+    {
+      "id": "ADM-setBlacklist",
+      "title": "Admin setBlacklist owner-only",
+      "level": "PASS",
+      "msg": "setBlacklist properly restricted by onlyOwner",
+      "evidence": null
+    },
+    {
+      "id": "ADM-batchSetBlacklist",
+      "title": "Admin batchSetBlacklist owner-only",
+      "level": "PASS",
+      "msg": "batchSetBlacklist properly restricted by onlyOwner",
+      "evidence": null
+    },
+    {
+      "id": "ADM-setExempt",
+      "title": "Admin setExempt owner-only",
+      "level": "PASS",
+      "msg": "setExempt properly restricted by onlyOwner",
+      "evidence": null
+    },
+    {
+      "id": "ADM-pause",
+      "title": "Admin pause owner-only",
+      "level": "PASS",
+      "msg": "pause properly restricted by onlyOwner",
+      "evidence": null
+    },
+    {
+      "id": "ADM-unpause",
+      "title": "Admin unpause owner-only",
+      "level": "PASS",
+      "msg": "unpause properly restricted by onlyOwner",
+      "evidence": null
+    },
+    {
+      "id": "TAX-01",
+      "title": "Transfer tax capped and controlled",
+      "level": "PASS",
+      "msg": "Transfer tax max 10% enforced",
+      "evidence": {
+        "cap": true
+      }
+    },
+    {
+      "id": "WL-BL",
+      "title": "Whitelist and Blacklist present and used",
+      "level": "PASS",
+      "msg": "Both whitelist and blacklist found.",
+      "evidence": null
+    },
+    {
+      "id": "PAUSE",
+      "title": "Contract pause and unpause functionality",
+      "level": "PASS",
+      "msg": "Pause and unpause logic found with onlyOwner control.",
+      "evidence": null
+    },
+    {
+      "id": "SUPPLY",
+      "title": "Fixed total supply and no mint/burn functions",
+      "level": "PASS",
+      "msg": "Fixed total supply of 100,000,000 TST minted once to owner.",
+      "evidence": null
+    },
+    {
+      "id": "COOLDOWN",
+      "title": "No trading cooldown or workflow halts found",
+      "level": "PASS",
+      "msg": "No cooldown logic present (beneficial for normal ERC20 flow).",
+      "evidence": null
+    },
+    {
+      "id": "OWNERSHIP",
+      "title": "No hidden owner privileges or minting rights",
+      "level": "PASS",
+      "msg": "Ownership limited to admin controls only.",
+      "evidence": null
+    },
+    {
+      "id": "RECOVERY",
+      "title": "No recoverERC20/recoverETH function found (expected)",
+      "level": "PASS",
+      "msg": "Recovery intentionally omitted for safety.",
+      "evidence": null
+    }
+  ]
+}

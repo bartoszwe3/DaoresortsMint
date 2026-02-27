@@ -1,0 +1,25 @@
+{
+  "name": "hardhar_project",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "index.js",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "hardhat": "^2.12.0"
+  },
+  "dependencies": {
+    "@aragon/osx": "1.2.0",
+    "@aragon/osx-commons-contracts": "^1.4.0",
+    "@openzeppelin/contracts": "^4.8.0",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.7.2",
+    "framer-motion": "^12.34.0"
+  },
+  "scripts": {
+    "test": "npx hardhat test"
+  },
+  "author": "",
+  "description": "This project demonstrates a basic Hardhat use case.",
+  "keywords": [],
+  "type": "commonjs"
+}
