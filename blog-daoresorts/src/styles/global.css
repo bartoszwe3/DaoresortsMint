@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+    --color-bg-primary: #0E1208;
+    --color-bg-surface: #161E0F;
+    --color-bg-elevated: #1C2614;
+    --color-accent-gold: #C9A84C;
+    --color-accent-gold-hover: #D4B86A;
+    --color-accent-gold-muted: rgba(201, 168, 76, 0.15);
+    --color-accent-green: #2D5A3D;
+    --color-text-primary: #F5F0E8;
+    --color-text-secondary: #8A9E8A;
+    --color-text-muted: #6B7A60;
+    --color-border-subtle: rgba(201, 168, 76, 0.12);
+    --color-border-default: rgba(201, 168, 76, 0.25);
+    --color-border-active: #C9A84C;
+
+    --font-sans: 'DM Sans', sans-serif;
+    --font-playfair: 'Playfair Display', serif;
+
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--color-border-subtle);
+    --shadow-btn: 0 2px 10px rgba(201, 168, 76, 0.2);
+
+    --radius-card: 12px;
+    --radius-btn: 6px;
+    --radius-badge: 4px;
+}
+
+@layer base {
+    body {
+        background-color: var(--color-bg-primary);
+        color: var(--color-text-primary);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+    }
+}
+
+@layer components {
+    .glass-nav {
+        backdrop-filter: blur(20px);
+        background: rgba(14, 18, 8, 0.85);
+        border-bottom: 1px solid var(--color-border-subtle);
+    }
+}

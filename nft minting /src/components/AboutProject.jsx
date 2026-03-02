@@ -189,7 +189,7 @@ export default function AboutProject() {
             <section className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-y border-white/10 mb-20 bg-white/5 rounded-2xl p-8">
                 {[
                     { label: "Domków (MVP)", val: "6" },
-                    { label: "Paszportów", val: "150" },
+                    { label: "Paszportów na 150 członków", val: "150" },
                     { label: "Członków na domek", val: "25" },
                     { label: "Dni w roku", val: "14" }
                 ].map((stat, i) => (
@@ -255,7 +255,7 @@ export default function AboutProject() {
                                 <div className="grid grid-cols-2 gap-3 mb-8">
                                     {[
                                         { val: "6", label: "Domków 70m²" },
-                                        { val: "150", label: "Paszportów" },
+                                        { val: "150", label: "Paszportów na 150 członków" },
                                         { val: "14", label: "Nocy / rok" },
                                         { val: "3200m²", label: "Działka" },
                                     ].map((s, i) => (

@@ -1,0 +1,5 @@
+{
+    "buildCommand": "astro build",
+    "outputDirectory": "dist",
+    "installCommand": "npm install"
+}

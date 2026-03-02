@@ -1,0 +1,46 @@
+---
+import CategoryBadge from './CategoryBadge.astro';
+import { urlFor } from '../lib/sanity';
+import { format } from 'date-fns';
+import { pl } from 'date-fns/locale';
+
+const { post } = Astro.props;
+---
+<a href={`/blog/${post.slug.current}`} class="group flex flex-col bg-bg-surface border border-border-default rounded-card overflow-hidden hover:-translate-y-1 hover:border-border-active transition-all duration-300 shadow-sm hover:shadow-card">
+  <div class="relative w-full aspect-video overflow-hidden bg-bg-primary">
+    {post.coverImage ? (
+      <img 
+        src={urlFor(post.coverImage).width(800).height(450).url()} 
+        alt={post.title}
+        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        loading="lazy"
+      />
+    ) : (
+      <div class="w-full h-full flex items-center justify-center text-accent-gold opacity-50">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+      </div>
+    )}
+    <div class="absolute top-4 left-4">
+      <CategoryBadge category={post.kategoria || 'Bez kategorii'} />
+    </div>
+  </div>
+  
+  <div class="p-6 flex flex-col flex-grow">
+    <div class="mb-3 text-xs font-sans font-medium text-text-muted uppercase tracking-widest">
+      {post.publishedAt ? format(new Date(post.publishedAt), 'd MMMM yyyy', { locale: pl }) : 'Brak daty'}
+    </div>
+    
+    <h3 class="text-xl md:text-2xl font-playfair font-bold text-text-primary mb-3 leading-tight group-hover:text-accent-gold transition-colors">
+      {post.title}
+    </h3>
+    
+    <p class="text-text-secondary font-sans text-sm md:text-base line-clamp-3 mb-6 flex-grow">
+      {post.excerpt}
+    </p>
+    
+    <div class="mt-auto inline-flex items-center text-accent-gold font-sans font-bold text-sm tracking-wide">
+      Czytaj więcej
+      <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </div>
+  </div>
+</a>

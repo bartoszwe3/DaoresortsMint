@@ -1,0 +1,25 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import SEO from '../components/SEO.astro';
+
+const { title, description, image, url, type } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <SEO title={title} description={description} image={image} url={url} type={type} />
+  </head>
+  <body class="bg-bg-primary text-text-primary min-h-screen flex flex-col">
+    <Navbar />
+    <main class="flex-grow pt-24 pb-16 w-full">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

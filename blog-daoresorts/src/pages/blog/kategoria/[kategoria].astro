@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { sanityClient } from '../../../lib/sanity';
+
+export async function getStaticPaths() {
+  const query = `*[_type == "post" && defined(kategoria)] {
+    "kategoria": kategoria
+  }`;
+  
+  const categoriesDocs = await sanityClient.fetch(query);
+  const categories = [...new Set(categoriesDocs.map((doc: any) => doc.kategoria))];
+  
+  return categories.map((cat: any) => ({
+    params: { kategoria: cat.toLowerCase().replace(/ /g, '-').replace(/&/g, 'i') },
+    props: { categoryName: cat }
+  }));
+}
+
+const { kategoria } = Astro.params;
+const { categoryName } = Astro.props;
+
+const query = `*[_type == "post" && kategoria == $categoryName] | order(publishedAt desc) {
+  _id,
+  title,
+  slug,
+  excerpt,
+  coverImage,
+  kategoria,
+  publishedAt
+}`;
+
+const posts = await sanityClient.fetch(query, { categoryName });
+const allCategories = ['Wszystkie', 'Aktualności', 'Budowa', 'Web3 i NFT', 'Prawo i Finanse', 'Lifestyle'];
+---
+
+<BaseLayout title={`Blog - ${categoryName}`} description={`Kategoria: ${categoryName}`} type="website" url={`https://blog.daoresorts.club/blog/kategoria/${kategoria}`}>
+  
+  <header class="mb-16 text-center max-w-[800px] mx-auto pt-8">
+    <h1 class="text-4xl md:text-5xl font-playfair font-bold text-text-primary mb-6">
+      Kategoria: <span class="text-accent-gold italic">{categoryName}</span>
+    </h1>
+  </header>
+
+  <nav class="flex flex-wrap items-center justify-center gap-2 mb-12">
+    {allCategories.map(cat => (
+      <a 
+        href={cat === 'Wszystkie' ? '/blog' : `/blog/kategoria/${cat.toLowerCase().replace(/ /g, '-').replace(/&/g, 'i')}`}
+        class={`px-4 py-2 rounded-full text-sm font-sans font-bold transition-colors border ${cat === categoryName ? 'bg-accent-gold text-bg-primary border-accent-gold' : 'bg-bg-surface text-text-secondary hover:text-text-primary hover:bg-bg-elevated border-border-subtle'}`}
+      >
+        {cat}
+      </a>
+    ))}
+  </nav>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    {posts.map((post: any) => (
+      <PostCard post={post} />
+    ))}
+  </div>
+  
+  {posts.length === 0 && (
+    <div class="text-center py-20 text-text-muted">
+      Brak postów w tej kategorii.
+    </div>
+  )}
+  
+</BaseLayout>

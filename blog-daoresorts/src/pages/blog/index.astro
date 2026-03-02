@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { sanityClient } from '../../lib/sanity';
+
+// Pagination and fetching all posts
+const query = `*[_type == "post"] | order(publishedAt desc) {
+  _id,
+  title,
+  slug,
+  excerpt,
+  coverImage,
+  kategoria,
+  publishedAt
+}`;
+
+const allPosts = await sanityClient.fetch(query);
+const categories = ['Wszystkie', 'Aktualności', 'Budowa', 'Web3 i NFT', 'Prawo i Finanse', 'Lifestyle'];
+---
+
+<BaseLayout title="Blog" description="Aktualności, analizy i kulisy budowania pierwszego Web3 vacation club w Europie." type="website" url="https://blog.daoresorts.club/blog">
+  
+  <header class="mb-16 text-center max-w-[800px] mx-auto pt-8">
+    <h1 class="text-5xl md:text-6xl font-playfair font-bold text-text-primary mb-6">Wiedza o DAOResorts</h1>
+    <p class="text-xl font-sans text-text-secondary font-light">
+      Aktualności, analizy i kulisy budowania pierwszego Web3 vacation club w Europie.
+    </p>
+  </header>
+
+  <nav class="flex flex-wrap items-center justify-center gap-2 mb-12">
+    {categories.map((cat) => (
+      <a 
+        href={cat === 'Wszystkie' ? '/blog' : `/blog/kategoria/${cat.toLowerCase().replace(/ /g, '-').replace(/&/g, 'i')}`}
+        class={`px-4 py-2 rounded-full text-sm font-sans font-bold transition-colors ${cat === 'Wszystkie' ? 'bg-accent-gold text-bg-primary' : 'bg-bg-surface text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-border-subtle'}`}
+      >
+        {cat}
+      </a>
+    ))}
+  </nav>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    {allPosts.map((post: any) => (
+      <PostCard post={post} />
+    ))}
+  </div>
+  
+  {allPosts.length === 0 && (
+    <div class="text-center py-20 text-text-muted">
+      Brak opublikowanych wpisów. Zaglądaj tu wkrótce!
+    </div>
+  )}
+  
+</BaseLayout>

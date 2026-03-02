@@ -1,0 +1,41 @@
+---
+import CategoryBadge from './CategoryBadge.astro';
+import { format } from 'date-fns';
+import { pl } from 'date-fns/locale';
+import { urlFor } from '../lib/sanity';
+
+const { post } = Astro.props;
+---
+<header class="mb-12 flex flex-col items-center text-center">
+  <div class="mb-6">
+    <CategoryBadge category={post.kategoria || 'Bez kategorii'} />
+  </div>
+  
+  <h1 class="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-text-primary mb-6 leading-[1.15] max-w-[900px]">
+    {post.title}
+  </h1>
+  
+  <p class="text-xl md:text-2xl font-sans text-text-secondary max-w-[800px] mb-8 leading-relaxed font-light">
+    {post.excerpt}
+  </p>
+  
+  <div class="flex items-center justify-center gap-6 text-sm font-sans text-text-muted uppercase tracking-widest mb-12">
+    <span>{post.publishedAt ? format(new Date(post.publishedAt), 'd MMMM yyyy', { locale: pl }) : 'Brak daty'}</span>
+    {post.author && (
+       <>
+         <span class="w-1.5 h-1.5 rounded-full bg-border-active"></span>
+         <span class="font-bold text-text-secondary">{post.author}</span>
+       </>
+    )}
+  </div>
+  
+  {post.coverImage && (
+    <div class="w-full max-w-[1000px] aspect-[21/9] md:aspect-[16/6] overflow-hidden rounded-[12px] border border-border-subtle shadow-card relative">
+      <img 
+        src={urlFor(post.coverImage).width(1200).height(600).url()} 
+        alt={post.title}
+        class="w-full h-full object-cover"
+      />
+    </div>
+  )}
+</header>
