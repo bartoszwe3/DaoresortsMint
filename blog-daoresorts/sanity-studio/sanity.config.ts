@@ -1,13 +1,13 @@
-import {defineConfig} from 'sanity'
-import {structureTool} from 'sanity/structure'
-import {visionTool} from '@sanity/vision'
-import {schemaTypes} from './schemaTypes'
+import { defineConfig } from 'sanity'
+import { structureTool } from 'sanity/structure'
+import { visionTool } from '@sanity/vision'
+import { schemaTypes } from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
   title: 'blog-daoresorts-studio',
 
-  projectId: 'hy250hsl',
+  projectId: 'd547hmfr',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],
