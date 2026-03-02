@@ -26,7 +26,7 @@ import { useTranslation } from "react-i18next";
    ENV (Vite compatible)
 ======================= */
 const OWNER_ADDRESS = process.env.REACT_APP_OWNER_ADDRESS?.toLowerCase();
-const REQUIRED_CHAIN_ID = 31337; // Localhost
+const REQUIRED_CHAIN_ID = 80002; // Polygon Amoy
 
 /* =======================
    Helpers
@@ -189,7 +189,7 @@ export default function MainPage() {
                   onClick={() => switchNetwork(Number(REQUIRED_CHAIN_ID))}
                   className="px-4 py-1 bg-red-500 hover:bg-red-600 text-white text-xs font-bold rounded-full transition shadow-lg shadow-red-500/20"
                 >
-                  Switch to Localhost
+                  Switch to Polygon Amoy
                 </button>
               </div>
             </motion.div>

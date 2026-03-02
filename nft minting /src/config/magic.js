@@ -1,8 +1,8 @@
 import { Magic } from 'magic-sdk';
 
 const customNodeOptions = {
-    rpcUrl: process.env.REACT_APP_RPC_URL || 'http://127.0.0.1:8545/',
-    chainId: process.env.REACT_CHAIN_ID ? parseInt(process.env.REACT_CHAIN_ID, 10) : 31337,
+    rpcUrl: process.env.REACT_APP_RPC_URL || 'https://rpc-amoy.polygon.technology/',
+    chainId: process.env.REACT_CHAIN_ID ? parseInt(process.env.REACT_CHAIN_ID, 10) : 80002,
 };
 
 const apiKey = process.env.REACT_APP_MAGIC_PUBLISHABLE_KEY || 'pk_live_YOUR_MAGIC_KEY';
