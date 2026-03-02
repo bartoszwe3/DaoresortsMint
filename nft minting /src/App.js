@@ -5,7 +5,7 @@ import "./App.css";
 import { Toaster } from "react-hot-toast";
 import { createAppKit } from "@reown/appkit/react";
 import { EthersAdapter } from "@reown/appkit-adapter-ethers";
-import { base } from "@reown/appkit/networks";
+import { polygonAmoy } from "@reown/appkit/networks";
 import MouseGlow from "./components/MouseGlow";
 
 // ------------------ APPKIT CONFIG ------------------
@@ -36,7 +36,7 @@ const localhost = {
 
 export const config = createAppKit({
   adapters: [new EthersAdapter()],
-  networks: [base],
+  networks: [polygonAmoy],
   metadata,
   projectId,
   enableNetworkSwitch: false,
