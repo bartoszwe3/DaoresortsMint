@@ -36,7 +36,7 @@ const localhost = {
 
 export const config = createAppKit({
   adapters: [new EthersAdapter()],
-  networks: [localhost, base],
+  networks: [base],
   metadata,
   projectId,
   enableNetworkSwitch: false,
