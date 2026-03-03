@@ -5,7 +5,7 @@
     "scripts": {
         "start": "node server.js",
         "dev": "nodemon server.js",
-        "build": "cd '../nft minting ' && REACT_APP_API_BASE='' npm run build && cd '../backend server' && rm -rf public && cp -r '../nft minting /build' public"
+        "build": "cd '../nft minting ' && npm install && REACT_APP_API_BASE='' npm run build && cd '../backend server' && rm -rf public && cp -r '../nft minting /build' public"
     },
     "dependencies": {
         "cors": "^2.8.5",
