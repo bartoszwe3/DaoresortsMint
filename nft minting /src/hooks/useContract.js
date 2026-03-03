@@ -15,7 +15,7 @@ import {
 
 // 🔹 Public RPC URL for read-only calls (set your own if needed)
 console.log("DEBUG: NFT_CONTRACT_ADDRESS from contracts.js =", NFT_CONTRACT_ADDRESS);
-const PUBLIC_RPC_URL = process.env.REACT_APP_RPC_URL || "https://mainnet.base.org";
+const PUBLIC_RPC_URL = process.env.REACT_APP_RPC_URL || "https://polygon-bor-rpc.publicnode.com";
 
 function useContract() {
   const { walletProvider } = useAppKitProvider("eip155");
