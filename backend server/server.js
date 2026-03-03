@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+const path = require("path");
 const { ethers } = require("ethers");
 
 const app = express();
@@ -585,6 +586,16 @@ app.get("/api/members/public", (req, res) => {
     }))
     .sort((a, b) => a.tokenId - b.tokenId);
   res.json(members);
+});
+
+// -------------------------------
+// SERVE STATIC FRONTEND (MONOLITH)
+// -------------------------------
+app.use(express.static(path.join(__dirname, "public")));
+
+// Catch-all route to serve React's index.html for client-side routing
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // -------------------------------
