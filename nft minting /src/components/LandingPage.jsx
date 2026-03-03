@@ -223,7 +223,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                     {/* Video */}
                     <video
                         className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
-                        src="/silna.mp4"
+                        src="/silnawebvideo.mp4"
                         autoPlay
                         loop
                         muted

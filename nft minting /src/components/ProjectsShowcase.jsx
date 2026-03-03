@@ -76,7 +76,7 @@ export default function ProjectsShowcase() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10" />
                 <video
                     ref={videoRef}
-                    src="/silna.mp4"
+                    src="/silnawebvideo.mp4"
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                     autoPlay
                     muted
