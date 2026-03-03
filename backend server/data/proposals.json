@@ -45,50 +45,5 @@
     "historicalNote_pl": "Wynik: Opcja A – 5 głosów (100%)",
     "historicalNote_en": "Result: Option A – 5 votes (100%)",
     "votes": []
-  },
-  {
-    "id": 4,
-    "title": "Lets go",
-    "description": "hej",
-    "createdAt": 1772027786499,
-    "endTime": 1772031386499,
-    "votes": [
-      {
-        "walletAddress": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-        "tokenId": "1",
-        "choice": "for",
-        "votedAt": 1772027790269
-      },
-      {
-        "walletAddress": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-        "tokenId": "2",
-        "choice": "for",
-        "votedAt": 1772027792073
-      },
-      {
-        "walletAddress": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-        "tokenId": "3",
-        "choice": "for",
-        "votedAt": 1772027794435
-      },
-      {
-        "walletAddress": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-        "tokenId": "4",
-        "choice": "for",
-        "votedAt": 1772027795860
-      },
-      {
-        "walletAddress": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-        "tokenId": "5",
-        "choice": "for",
-        "votedAt": 1772027797902
-      },
-      {
-        "walletAddress": "0x40c8a4abd5690391c5da65e767ba12185a18fc5d",
-        "tokenId": "6",
-        "choice": "for",
-        "votedAt": 1772027804737
-      }
-    ]
   }
 ]
