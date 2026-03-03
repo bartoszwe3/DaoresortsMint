@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { PlusCircle, Clock } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5003";
+const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
 export default function CreateProposal({ onCreated }) {
     const { isAuthenticated, user } = useAuth();

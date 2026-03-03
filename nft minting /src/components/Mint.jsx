@@ -34,7 +34,7 @@ export default function Mint({ onMintSuccess }) {
   const [checkingRegistration, setCheckingRegistration] = useState(false);
 
   const currentUserAddress = user?.address || user?.publicAddress;
-  const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5003";
+  const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
   // Check registration status when wallet connects
   useEffect(() => {

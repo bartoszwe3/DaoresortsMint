@@ -57,7 +57,7 @@ export default function MainPage() {
     const checkReg = async () => {
       if (!isAuthenticated || !address) { setIsRegistered(false); return; }
       try {
-        const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5003";
+        const API_BASE = process.env.REACT_APP_API_BASE ?? "";
         const res = await fetch(`${API_BASE}/api/status/${address}`);
         if (res.ok) {
           const data = await res.json();

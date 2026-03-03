@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Users, ChevronLeft, ChevronRight, Crown, Star, ArrowRight } from "lucide-react";
 
 const IPFS_BASE = "https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2pbbrpz6qsmbgeajptl3q/";
-const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5003";
+const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
 function formatDate(ts) {
     if (!ts) return "—";

@@ -10,7 +10,7 @@ import { ThumbsUp, ThumbsDown, Minus, Clock, CheckCircle2, Users, RefreshCw, Che
 import { useTranslation } from "react-i18next";
 import CreateProposal from "./CreateProposal";
 
-const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5003";
+const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 const OWNER_ADDRESS = process.env.REACT_APP_OWNER_ADDRESS || "";
 
 function formatTimeLeft(endTime) {

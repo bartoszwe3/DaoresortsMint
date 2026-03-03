@@ -22,7 +22,7 @@ const AdminUsersManagement = () => {
         nftMinted: 0
     });
 
-    const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5003";
+    const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
     useEffect(() => {
         if (isAuthenticated) {

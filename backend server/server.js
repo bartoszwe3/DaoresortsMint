@@ -32,20 +32,11 @@ const saveJSON = (file, data) =>
 // MIDDLEWARE
 // -------------------------------
 // Capture raw body for webhook signature verification BEFORE json parsing
-app.use((req, res, next) => {
-  let data = '';
-  req.setEncoding('utf8');
-  req.on('data', chunk => { data += chunk; });
-  req.on('end', () => {
-    req.rawBody = data;
-    try {
-      req.body = data ? JSON.parse(data) : {};
-    } catch (e) {
-      req.body = {};
-    }
-    next();
-  });
-});
+app.use(express.json({
+  verify: (req, res, buf) => {
+    req.rawBody = buf.toString();
+  }
+}));
 app.use(
   cors({
     origin: FRONTEND_ORIGIN,
