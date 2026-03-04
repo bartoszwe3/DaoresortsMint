@@ -70,6 +70,10 @@ contract DAOBeaverPassport is ERC721, ERC721Enumerable, Ownable {
         return baseTokenURI;
     }
 
+    function setBaseURI(string memory _newBaseURI) external onlyOwner {
+        baseTokenURI = _newBaseURI;
+    }
+
     function getBatchTokenStatus(
         uint256 startId,
         uint256 endId

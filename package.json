@@ -1,0 +1,10 @@
+{
+    "name": "daoresorts-monorepo",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "start": "npm start --prefix backend-server",
+        "build": "npm run build --prefix backend-server",
+        "install": "npm install --prefix backend-server && npm install --prefix nft-minting"
+    }
+}

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: white;
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .content {
+            padding: 30px 20px;
+            background: #f9fafb;
+        }
+
+        .payment-box {
+            background: white;
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .field {
+            margin: 15px 0;
+            padding: 12px;
+            background: #f3f4f6;
+            border-radius: 6px;
+        }
+
+        .field label {
+            display: block;
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .field .value {
+            font-size: 16px;
+            color: #1f2937;
+            font-family: 'Courier New', monospace;
+        }
+
+        .critical {
+            border-left: 4px solid #ef4444;
+            background: #fee2e2;
+        }
+
+        .critical label {
+            color: #dc2626;
+        }
+
+        .warning {
+            color: #dc2626;
+            font-size: 13px;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+
+        .steps {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .steps ol {
+            padding-left: 20px;
+        }
+
+        .steps li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 14px 28px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>DAOResorts</h1>
+            <p style="color: #dbeafe; margin: 10px 0 0; font-size: 18px;">Instrukcje Płatności</p>
+        </div>
+
+        <div class="content">
+            <h2 style="color: #1f2937;">Witaj {{name}}!</h2>
+            <p style="font-size: 15px; line-height: 1.6; color: #374151;">
+                Twoja weryfikacja KYC została zatwierdzona ✅
+                <br><br>
+                Aby aktywować członkostwo w DAOResorts, wykonaj przelew bankowy zgodnie z poniższymi instrukcjami.
+            </p>
+
+            <div class="payment-box">
+                <h3 style="margin-top: 0; color: #1f2937;">Szczegóły przelewu:</h3>
+
+                <div class="field">
+                    <label>Kwota:</label>
+                    <div class="value">20 000,00 PLN</div>
+                </div>
+
+                <div class="field">
+                    <label>Numer konta:</label>
+                    <div class="value">{{accountNumber}}</div>
+                </div>
+
+                <div class="field critical">
+                    <label>⚠️ Tytuł przelewu (KONIECZNIE!):</label>
+                    <div class="value">{{orderId}}</div>
+                    <div class="warning">
+                        Dokładnie skopiuj ten tytuł. Bez niego nie będziemy mogli zidentyfikować Twojej płatności!
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Odbiorca:</label>
+                    <div class="value">DAOResorts Sp. z o.o.</div>
+                </div>
+            </div>
+
+            <div class="steps">
+                <h3 style="margin-top: 0; color: #1f2937;">Co dalej?</h3>
+                <ol>
+                    <li><strong>Wykonaj przelew</strong> z powyższymi danymi</li>
+                    <li><strong>Prześlij potwierdzenie</strong> przez dashboard lub odpowiedz na tego maila (screenshot
+                        lub PDF z banku)</li>
+                    <li><strong>Poczekaj na weryfikację</strong> - sprawdzimy płatność w ciągu 24-48h (dni robocze)</li>
+                    <li><strong>Otrzymasz NFT Membership</strong> - dostęp do resortu aktywowany!</li>
+                </ol>
+            </div>
+
+            <p style="font-size: 15px; color: #374151;">
+                <strong>⏳ Termin płatności:</strong> 7 dni (do {{expiryDate}})
+            </p>
+
+            <div style="text-align: center;">
+                <a href="{{dashboardUrl}}" class="btn">Przejdź do Dashboard →</a>
+            </div>
+
+            <p style="font-size: 14px; color: #6b7280; line-height: 1.6;">
+                Masz pytania? Po prostu odpowiedz na tego maila.
+                <br><br>
+                Pozdrawiamy,<br>
+                <strong style="color: #1f2937;">Team DAOResorts</strong>
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>DAOResorts - Resort Silna, Polska</p>
+            <p>Ta wiadomość została wysłana do {{email}}</p>
+        </div>
+    </div>
+</body>
+
+</html>

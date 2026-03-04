@@ -34,13 +34,13 @@ async function main() {
   console.log("✅ DEPLOYED NEW NFT CONTRACT:", nftAddr);
 
   // ===== 2. MINT 5 NFTs TO YOU (FOR TESTING) =====
-  console.log("\n🪙 2/10 MINT 5 AVENGERS...");
-  await nft.mintPassport(deployer.address, 1, "Bober Alfa");
-  await nft.mintPassport(deployer.address, 2, "Bober Beta");
-  await nft.mintPassport(deployer.address, 3, "Bober Gamma");
-  await nft.mintPassport(deployer.address, 4, "Bober Delta");
-  await nft.mintPassport(deployer.address, 5, "Bober Epsilon");
-  console.log("✅ 5 Avengers minted! Balance:", (await nft.balanceOf(deployer.address)).toString());
+  console.log("\n🪙 2/10 MINT 5 AVENGERS... (Skipped to save gas)");
+  // await nft.mintPassport(deployer.address, 1, "Bober Alfa");
+  // await nft.mintPassport(deployer.address, 2, "Bober Beta");
+  // await nft.mintPassport(deployer.address, 3, "Bober Gamma");
+  // await nft.mintPassport(deployer.address, 4, "Bober Delta");
+  // await nft.mintPassport(deployer.address, 5, "Bober Epsilon");
+  // console.log("✅ 5 Avengers minted! Balance:", (await nft.balanceOf(deployer.address)).toString());
 
   // ===== 3. DEPLOY DAO =====
   console.log("\n📦 3/10 DEPLOY DAO...");

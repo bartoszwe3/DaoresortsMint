@@ -6,7 +6,8 @@ async function main() {
   const BeaverPassport = await hre.ethers.getContractFactory("DAOBeaverPassport");
 
   // Base URI can be updated later if needed. Setting a default for local dev.
-  const baseTokenURI = "http://localhost:3001/api/metadata/";
+  // UPDATE: This uses the production render.com V2 endpoint
+  const baseTokenURI = "https://daoresorts-backend.onrender.com/api/metadata/";
 
   const passport = await BeaverPassport.deploy(baseTokenURI);
 
