@@ -492,37 +492,67 @@ app.post('/api/mint', async (req, res) => {
   <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.15), transparent); margin: 8px 20px;"></div>
 
   <!-- PROJECT STATUS -->
-  <div style="padding: 30px 20px; background: #0B1008;">
+  <div style="padding: 40px 20px; background: #0B1008;">
     <div style="font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #C9A84C; margin-bottom: 12px;">Projekt w trakcie realizacji</div>
-    <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: #F5F0E8; margin-bottom: 8px; margin-top: 0;">Budujemy. Transparentnie.</h3>
-    <p style="font-size: 12px; color: #6B7A60; margin-bottom: 24px; line-height: 1.5;">Każdy etap budowy jest widoczny dla społeczności:</p>
+    <h3 style="font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: #F5F0E8; margin-bottom: 8px; margin-top: 0;">Budujemy. Publicznie i transparentnie.</h3>
+    <p style="font-size: 13px; color: #6B7A60; margin-bottom: 28px; line-height: 1.5;">Każdy etap budowy jest widoczny dla społeczności. Oto gdzie jesteśmy:</p>
 
-    <!-- Milestones Simplified for Email -->
-    <div style="margin-bottom: 12px;">
-      <div style="font-size: 13px; font-weight: 500; color: #F5F0E8;"><span style="color: #6DB88A;">✓</span> Działka zakupiona</div>
-      <div style="font-size: 11px; color: #6B7A60; padding-left: 18px;">2530m² w Pszczew. Las, cisza, jezioro w pobliżu.</div>
-    </div>
-    <div style="margin-bottom: 12px;">
-      <div style="font-size: 13px; font-weight: 500; color: #F5F0E8;"><span style="color: #6DB88A;">✓</span> Umowa z architektem podpisana</div>
-      <div style="font-size: 11px; color: #6B7A60; padding-left: 18px;">Architekt wybrany, umowa podpisana. Projekt ruszył.</div>
-    </div>
-    <div style="margin-bottom: 12px;">
-      <div style="font-size: 13px; font-weight: 500; color: #F5F0E8;"><span style="color: #6DB88A;">✓</span> Aplikacja uruchomiona</div>
-      <div style="font-size: 11px; color: #6B7A60; padding-left: 18px;">System paszportów, KYC, głosowania i rezerwacji działa.</div>
-    </div>
-    <div style="margin-bottom: 12px;">
-      <div style="font-size: 13px; font-weight: 500; color: #C9A84C;">→ Projekt domków — trwa</div>
-      <div style="font-size: 11px; color: #8A7A50; padding-left: 18px;">Praca nad 6 domkami 70m² z jacuzzi, restauracją i SPA.</div>
-    </div>
-    <div style="margin-bottom: 12px;">
-      <div style="font-size: 13px; font-weight: 500; color: #4A5A42;">○ Start budowy</div>
-      <div style="font-size: 11px; color: #4A5A42; padding-left: 18px;">Po zebraniu społeczności członków założycielskich.</div>
+    <!-- Roadmap / Milestones -->
+    <div style="margin-bottom: 16px;">
+      <!-- Item 1 -->
+      <div style="display: table; width: 100%; border-left: 2px solid rgba(201,168,76,0.15); margin-left: 15px; padding-left: 20px; position: relative; padding-bottom: 20px;">
+        <div style="position: absolute; left: -10px; top: 0; width: 18px; height: 18px; background: rgba(45,90,61,0.4); border: 1px solid #2D5A3D; border-radius: 50%; color: #6DB88A; font-size: 10px; line-height: 18px; text-align: center;">✓</div>
+        <div style="font-size: 14px; font-weight: 600; color: #F5F0E8;">Działka zakupiona</div>
+        <div style="font-size: 12px; color: #6B7A60;">2530m² w Pszczew, Wielkopolska. Las, cisza, jezioro w pobliżu.</div>
+      </div>
+      <!-- Item 2 -->
+      <div style="display: table; width: 100%; border-left: 2px solid rgba(201,168,76,0.15); margin-left: 15px; padding-left: 20px; position: relative; padding-bottom: 20px;">
+        <div style="position: absolute; left: -10px; top: 0; width: 18px; height: 18px; background: rgba(45,90,61,0.4); border: 1px solid #2D5A3D; border-radius: 50%; color: #6DB88A; font-size: 10px; line-height: 18px; text-align: center;">✓</div>
+        <div style="font-size: 14px; font-weight: 600; color: #F5F0E8;">Umowa z architektem podpisana</div>
+        <div style="font-size: 12px; color: #6B7A60;">Architekt wybrany, umowa podpisana. Projekt ruszył.</div>
+      </div>
+      <!-- Item 3 -->
+      <div style="display: table; width: 100%; border-left: 2px solid rgba(201,168,76,0.15); margin-left: 15px; padding-left: 20px; position: relative; padding-bottom: 20px;">
+        <div style="position: absolute; left: -10px; top: 0; width: 18px; height: 18px; background: rgba(45,90,61,0.4); border: 1px solid #2D5A3D; border-radius: 50%; color: #6DB88A; font-size: 10px; line-height: 18px; text-align: center;">✓</div>
+        <div style="font-size: 14px; font-weight: 600; color: #F5F0E8;">Aplikacja uruchomiona</div>
+        <div style="font-size: 12px; color: #6B7A60;">System paszportów, KYC, głosowania i rezerwacji działa i jest dostępny dla członków.</div>
+      </div>
+       <!-- Item 4 (ACTIVE) -->
+      <div style="display: table; width: 100%; border-left: 2px solid rgba(201,168,76,0.15); margin-left: 15px; padding-left: 20px; position: relative; padding-bottom: 20px;">
+        <div style="position: absolute; left: -10px; top: 0; width: 18px; height: 18px; background: rgba(201,168,76,0.2); border: 1px solid #C9A84C; border-radius: 50%; color: #C9A84C; font-size: 10px; line-height: 18px; text-align: center;">→</div>
+        <div style="font-size: 14px; font-weight: 600; color: #C9A84C;">Praca z architektem nad projektem — trwa</div>
+        <div style="font-size: 12px; color: #8A7A50;">Projekt 6 domków 70m² z jacuzzi, restauracja, sala kinowa. Prace projektowe w toku.</div>
+      </div>
+      <!-- Item 5 (PENDING) -->
+      <div style="display: table; width: 100%; border-left: 2px solid rgba(201,168,76,0.15); margin-left: 15px; padding-left: 20px; position: relative; padding-bottom: 20px;">
+        <div style="position: absolute; left: -10px; top: 0; width: 18px; height: 18px; background: rgba(255,255,255,0.05); border: 1px solid #3A4A35; border-radius: 50%; color: #3A4A35; font-size: 10px; line-height: 18px; text-align: center;">○</div>
+        <div style="font-size: 14px; font-weight: 600; color: #4A5A42;">Oczekiwanie na pozwolenie na budowę</div>
+        <div style="font-size: 12px; color: #3A4A35;">Złożenie dokumentacji i decyzja administracyjna.</div>
+      </div>
+      <!-- Item 6 (PENDING) -->
+      <div style="display: table; width: 100%; border-left: 2px solid rgba(201,168,76,0.15); margin-left: 15px; padding-left: 20px; position: relative; padding-bottom: 20px;">
+        <div style="position: absolute; left: -10px; top: 0; width: 18px; height: 18px; background: rgba(255,255,255,0.05); border: 1px solid #3A4A35; border-radius: 50%; color: #3A4A35; font-size: 10px; line-height: 18px; text-align: center;">○</div>
+        <div style="font-size: 14px; font-weight: 600; color: #4A5A42;">Sprzedaż członkostwa</div>
+        <div style="font-size: 12px; color: #3A4A35;">Zbieramy 150 członków założycielskich. Zostało ${remainingSeats} miejsc.</div>
+      </div>
+      <!-- Item 7 (PENDING) -->
+      <div style="display: table; width: 100%; border-left: 2px solid rgba(201,168,76,0.15); margin-left: 15px; padding-left: 20px; position: relative; padding-bottom: 20px;">
+        <div style="position: absolute; left: -10px; top: 0; width: 18px; height: 18px; background: rgba(255,255,255,0.05); border: 1px solid #3A4A35; border-radius: 50%; color: #3A4A35; font-size: 10px; line-height: 18px; text-align: center;">○</div>
+        <div style="font-size: 14px; font-weight: 600; color: #4A5A42;">Start budowy</div>
+        <div style="font-size: 12px; color: #3A4A35;">Po zebraniu społeczności. Fundamenty, stan surowy, wykończenie premium.</div>
+      </div>
+      <!-- Item 8 (PENDING) -->
+      <div style="display: table; width: 100%; margin-left: 15px; padding-left: 20px; position: relative; padding-bottom: 20px;">
+        <div style="position: absolute; left: -10px; top: 0; width: 18px; height: 18px; background: rgba(255,255,255,0.05); border: 1px solid #3A4A35; border-radius: 50%; color: #3A4A35; font-size: 10px; line-height: 18px; text-align: center;">○</div>
+        <div style="font-size: 14px; font-weight: 600; color: #4A5A42;">Otwarcie resortu — 2026</div>
+        <div style="font-size: 12px; color: #3A4A35;">Pierwsze rezerwacje dla członków założycielskich.</div>
+      </div>
     </div>
   </div>
 
   <!-- FOOTER -->
-  <div style="background: #080D05; padding: 24px 20px; border-top: 1px solid rgba(201,168,76,0.08); text-align: center;">
-    <div style="font-family: 'Playfair Display', serif; font-size: 16px; color: #F5F0E8; margin-bottom: 10px;">DAOResorts<span style="color: #C9A84C;">.</span>club</div>
+  <div style="background: #080D05; padding: 32px 20px; border-top: 1px solid rgba(201,168,76,0.08); text-align: center;">
+    <div style="font-family: 'Playfair Display', serif; font-size: 16px; color: #F5F0E8; margin-bottom: 12px;">DAOResorts<span style="color: #C9A84C;">.</span>club</div>
     <p style="font-size: 11px; line-height: 1.6; color: #4A5A42;">Pszczew, Wielkopolska. Pierwszy Web3 Vacation Club.</p>
     <div style="margin-top: 12px;">
       <a href="https://daoresorts.club" style="font-size: 11px; color: #6B7A60; text-decoration: none; margin-right: 12px;">WWW</a>
