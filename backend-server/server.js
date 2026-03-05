@@ -376,17 +376,20 @@ app.post('/api/mint', async (req, res) => {
             to: [user.email],
             subject: 'Welcome to BeaverDAO! Your Passport is Ready 🦫',
             html: `
-                      <div style="font-family: Arial, sans-serif; color: #333;">
-                          <h1>Welcome to BeaverDAO!</h1>
-                          <p>Congratulations, <strong>${targetNick}</strong>!</p>
-                          <p>Your Beaver Passport <strong>#${photoId}</strong> (Token #${mintedTokenId}) has been successfully minted.</p>
-                          <p><strong>Mint Time:</strong> ${mintDate}</p>
-                          <p><strong>Transaction Hash:</strong> <a href="https://polygonscan.com/tx/${tx.hash}">${tx.hash}</a></p>
+                      <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #C9A84C; border-radius: 12px; padding: 20px;">
+                          <h1 style="color: #0E1208; text-align: center;">Witaj w rodzinie ${targetNick} daoresorts.club! 🦫</h1>
+                          <p style="font-size: 16px; line-height: 1.5;">Gratulacje! Twój Paszport Bober <strong>#${photoId}</strong> (Token #${mintedTokenId}) został pomyślnie wytworzony na blockchainie Polygon.</p>
+                          <div style="text-align: center; margin: 30px 0;">
+                              <img src="https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2pbbrpz6qsmbgeajptl3q/${photoId}.webp" alt="Beaver #${photoId}" style="width: 100%; max-width: 400px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
+                          </div>
+                          <p><strong>Szczegóły techniczne:</strong></p>
+                          <ul style="list-style-type: none; padding: 0;">
+                              <li>📅 <strong>Data:</strong> ${mintDate}</li>
+                              <li>🔗 <strong>Transakcja:</strong> <a href="https://polygonscan.com/tx/${tx.hash}" style="color: #C9A84C;">Zobacz na Polygonscan</a></li>
+                          </ul>
                           <br/>
-                          <img src="https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2pbbrpz6qsmbgeajptl3q/${photoId}.webp" alt="Beaver #${photoId}" style="width: 300px; border-radius: 10px;" />
-                          <br/>
-                          <p>See you in the club!</p>
-                          <p><em>The BeaverDAO Team</em></p>
+                          <p style="text-align: center; font-style: italic;">Do zobaczenia w klubie!</p>
+                          <p style="text-align: center; font-weight: bold;">Zespół DAOResorts</p>
                       </div>
                   `
           });
