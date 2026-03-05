@@ -391,134 +391,134 @@ app.post('/api/mint', async (req, res) => {
 </head>
 <body style="margin: 0; padding: 0; background-color: #0c1208; font-family: 'DM Sans', Arial, sans-serif; color: #F5F0E8;">
 
-<div style="max-width: 600px; margin: 0 auto; background-color: #0E1208;">
+<div style="width: 100%; max-width: 600px; margin: 0 auto; background-color: #0E1208;">
 
   <!-- HEADER -->
-  <div style="background: linear-gradient(160deg, #0E1208 0%, #1C2614 50%, #0E1208 100%); padding: 48px 48px 0; text-align: center;">
-    <div style="font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: #F5F0E8; letter-spacing: 0.02em; margin-bottom: 40px;">DAOResorts<span style="color: #C9A84C;">.</span>club</div>
+  <div style="background: linear-gradient(160deg, #0E1208 0%, #1C2614 50%, #0E1208 100%); padding: 40px 20px 0; text-align: center;">
+    <div style="font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: #F5F0E8; letter-spacing: 0.02em; margin-bottom: 30px;">DAOResorts<span style="color: #C9A84C;">.</span>club</div>
 
-    <div style="width: 100px; height: 100px; margin: 0 auto 32px; background: linear-gradient(135deg, #1C2614, #2D5A3D); border-radius: 50%; border: 2px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; font-size: 48px; line-height: 100px;">🦫</div>
+    <div style="width: 80px; height: 80px; margin: 0 auto 24px; background: linear-gradient(135deg, #1C2614, #2D5A3D); border-radius: 50%; border: 2px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; font-size: 40px; line-height: 80px;">🦫</div>
 
-    <div style="display: inline-block; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); color: #C9A84C; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 16px; border-radius: 4px; margin-bottom: 24px;">Paszport Członkowski</div>
+    <div style="display: inline-block; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); color: #C9A84C; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 14px; border-radius: 4px; margin-bottom: 20px;">Paszport Członkowski</div>
 
-    <h1 style="font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 600; line-height: 1.2; color: #F5F0E8; margin-bottom: 16px; margin-top: 0;">
+    <h1 style="font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; line-height: 1.2; color: #F5F0E8; margin-bottom: 16px; margin-top: 0;">
       Witaj w klubie,<br><em style="font-style: italic; color: #C9A84C;">${targetNick}.</em>
     </h1>
 
-    <p style="font-size: 16px; line-height: 1.6; color: #8A9E8A; max-width: 400px; margin: 0 auto 40px;">
+    <p style="font-size: 15px; line-height: 1.6; color: #8A9E8A; max-width: 400px; margin: 0 auto 30px;">
       Twój darmowy Paszport DAOResorts jest gotowy. Jesteś o jeden krok od dożywotniego członkostwa.
     </p>
 
     <!-- NFT Passport Card -->
-    <div style="background: linear-gradient(135deg, #1C2614 0%, #162010 50%, #1C2614 100%); border: 1px solid rgba(201,168,76,0.25); border-radius: 16px; padding: 28px 32px; margin: 0 10px; position: relative;">
-      <div style="font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #6B7A60; margin-bottom: 8px;">Paszport Członkowski</div>
-      <div style="font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; color: #F5F0E8; margin-bottom: 4px;">${targetNick}</div>
-      <div style="font-size: 13px; font-weight: 500; color: #C9A84C; letter-spacing: 0.08em;">PASZPORT #${photoId}</div>
-      <div style="position: absolute; top: 28px; right: 32px; background: rgba(45, 90, 61, 0.4); border: 1px solid rgba(45, 90, 61, 0.8); color: #6DB88A; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px;">✓ Aktywny</div>
+    <div style="background: linear-gradient(135deg, #1C2614 0%, #162010 50%, #1C2614 100%); border: 1px solid rgba(201,168,76,0.25); border-radius: 16px; padding: 20px; margin: 0 5px; position: relative; text-align: left;">
+      <div style="font-size: 9px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #6B7A60; margin-bottom: 8px;">Paszport Członkowski</div>
+      <div style="font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: #F5F0E8; margin-bottom: 4px;">${targetNick}</div>
+      <div style="font-size: 12px; font-weight: 500; color: #C9A84C; letter-spacing: 0.08em;">PASZPORT #${photoId}</div>
+      <div style="position: absolute; top: 20px; right: 20px; background: rgba(45, 90, 61, 0.4); border: 1px solid rgba(45, 90, 61, 0.8); color: #6DB88A; font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px;">✓ Aktywny</div>
     </div>
   </div>
 
   <!-- STATS BAR -->
-  <div style="display: table; width: 100%; padding: 32px 48px; border-collapse: separate;">
+  <div style="display: table; width: 100%; padding: 24px 20px; border-collapse: separate;">
     <div style="display: table-cell; text-align: center; border-right: 1px solid rgba(201,168,76,0.1);">
-      <span style="font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: #C9A84C; display: block; margin-bottom: 4px;">${remainingSeats}</span>
-      <span style="font-size: 11px; font-weight: 400; color: #6B7A60; letter-spacing: 0.05em;">miejsc pozostało</span>
+      <span style="font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; color: #C9A84C; display: block; margin-bottom: 4px;">${remainingSeats}</span>
+      <span style="font-size: 10px; font-weight: 400; color: #6B7A60; letter-spacing: 0.05em;">miejsc pozostało</span>
     </div>
     <div style="display: table-cell; text-align: center; border-right: 1px solid rgba(201,168,76,0.1);">
-      <span style="font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: #C9A84C; display: block; margin-bottom: 4px;">14</span>
-      <span style="font-size: 11px; font-weight: 400; color: #6B7A60; letter-spacing: 0.05em;">nocy rocznie</span>
+      <span style="font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; color: #C9A84C; display: block; margin-bottom: 4px;">14</span>
+      <span style="font-size: 10px; font-weight: 400; color: #6B7A60; letter-spacing: 0.05em;">nocy rocznie</span>
     </div>
     <div style="display: table-cell; text-align: center;">
-      <span style="font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: #C9A84C; display: block; margin-bottom: 4px;">∞</span>
-      <span style="font-size: 11px; font-weight: 400; color: #6B7A60; letter-spacing: 0.05em;">dożywotnio</span>
+      <span style="font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; color: #C9A84C; display: block; margin-bottom: 4px;">∞</span>
+      <span style="font-size: 10px; font-weight: 400; color: #6B7A60; letter-spacing: 0.05em;">dożywotnio</span>
     </div>
   </div>
 
-  <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.15), transparent); margin: 8px 48px;"></div>
+  <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.15), transparent); margin: 8px 20px;"></div>
 
   <!-- BODY -->
-  <div style="padding: 56px 48px 40px;">
+  <div style="padding: 40px 20px 30px;">
     <div style="font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #C9A84C; margin-bottom: 12px;">Co dalej</div>
-    <h2 style="font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; color: #F5F0E8; line-height: 1.3; margin-bottom: 16px; margin-top: 0;">Twój Paszport jest gotowy.<br>Token Członkowski czeka.</h2>
-    <p style="font-size: 15px; line-height: 1.7; color: #A8B89A; margin-bottom: 32px;">
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: #F5F0E8; line-height: 1.3; margin-bottom: 16px; margin-top: 0;">Twój Paszport jest gotowy.<br>Token Członkowski czeka.</h2>
+    <p style="font-size: 14px; line-height: 1.7; color: #A8B89A; margin-bottom: 24px;">
       Właśnie dołączyłeś do grupy osób które budują razem coś czego nie było dotąd w Polsce.
       Luksusowy resort wakacyjny <strong style="color: #F5F0E8; font-weight: 500;">posiadany i zarządzany przez społeczność</strong> —
       bez banków, bez marży hotelowej, bez ukrytych prowizji.
     </p>
 
     <!-- Steps -->
-    <div style="margin: 32px 0;">
-      <div style="display: table; width: 100%; margin-bottom: 20px; border-bottom: 1px solid rgba(201,168,76,0.08); padding-bottom: 20px;">
-        <div style="display: table-cell; width: 32px; padding-right: 16px; vertical-align: top;">
-          <div style="width: 32px; height: 32px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); border-radius: 50%; text-align: center; line-height: 32px; font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 600; color: #C9A84C;">1</div>
+    <div style="margin: 24px 0;">
+      <div style="display: table; width: 100%; margin-bottom: 16px; border-bottom: 1px solid rgba(201,168,76,0.08); padding-bottom: 16px;">
+        <div style="display: table-cell; width: 32px; padding-right: 12px; vertical-align: top;">
+          <div style="width: 28px; height: 28px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); border-radius: 50%; text-align: center; line-height: 28px; font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: #C9A84C;">1</div>
         </div>
         <div style="display: table-cell; vertical-align: top;">
           <div style="font-size: 14px; font-weight: 500; color: #F5F0E8; margin-bottom: 4px;">✓ Paszport odebrany</div>
           <div style="font-size: 13px; line-height: 1.5; color: #6B7A60;">Twój bober ${targetNick} #${photoId} jest już Twój. Darmowy, na zawsze.</div>
         </div>
       </div>
-      <div style="display: table; width: 100%; margin-bottom: 20px; border-bottom: 1px solid rgba(201,168,76,0.08); padding-bottom: 20px;">
-        <div style="display: table-cell; width: 32px; padding-right: 16px; vertical-align: top;">
-          <div style="width: 32px; height: 32px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); border-radius: 50%; text-align: center; line-height: 32px; font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 600; color: #C9A84C;">2</div>
+      <div style="display: table; width: 100%; margin-bottom: 16px; border-bottom: 1px solid rgba(201,168,76,0.08); padding-bottom: 16px;">
+        <div style="display: table-cell; width: 32px; padding-right: 12px; vertical-align: top;">
+          <div style="width: 28px; height: 28px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); border-radius: 50%; text-align: center; line-height: 28px; font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: #C9A84C;">2</div>
         </div>
         <div style="display: table-cell; vertical-align: top;">
           <div style="font-size: 14px; font-weight: 500; color: #F5F0E8; margin-bottom: 4px;">Zweryfikuj tożsamość (KYC)</div>
-          <div style="font-size: 13px; line-height: 1.5; color: #6B7A60;">Szybka weryfikacja przez DidIt.me — jak przy zakładaniu konta bankowego. Zajmuje 2 minuty.</div>
+          <div style="font-size: 13px; line-height: 1.5; color: #6B7A60;">Szybka weryfikacja przez DidIt.me — zajmuje 2 minuty.</div>
         </div>
       </div>
       <div style="display: table; width: 100%;">
-        <div style="display: table-cell; width: 32px; padding-right: 16px; vertical-align: top;">
-          <div style="width: 32px; height: 32px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); border-radius: 50%; text-align: center; line-height: 32px; font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 600; color: #C9A84C;">3</div>
+        <div style="display: table-cell; width: 32px; padding-right: 12px; vertical-align: top;">
+          <div style="width: 28px; height: 28px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); border-radius: 50%; text-align: center; line-height: 28px; font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: #C9A84C;">3</div>
         </div>
         <div style="display: table-cell; vertical-align: top;">
           <div style="font-size: 14px; font-weight: 500; color: #F5F0E8; margin-bottom: 4px;">Kup Token Członkowski</div>
-          <div style="font-size: 13px; line-height: 1.5; color: #6B7A60;">19 990 PLN jednorazowo. 14 nocy rocznie po kosztach operacyjnych — dożywotnio. Zostało ${remainingSeats} miejsc założycielskich.</div>
+          <div style="font-size: 13px; line-height: 1.5; color: #6B7A60;">19 990 PLN jednorazowo. 14 nocy rocznie — dożywotnio. Zostało ${remainingSeats} miejsc.</div>
         </div>
       </div>
     </div>
 
     <!-- CTA -->
-    <div style="text-align: center; padding: 32px 0;">
-      <a href="https://daoresorts.club" style="display: inline-block; background: #C9A84C; color: #0E1208; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; padding: 16px 40px; border-radius: 6px; margin-bottom: 16px;">
+    <div style="text-align: center; padding: 24px 0;">
+      <a href="https://daoresorts.club" style="display: inline-block; background: #C9A84C; color: #0E1208; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; padding: 14px 30px; border-radius: 6px; margin-bottom: 12px;">
         Sprawdź dostępność →
       </a>
-      <div style="font-size: 12px; color: #6B7A60;">Zostało ${remainingSeats} z 150 miejsc założycielskich</div>
+      <div style="font-size: 11px; color: #6B7A60;">Zostało ${remainingSeats} z 150 miejsc założycielskich</div>
     </div>
   </div>
 
-  <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.15), transparent); margin: 8px 48px;"></div>
+  <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.15), transparent); margin: 8px 20px;"></div>
 
   <!-- PROJECT STATUS -->
-  <div style="padding: 40px 48px; background: #0B1008;">
+  <div style="padding: 30px 20px; background: #0B1008;">
     <div style="font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #C9A84C; margin-bottom: 12px;">Projekt w trakcie realizacji</div>
-    <h3 style="font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: #F5F0E8; margin-bottom: 8px; margin-top: 0;">Budujemy. Publicznie i transparentnie.</h3>
-    <p style="font-size: 13px; color: #6B7A60; margin-bottom: 28px; line-height: 1.5;">Każdy etap budowy jest widoczny dla społeczności. Oto gdzie jesteśmy:</p>
+    <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: #F5F0E8; margin-bottom: 8px; margin-top: 0;">Budujemy. Transparentnie.</h3>
+    <p style="font-size: 12px; color: #6B7A60; margin-bottom: 24px; line-height: 1.5;">Każdy etap budowy jest widoczny dla społeczności:</p>
 
     <!-- Milestones Simplified for Email -->
-    <div style="margin-bottom: 16px;">
-      <div style="font-size: 14px; font-weight: 500; color: #F5F0E8;"><span style="color: #6DB88A;">✓</span> Działka zakupiona</div>
-      <div style="font-size: 12px; color: #6B7A60; padding-left: 20px;">2530m² w Pszczew. Las, cisza, jezioro.</div>
+    <div style="margin-bottom: 12px;">
+      <div style="font-size: 13px; font-weight: 500; color: #F5F0E8;"><span style="color: #6DB88A;">✓</span> Działka zakupiona</div>
+      <div style="font-size: 11px; color: #6B7A60; padding-left: 18px;">2530m² w Pszczew. Las, cisza, jezioro.</div>
     </div>
-    <div style="margin-bottom: 16px;">
-      <div style="font-size: 14px; font-weight: 500; color: #F5F0E8;"><span style="color: #6DB88A;">✓</span> Umowa z architektem</div>
-      <div style="font-size: 12px; color: #6B7A60; padding-left: 20px;">Projekt 6 domków 70m², restauracja, sala kinowa.</div>
+    <div style="margin-bottom: 12px;">
+      <div style="font-size: 13px; font-weight: 500; color: #F5F0E8;"><span style="color: #6DB88A;">✓</span> Umowa z architektem</div>
+      <div style="font-size: 11px; color: #6B7A60; padding-left: 18px;">Projekt domu 70m², restauracja, SPA.</div>
     </div>
-    <div style="margin-bottom: 16px;">
-      <div style="font-size: 14px; font-weight: 500; color: #C9A84C;">→ Sprzedaż tokenów</div>
-      <div style="font-size: 12px; color: #8A7A50; padding-left: 20px;">Zbieramy 150 członków założycielskich. Zostało ${remainingSeats} miejsc.</div>
+    <div style="margin-bottom: 12px;">
+      <div style="font-size: 13px; font-weight: 500; color: #C9A84C;">→ Sprzedaż tokenów</div>
+      <div style="font-size: 11px; color: #8A7A50; padding-left: 18px;">Zostało ${remainingSeats} miejsc założycielskich.</div>
     </div>
   </div>
 
   <!-- FOOTER -->
-  <div style="background: #080D05; padding: 32px 48px; border-top: 1px solid rgba(201,168,76,0.08);">
-    <div style="font-family: 'Playfair Display', serif; font-size: 16px; color: #F5F0E8; margin-bottom: 12px;">DAOResorts<span style="color: #C9A84C;">.</span>club</div>
-    <p style="font-size: 12px; line-height: 1.6; color: #4A5A42;">Pierwszy Web3 Vacation Club w Polsce. Pszczew, Wielkopolska.</p>
-    <div style="margin-top: 16px;">
-      <a href="https://daoresorts.club" style="font-size: 12px; color: #6B7A60; text-decoration: none; margin-right: 16px;">WWW</a>
-      <a href="#" style="font-size: 12px; color: #6B7A60; text-decoration: none;">FAQ</a>
+  <div style="background: #080D05; padding: 24px 20px; border-top: 1px solid rgba(201,168,76,0.08); text-align: center;">
+    <div style="font-family: 'Playfair Display', serif; font-size: 16px; color: #F5F0E8; margin-bottom: 10px;">DAOResorts<span style="color: #C9A84C;">.</span>club</div>
+    <p style="font-size: 11px; line-height: 1.6; color: #4A5A42;">Pszczew, Wielkopolska.</p>
+    <div style="margin-top: 12px;">
+      <a href="https://daoresorts.club" style="font-size: 11px; color: #6B7A60; text-decoration: none; margin-right: 12px;">WWW</a>
+      <a href="#" style="font-size: 11px; color: #6B7A60; text-decoration: none;">FAQ</a>
     </div>
-    <div style="font-size: 11px; line-height: 1.5; color: #3A4A35; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 16px; margin-top: 16px;">
-      Ten mail został wysłany do ${user.email} ponieważ zarejestrowałeś się na daoresorts.club.
+    <div style="font-size: 10px; line-height: 1.5; color: #3A4A35; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 12px; margin-top: 12px;">
+      Ten mail został wysłany do ${user.email}.
     </div>
   </div>
 
