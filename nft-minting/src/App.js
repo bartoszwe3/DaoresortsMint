@@ -42,8 +42,8 @@ export const config = createAppKit({
   enableNetworkSwitch: true,
   features: {
     analytics: true,
-    email: false,
-    socials: false,
+    email: true,
+    socials: ['google', 'x', 'github', 'discord', 'apple'],
     send: false,
   },
 });

@@ -317,6 +317,15 @@ app.post('/api/mint', async (req, res) => {
 
     console.log(`🚀 Start mintowania dla: ${targetNick} (Bober #${photoId})`);
 
+    // --- SPRAWDZENIE DOSTĘPNOŚCI (Backend Guard) ---
+    const users = loadJSON(FILE_USERS);
+    const alreadyMinted = users.find(u => u.minted && String(u.photoId) === String(photoId));
+
+    if (alreadyMinted) {
+      console.log(`⚠️ Bober #${photoId} jest już zajęty przez ${alreadyMinted.wallet}!`);
+      return res.status(409).json({ error: "Ten Bober został już adoptowany. Wybierz innego!" });
+    }
+
     // Backend łączy się z kontraktem jako Portfel Admina
     const contractWithSigner = contract.connect(wallet);
 
