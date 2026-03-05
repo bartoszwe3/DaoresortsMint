@@ -377,7 +377,7 @@ app.post('/api/mint', async (req, res) => {
           console.log(`📧 Sending premium email to ${user.email}... (Remaining seats: ${remainingSeats})`);
 
           const { data, error } = await resend.emails.send({
-            from: 'DAOResorts <onboarding@resend.dev>', // Update this with verified domain if available
+            from: 'DAOResorts <witaj@daoresorts.club>',
             to: [user.email],
             subject: `Witaj w rodzinie ${targetNick}! Twój Paszport jest gotowy 🦫`,
             html: `
