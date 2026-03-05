@@ -397,7 +397,10 @@ app.post('/api/mint', async (req, res) => {
   <div style="background: linear-gradient(160deg, #0E1208 0%, #1C2614 50%, #0E1208 100%); padding: 40px 20px 0; text-align: center;">
     <div style="font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: #F5F0E8; letter-spacing: 0.02em; margin-bottom: 30px;">DAOResorts<span style="color: #C9A84C;">.</span>club</div>
 
-    <div style="width: 80px; height: 80px; margin: 0 auto 24px; background: linear-gradient(135deg, #1C2614, #2D5A3D); border-radius: 50%; border: 2px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; font-size: 40px; line-height: 80px;">🦫</div>
+    <!-- NFT Image inserted here above the badge -->
+    <div style="width: 160px; height: 160px; margin: 0 auto 24px; position: relative;">
+        <img src="https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2pbbrpz6qsmbgeajptl3q/${photoId}.webp" alt="Beaver #${photoId}" style="width: 100%; height: 100%; border-radius: 50%; border: 2px solid rgba(201,168,76,0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.3); object-fit: cover;" />
+    </div>
 
     <div style="display: inline-block; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); color: #C9A84C; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 14px; border-radius: 4px; margin-bottom: 20px;">Paszport Członkowski</div>
 
@@ -497,28 +500,36 @@ app.post('/api/mint', async (req, res) => {
     <!-- Milestones Simplified for Email -->
     <div style="margin-bottom: 12px;">
       <div style="font-size: 13px; font-weight: 500; color: #F5F0E8;"><span style="color: #6DB88A;">✓</span> Działka zakupiona</div>
-      <div style="font-size: 11px; color: #6B7A60; padding-left: 18px;">2530m² w Pszczew. Las, cisza, jezioro.</div>
+      <div style="font-size: 11px; color: #6B7A60; padding-left: 18px;">2530m² w Pszczew. Las, cisza, jezioro w pobliżu.</div>
     </div>
     <div style="margin-bottom: 12px;">
-      <div style="font-size: 13px; font-weight: 500; color: #F5F0E8;"><span style="color: #6DB88A;">✓</span> Umowa z architektem</div>
-      <div style="font-size: 11px; color: #6B7A60; padding-left: 18px;">Projekt domu 70m², restauracja, SPA.</div>
+      <div style="font-size: 13px; font-weight: 500; color: #F5F0E8;"><span style="color: #6DB88A;">✓</span> Umowa z architektem podpisana</div>
+      <div style="font-size: 11px; color: #6B7A60; padding-left: 18px;">Architekt wybrany, umowa podpisana. Projekt ruszył.</div>
     </div>
     <div style="margin-bottom: 12px;">
-      <div style="font-size: 13px; font-weight: 500; color: #C9A84C;">→ Sprzedaż tokenów</div>
-      <div style="font-size: 11px; color: #8A7A50; padding-left: 18px;">Zostało ${remainingSeats} miejsc założycielskich.</div>
+      <div style="font-size: 13px; font-weight: 500; color: #F5F0E8;"><span style="color: #6DB88A;">✓</span> Aplikacja uruchomiona</div>
+      <div style="font-size: 11px; color: #6B7A60; padding-left: 18px;">System paszportów, KYC, głosowania i rezerwacji działa.</div>
+    </div>
+    <div style="margin-bottom: 12px;">
+      <div style="font-size: 13px; font-weight: 500; color: #C9A84C;">→ Projekt domków — trwa</div>
+      <div style="font-size: 11px; color: #8A7A50; padding-left: 18px;">Praca nad 6 domkami 70m² z jacuzzi, restauracją i SPA.</div>
+    </div>
+    <div style="margin-bottom: 12px;">
+      <div style="font-size: 13px; font-weight: 500; color: #4A5A42;">○ Start budowy</div>
+      <div style="font-size: 11px; color: #4A5A42; padding-left: 18px;">Po zebraniu społeczności członków założycielskich.</div>
     </div>
   </div>
 
   <!-- FOOTER -->
   <div style="background: #080D05; padding: 24px 20px; border-top: 1px solid rgba(201,168,76,0.08); text-align: center;">
     <div style="font-family: 'Playfair Display', serif; font-size: 16px; color: #F5F0E8; margin-bottom: 10px;">DAOResorts<span style="color: #C9A84C;">.</span>club</div>
-    <p style="font-size: 11px; line-height: 1.6; color: #4A5A42;">Pszczew, Wielkopolska.</p>
+    <p style="font-size: 11px; line-height: 1.6; color: #4A5A42;">Pszczew, Wielkopolska. Pierwszy Web3 Vacation Club.</p>
     <div style="margin-top: 12px;">
       <a href="https://daoresorts.club" style="font-size: 11px; color: #6B7A60; text-decoration: none; margin-right: 12px;">WWW</a>
       <a href="#" style="font-size: 11px; color: #6B7A60; text-decoration: none;">FAQ</a>
     </div>
     <div style="font-size: 10px; line-height: 1.5; color: #3A4A35; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 12px; margin-top: 12px;">
-      Ten mail został wysłany do ${user.email}.
+      Ten mail został wysłany do ${user.email}. Token NFT stanowi cyfrowy dokument członkostwa.
     </div>
   </div>
 
