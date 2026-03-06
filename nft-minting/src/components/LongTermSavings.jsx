@@ -74,7 +74,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                             <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
                                 <div className="flex justify-between items-center mb-4">
                                     <label className="text-white font-medium">{t("calculator_daily_rate")}</label>
-                                    <span className="text-neon-cyan font-bold text-xl">{dailyRate} PLN</span>
+                                    <span className="text-gold-500 font-bold text-xl">{dailyRate} PLN</span>
                                 </div>
                                 <input
                                     type="range"
@@ -83,7 +83,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                     step="50"
                                     value={dailyRate}
                                     onChange={(e) => setDailyRate(Number(e.target.value))}
-                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-neon-cyan"
+                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-gold-500"
                                 />
                                 <div className="flex justify-between text-xs text-gray-500 mt-2">
                                     <span>300 PLN</span>
@@ -95,7 +95,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                             <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
                                 <div className="flex justify-between items-center mb-4">
                                     <label className="text-white font-medium">{t("calculator_years")}</label>
-                                    <span className="text-neon-purple font-bold text-xl">{years} {t("calculator_chart_year").toLowerCase().startsWith("r") ? "lat" : "years"}</span>
+                                    <span className="text-gold-500 font-bold text-xl">{years} {t("calculator_chart_year").toLowerCase().startsWith("r") ? "lat" : "years"}</span>
                                 </div>
                                 <input
                                     type="range"
@@ -104,7 +104,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                     step="1"
                                     value={years}
                                     onChange={(e) => setYears(Number(e.target.value))}
-                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-neon-purple"
+                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-gold-500"
                                 />
                                 <div className="flex justify-between text-xs text-gray-500 mt-2">
                                     <span>1 {t("calculator_chart_year")}</span>
@@ -123,7 +123,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                             </div>
                             <div className="bg-gradient-to-br from-white/5 to-white/0 p-4 rounded-xl border border-white/10">
                                 <div className="text-gray-400 text-xs uppercase tracking-wider mb-1">{t("calculator_annual_savings")}</div>
-                                <div className="text-2xl font-bold text-neon-cyan">
+                                <div className="text-2xl font-bold text-gold-500">
                                     {annualSavings.toLocaleString()} PLN
                                 </div>
                             </div>
@@ -140,7 +140,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                         onConnect();
                                     }
                                 }}
-                                className="w-full py-4 rounded-xl bg-gradient-to-r from-neon-cyan via-purple-500 to-neon-purple text-white font-bold text-lg shadow-lg shadow-neon-cyan/20 hover:shadow-neon-cyan/40 hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+                                className="w-full py-4 rounded-xl bg-gold-500 hover:bg-gold-600 text-forest-900 font-bold text-lg shadow-btn-primary hover:shadow-btn-primary-hover hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
                             >
                                 {hasNft ? "Zobacz nasz projekt!" : t("calculator_get_passport")} <ArrowRight size={20} />
                             </button>
@@ -159,7 +159,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                 key={chartData.length > 0 ? chartData[chartData.length - 1].Savings : 0}
                                 initial={{ scale: 0.8, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
-                                className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple"
+                                className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-gold-300"
                             >
                                 {(chartData.length > 0 ? chartData[chartData.length - 1].Savings : 0).toLocaleString()} PLN
                             </motion.div>
@@ -196,13 +196,13 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                     <Bar dataKey="Hotel" stackId="a" fill="#374151" name={t("calculator_chart_hotel")} radius={[4, 4, 0, 0]} />
                                     <Bar dataKey="DAO" stackId="b" fill="url(#colorDao)" name={t("calculator_chart_dao")} radius={[4, 4, 0, 0]} >
                                         {chartData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={index === chartData.length - 1 ? '#A020F0' : '#89CFF0'} />
+                                            <Cell key={`cell-${index}`} fill={index === chartData.length - 1 ? '#C9A84C' : '#4A6741'} />
                                         ))}
                                     </Bar>
                                     <defs>
                                         <linearGradient id="colorDao" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#A020F0" stopOpacity={0.8} />
-                                            <stop offset="95%" stopColor="#89CFF0" stopOpacity={0.8} />
+                                            <stop offset="5%" stopColor="#C9A84C" stopOpacity={0.8} />
+                                            <stop offset="95%" stopColor="#4A6741" stopOpacity={0.8} />
                                         </linearGradient>
                                     </defs>
                                 </BarChart>
@@ -214,7 +214,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                 <div className="w-3 h-3 bg-gray-700 rounded-sm"></div> {t("calculator_chart_hotel")}
                             </div>
                             <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 bg-gradient-to-r from-neon-cyan to-neon-purple rounded-sm"></div> {t("calculator_chart_dao_invest")}
+                                <div className="w-3 h-3 bg-gradient-to-r from-gold-500 to-forest-600 rounded-sm"></div> {t("calculator_chart_dao_invest")}
                             </div>
                         </div>
                     </div>
