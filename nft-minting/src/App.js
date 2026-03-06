@@ -12,10 +12,10 @@ import MouseGlow from "./components/MouseGlow";
 const projectId = "0a73e16ce970156d6e7411b10a4c5324";
 
 const metadata = {
-  name: "NFT MINT",
-  description: "NFT MINT",
-  url: "",
-  icons: [""],
+  name: "DAOResorts Club",
+  description: "DAOResorts Membership & Passport",
+  url: "https://daoresorts.club",
+  icons: ["https://daoresorts.club/logo.png"],
 };
 
 // Define Localhost
