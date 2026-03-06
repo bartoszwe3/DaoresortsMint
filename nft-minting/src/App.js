@@ -42,8 +42,8 @@ export const config = createAppKit({
   enableNetworkSwitch: true,
   features: {
     analytics: true,
-    email: true,
-    socials: ['google', 'x', 'github', 'discord', 'apple'],
+    email: false, // Handle email via Magic Link SDK UI instead of AppKit default
+    socials: false, // Disable Google, X, etc. as requested
     send: false,
   },
 });
@@ -85,11 +85,11 @@ function App() {
         }}
         toastOptions={{
           style: {
-            background: "#111827", // dark navy
-            color: "#ffffff",
+            background: "#0E1208", // dark forest
+            color: "#F5F0E8", // cream
             borderRadius: "12px",
             padding: "12px 18px",
-            border: "1px solid #1f2937",
+            border: "1px solid rgba(201, 168, 76, 0.15)",
             fontSize: "0.9rem",
             fontWeight: 500,
             pointerEvents: 'auto',

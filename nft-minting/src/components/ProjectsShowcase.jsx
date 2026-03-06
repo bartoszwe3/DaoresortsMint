@@ -42,7 +42,7 @@ export default function ProjectsShowcase() {
 
     const PROJECT_DATA = {
         id: "resort-silna",
-        name: "Resort Silna",
+        name: "DAOResorts — Silna, Lubuskie.",
         location: t("project_silna_location"),
         status: t("project_silna_status"),
         description: t("project_silna_desc"),
@@ -91,18 +91,18 @@ export default function ProjectsShowcase() {
                         transition={{ duration: 0.8 }}
                     >
                         <div className="flex flex-wrap items-center gap-4 mb-4">
-                            <span className="px-4 py-1.5 rounded-full bg-neon-cyan/20 text-neon-cyan text-xs font-bold uppercase tracking-widest border border-neon-cyan/20 backdrop-blur-md">
+                            <span className="px-4 py-1.5 rounded-full bg-gold-500/20 text-gold-500 text-xs font-bold uppercase tracking-widest border border-gold-500/20 backdrop-blur-md">
                                 {PROJECT_DATA.status}
                             </span>
                             <div className="flex items-center gap-2 text-gray-300 bg-black/40 px-4 py-1.5 rounded-full backdrop-blur-md border border-white/10">
-                                <MapPin size={14} className="text-neon-purple" />
+                                <MapPin size={14} className="text-gold-500" />
                                 <span className="text-xs font-bold uppercase tracking-wide">{PROJECT_DATA.location}</span>
                             </div>
                         </div>
 
                         <h1 className="text-4xl md:text-6xl font-black leading-tight font-sans">
                             <motion.span
-                                className="bg-gradient-to-r from-[#89CFF0] via-[#A020F0] to-[#89CFF0] bg-clip-text text-transparent bg-[length:200%_auto] inline-block"
+                                className="bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 bg-clip-text text-transparent bg-[length:200%_auto] inline-block"
                                 animate={{ backgroundPosition: ["0% 50%", "100% 50%"] }}
                                 transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
                             >
@@ -122,7 +122,7 @@ export default function ProjectsShowcase() {
                     { label: t("project_tile_4_label"), value: t("project_tile_4_value"), icon: Sparkles } // 2 Weeks Lifetime
                 ].map((stat, i) => (
                     <div key={i} className="bg-[#0d1117] border border-white/10 p-6 rounded-2xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
-                        <stat.icon size={24} className="text-gray-500 mb-2 group-hover:text-neon-cyan transition-colors" />
+                        <stat.icon size={24} className="text-gray-500 mb-2 group-hover:text-gold-500 transition-colors" />
                         <div className="text-xl md:text-2xl font-bold text-white font-mono break-words w-full">{stat.value}</div>
                         <div className="text-xs text-gray-500 uppercase tracking-widest mt-1">{stat.label}</div>
                     </div>
@@ -142,7 +142,7 @@ export default function ProjectsShowcase() {
                             {activeTab === tab && (
                                 <motion.div
                                     layoutId="activeTab"
-                                    className="absolute inset-0 bg-neon-cyan rounded-full"
+                                    className="absolute inset-0 bg-gold-500 rounded-full"
                                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                 />
                             )}
@@ -177,11 +177,11 @@ export default function ProjectsShowcase() {
                                 </button>
                             </div>
                             <div className="space-y-6">
-                                <h3 className="text-2xl font-bold mb-6 text-neon-cyan">{t("project_features_title")}</h3>
+                                <h3 className="text-2xl font-bold mb-6 text-gold-500">{t("project_features_title")}</h3>
                                 <ul className="space-y-4">
                                     {PROJECT_DATA.features.map((feature, i) => (
-                                        <li key={i} className="flex gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-neon-purple/30 transition-colors">
-                                            <div className="w-1.5 bg-gradient-to-b from-neon-cyan to-neon-purple rounded-full shrink-0" />
+                                        <li key={i} className="flex gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-gold-500/30 transition-colors">
+                                            <div className="w-1.5 bg-gradient-to-b from-gold-500 to-forest-500 rounded-full shrink-0" />
                                             <span className="text-gray-300 leading-relaxed">{feature}</span>
                                         </li>
                                     ))}
@@ -209,7 +209,7 @@ export default function ProjectsShowcase() {
                     {activeTab === "features" && (
                         <div className="grid md:grid-cols-2 gap-12">
                             <div>
-                                <h3 className="text-2xl font-bold mb-6 text-neon-cyan">{t("project_specs_title")}</h3>
+                                <h3 className="text-2xl font-bold mb-6 text-gold-500">{t("project_specs_title")}</h3>
                                 <div className="space-y-4">
                                     {PROJECT_DATA.technical_specs.map((spec, i) => (
                                         <div key={i} className="flex justify-between items-center p-4 bg-[#0d1117] border border-white/10 rounded-xl">
@@ -220,13 +220,13 @@ export default function ProjectsShowcase() {
                                 </div>
                             </div>
                             <div>
-                                <h3 className="text-2xl font-bold mb-6 text-neon-cyan">{t("project_logic_title")}</h3>
+                                <h3 className="text-2xl font-bold mb-6 text-gold-500">{t("project_logic_title")}</h3>
                                 <div className="space-y-4">
                                     {PROJECT_DATA.nft_logic.map((tier, i) => (
                                         <div key={i} className="p-6 bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-xl">
                                             <div className="flex justify-between items-center mb-2">
                                                 <h4 className="font-bold text-lg text-white">{tier.title}</h4>
-                                                <span className="text-xs font-mono text-neon-cyan px-2 py-1 bg-neon-cyan/10 rounded">{tier.quantity} szt.</span>
+                                                <span className="text-xs font-mono text-gold-500 px-2 py-1 bg-gold-500/10 rounded">{tier.quantity} szt.</span>
                                             </div>
                                             <p className="text-sm text-gray-400">{tier.perks}</p>
                                         </div>

@@ -13,7 +13,8 @@
 }
 
 .login-modal-content {
-    background: #1a1a1a;
+    background: #0d1117;
+    /* Darker background to match the rest of the app */
     border-radius: 16px;
     padding: 40px;
     width: 100%;
@@ -21,9 +22,8 @@
     position: relative;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     color: white;
-    font-family: 'Anta', sans-serif;
-    /* Using the project's primary font */
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: 'DM Sans', 'Inter', sans-serif;
+    border: 1px solid rgba(201, 168, 76, 0.1);
 }
 
 .close-btn {
@@ -49,6 +49,7 @@
     margin-bottom: 8px;
     text-align: center;
     font-weight: 600;
+    color: white;
 }
 
 .modal-subtitle {
@@ -77,27 +78,30 @@
 .email-input {
     width: 100%;
     padding: 14px 16px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    background: #1C2614;
+    border: 1px solid rgba(201, 168, 76, 0.25);
+    border-radius: 8px;
     color: white;
     font-size: 16px;
     outline: none;
-    transition: border-color 0.2s ease, background 0.2s ease;
-    font-family: inherit;
+    transition: all 0.2s ease;
+    font-family: 'DM Sans', sans-serif;
     box-sizing: border-box;
 }
 
+.email-input::placeholder {
+    color: #6B7A60;
+}
+
 .email-input:focus {
-    border-color: #6366f1;
-    /* Premium indigo focus color */
-    background: rgba(255, 255, 255, 0.08);
+    border-color: #C9A84C;
+    background: #242e1d;
 }
 
 .login-btn {
     width: 100%;
     padding: 14px;
-    border-radius: 12px;
+    border-radius: 6px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -106,17 +110,17 @@
     justify-content: center;
     gap: 10px;
     transition: all 0.2s ease;
-    font-family: inherit;
+    font-family: 'DM Sans', sans-serif;
     border: none;
 }
 
 .email-btn {
-    background: #6366f1;
-    color: white;
+    background: #C9A84C;
+    color: #0E1208;
 }
 
 .email-btn:hover:not(:disabled) {
-    background: #4f46e5;
+    background: #D4B86A;
     transform: translateY(-1px);
 }
 
@@ -126,9 +130,21 @@
 }
 
 .email-btn.loading {
-    background: #4f46e5;
-    position: relative;
-    overflow: hidden;
+    animation: opacityPulse 1.5s infinite;
+}
+
+@keyframes opacityPulse {
+    0% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 0.7;
+    }
 }
 
 .email-btn.loading::after {
@@ -149,12 +165,14 @@
 }
 
 .wallet-btn {
-    background: white;
-    color: #1a1a1a;
+    background: rgba(201, 168, 76, 0.05);
+    color: #C9A84C;
+    border: 1px solid rgba(201, 168, 76, 0.2);
 }
 
 .wallet-btn:hover {
-    background: #f3f4f6;
+    background: rgba(201, 168, 76, 0.1);
+    border-color: rgba(201, 168, 76, 0.4);
     transform: translateY(-1px);
 }
 
@@ -162,16 +180,16 @@
     display: flex;
     align-items: center;
     text-align: center;
-    color: rgba(255, 255, 255, 0.4);
+    color: #6B7A60;
     font-size: 14px;
-    margin: 10px 0;
+    margin: 24px 0;
 }
 
 .divider::before,
 .divider::after {
     content: '';
     flex: 1;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.12);
 }
 
 .divider span {
@@ -180,8 +198,35 @@
 
 .error-message {
     color: #ef4444;
-    /* Red for errors */
     text-align: center;
     margin-top: 16px;
     font-size: 14px;
+}
+
+.success-badge {
+    margin-top: 20px;
+    padding: 12px;
+    background: rgba(45, 90, 61, 0.3);
+    border: 1px solid #2D5A3D;
+    color: #6DB88A;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
         }
     }, [isConnected, address, magicUser]);
 
-    const loginWithMagic = async (email) => {
+    const loginWithMagic = async (email, onEmailSent) => {
         try {
             if (!magic) throw new Error('Magic SDK not initialized');
             // If a wallet is connected, disconnect it first to keep auth simple
@@ -85,7 +85,16 @@ export const AuthProvider = ({ children }) => {
                 disconnectWallet();
             }
 
-            const didToken = await magic.auth.loginWithMagicLink({ email });
+            const loginPromise = magic.auth.loginWithMagicLink({ email });
+
+            if (onEmailSent) {
+                loginPromise.on('email-sent', () => {
+                    console.log("Magic: Email sent!");
+                    onEmailSent();
+                });
+            }
+
+            const didToken = await loginPromise;
             if (didToken) {
                 const userData = await magic.user.getInfo();
                 console.log("MAGIC USER DATA (LOGIN):", userData);

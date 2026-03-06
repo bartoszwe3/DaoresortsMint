@@ -60,18 +60,17 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #0a0f1c;
+  background: #0E1208;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #0c4a6e;
-  /* dark blue */
+  background: #1C2614;
   border-radius: 3px;
+  border: 1px solid rgba(201, 168, 76, 0.1);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #38bdf8;
-  /* sky blue */
+  background: #C9A84C;
 }
 
 h1,
@@ -82,19 +81,25 @@ h5,
 h6,
 a,
 button {
-  color: black;
+  color: var(--color-text-primary);
 }
 
 li {
-  color: white;
+  color: var(--color-text-secondary);
 }
 
-section {
+section:not(#hero) {
   max-width: 1500px;
   margin: 80px auto;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+}
+
+#hero {
+  max-width: none;
+  margin: 0;
+  display: flex;
 }
 
 .flex {
@@ -121,8 +126,8 @@ section {
   gap: 1em;
 }
 
-.bg-gradient {
-  background: linear-gradient(130deg, #6142f7, #3f2d53);
+.bg-gradient-gold {
+  background: linear-gradient(130deg, #C9A84C, #1C2614);
 }
 
 @media screen and (max-width: 768px) {

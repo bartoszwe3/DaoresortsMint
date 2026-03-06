@@ -8,6 +8,7 @@ import './LoginModal.css';
 const LoginModal = ({ isOpen, onClose }) => {
     const [email, setEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState('');
 
     const { loginWithMagic } = useAuth();
@@ -23,13 +24,16 @@ const LoginModal = ({ isOpen, onClose }) => {
 
         setIsLoading(true);
         setError('');
+        setIsSuccess(false);
 
         try {
-            await loginWithMagic(email);
-            onClose(); // Close modal on successful login
+            await loginWithMagic(email, () => setIsSuccess(true));
+            // After loginWithMagic resolves, the user is authed and magicUser in context updates
+            onClose();
         } catch (err) {
             console.error(err);
-            setError(err.message || 'Failed to login with expected email. Please try again.');
+            setError(err.message || 'Błąd logowania. Spróbuj ponownie.');
+            setIsSuccess(false);
         } finally {
             setIsLoading(false);
         }
@@ -41,7 +45,7 @@ const LoginModal = ({ isOpen, onClose }) => {
             onClose(); // Modal will close, AppKit will open
         } catch (err) {
             console.error(err);
-            setError('Failed to open wallet connection modal.');
+            setError('Nie udało się otworzyć portfela.');
         }
     };
 
@@ -52,41 +56,12 @@ const LoginModal = ({ isOpen, onClose }) => {
                     <X size={24} />
                 </button>
 
-                <h2 className="modal-title">Sign In</h2>
-                <p className="modal-subtitle">Choose how you want to connect</p>
+                <h2 className="modal-title font-playfair">Zaloguj się</h2>
+                <p className="modal-subtitle font-sans">Wybierz sposób połączenia</p>
 
                 <div className="login-options-container">
 
-                    {/* Email Login Section */}
-                    <div className="login-section">
-                        <form onSubmit={handleEmailLogin} className="email-login-form">
-                            <div className="input-group">
-                                <input
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    disabled={isLoading}
-                                    required
-                                    className="email-input"
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                className={`login-btn email-btn ${isLoading ? 'loading' : ''}`}
-                                disabled={isLoading || !email}
-                            >
-                                <Mail size={20} className="btn-icon" />
-                                {isLoading ? 'Sending Link...' : 'Continue with Email'}
-                            </button>
-                        </form>
-                    </div>
-
-                    <div className="divider">
-                        <span>OR</span>
-                    </div>
-
-                    {/* Wallet Login Section */}
+                    {/* Wallet Login Section (Priority as per prompt qr/brave/metamask handled by AppKit) */}
                     <div className="login-section">
                         <button
                             onClick={handleWalletConnect}
@@ -94,10 +69,45 @@ const LoginModal = ({ isOpen, onClose }) => {
                             type="button"
                         >
                             <Wallet size={20} className="btn-icon" />
-                            Connect Wallet
+                            Połącz Portfel
                         </button>
                     </div>
 
+                    <div className="divider">
+                        <span>lub zaloguj się emailem</span>
+                    </div>
+
+                    {/* Email Login Section */}
+                    <div className="login-section">
+                        <form onSubmit={handleEmailLogin} className="email-login-form">
+                            <div className="input-group">
+                                <input
+                                    type="email"
+                                    placeholder="twój@email.com"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    disabled={isLoading || isSuccess}
+                                    required
+                                    className="email-input"
+                                />
+                            </div>
+                            {!isSuccess && (
+                                <button
+                                    type="submit"
+                                    className={`login-btn email-btn ${isLoading ? 'loading' : ''}`}
+                                    disabled={isLoading || !email}
+                                >
+                                    {isLoading ? 'Wysyłanie...' : 'Wyślij link →'}
+                                </button>
+                            )}
+                        </form>
+
+                        {isSuccess && (
+                            <div className="success-badge">
+                                <span>✓ Sprawdź swoją skrzynkę — wysłaliśmy link</span>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 {error && <p className="error-message">{error}</p>}

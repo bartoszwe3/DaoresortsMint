@@ -148,7 +148,7 @@ export default function MainPage() {
   ];
 
   return (
-    <div className="w-full h-screen flex bg-deep-black text-white overflow-hidden relative selection:bg-neon-cyan selection:text-black">
+    <div className="w-full h-screen flex bg-deep-black text-white overflow-hidden relative selection:bg-gold-500 selection:text-forest-900">
 
       {/* Background Glows */}
       {/* Background Glows */}
@@ -165,6 +165,7 @@ export default function MainPage() {
         address={address}
         isState3Member={isState3Member}
         isAdmin={isAdmin}
+        onConnect={connectWallet}
       />
 
       {/* =======================
@@ -197,13 +198,13 @@ export default function MainPage() {
         </AnimatePresence>
 
         {/* Content Area */}
-        <div ref={scrollContainerRef} className="flex-1 overflow-y-auto custom-scrollbar p-6 md:p-10">
-          <div className="w-full max-w-6xl mx-auto">
+        <div ref={scrollContainerRef} className={`flex-1 overflow-y-auto custom-scrollbar ${selected === "home" ? "" : "p-6 md:p-10"}`}>
+          <div className={selected === "home" ? "w-full" : "w-full max-w-6xl mx-auto"}>
             {selected === "home" && <LandingPage onConnect={connectWallet} scrollContainer={scrollContainerRef} hasNft={!!sidebarNft} onNavigate={setSelected} />}
             {selected === "register" && <RegisterUsers />}
             {selected === "admin" && isAdmin && <AdminWhitelist />}
             {selected === "about" && <AboutProject />}
-            {selected === "mint" && <Mint onMintSuccess={refreshSidebarNft} />}
+            {selected === "mint" && <Mint onMintSuccess={refreshSidebarNft} onConnect={connectWallet} />}
             {selected === "mynfts" && <MyNfts />}
             {selected === "projects" && <ProjectsShowcase />}
             {selected === "voting" && <NftVoting isState3Member={isState3Member} />}

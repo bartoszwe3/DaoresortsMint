@@ -15,7 +15,7 @@ const IPFS_BASE = "https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2p
 const ITEMS_PER_PAGE = 20;
 const TOTAL_SUPPLY = 5000;
 
-export default function Mint({ onMintSuccess }) {
+export default function Mint({ onMintSuccess, onConnect }) {
   const { user, isAuthenticated } = useAuth();
   const { chainId } = useAppKitNetwork();
   const { t } = useTranslation();
@@ -152,8 +152,8 @@ export default function Mint({ onMintSuccess }) {
     return (
       <div className="flex flex-col justify-center items-center py-40 gap-4">
         <div className="relative w-16 h-16">
-          <div className="absolute inset-0 border-4 border-neon-cyan/20 rounded-full"></div>
-          <div className="absolute inset-0 border-4 border-t-neon-cyan rounded-full animate-spin"></div>
+          <div className="absolute inset-0 border-4 border-gold-500/20 rounded-full"></div>
+          <div className="absolute inset-0 border-4 border-t-gold-500 rounded-full animate-spin"></div>
         </div>
         <p className="text-gray-400 font-bold tracking-widest uppercase text-sm">Sprawdzanie konta...</p>
       </div>
@@ -172,29 +172,32 @@ export default function Mint({ onMintSuccess }) {
         >
           {/* Glowing orb */}
           <div className="relative w-32 h-32 mx-auto mb-8">
-            <div className="absolute inset-0 bg-neon-cyan/20 rounded-full animate-ping opacity-30"></div>
-            <div className="absolute inset-2 bg-neon-cyan/10 rounded-full animate-pulse"></div>
+            <div className="absolute inset-0 bg-gold-500/20 rounded-full animate-ping opacity-30"></div>
+            <div className="absolute inset-2 bg-gold-500/10 rounded-full animate-pulse"></div>
             <div className="relative w-full h-full flex items-center justify-center">
-              <Sparkles size={48} className="text-neon-cyan" />
+              <Sparkles size={48} className="text-gold-500" />
             </div>
           </div>
 
           <h1 className="text-4xl md:text-6xl font-black font-sans text-white tracking-tight mb-4">
-            <Trans i18nKey="mint_title" components={[<span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent" />]} />
+            <Trans i18nKey="mint_title" components={[<span className="bg-gradient-to-r from-gold-500 to-gold-600 bg-clip-text text-transparent" />]} />
           </h1>
           <p className="text-gray-400 text-lg mb-10">
             {t("mint_subtitle")}
           </p>
 
-          <div className="bg-[#0d1117] border border-white/10 rounded-2xl p-8 shadow-xl shadow-neon-cyan/5">
-            <p className="text-white font-bold text-xl mb-2">Połącz portfel, aby zacząć</p>
+          <div className="bg-[#0d1117] border border-white/10 rounded-2xl p-8 shadow-xl shadow-gold-500/5">
+            <p className="text-white font-bold text-xl mb-2">Połącz się, aby zacząć</p>
             <p className="text-gray-400 text-sm mb-6">
-              Aby uzyskać dostęp do galerii i zmintować swój paszport DAOResorts, musisz połączyć portfel kryptowalutowy.
+              Aby uzyskać dostęp do galerii i zmintować swój paszport DAOResorts, musisz się zalogować.
             </p>
-            <div className="inline-flex items-center gap-2 text-neon-cyan border border-neon-cyan/30 bg-neon-cyan/10 px-6 py-3 rounded-full font-bold text-sm">
+            <button
+              onClick={onConnect}
+              className="inline-flex items-center gap-2 text-forest-900 bg-gold-500 hover:bg-gold-600 px-8 py-3 rounded-full font-bold text-sm transition-all shadow-lg"
+            >
               <UserPlus size={18} />
-              Użyj przycisku "Połącz portfel" w menu
-            </div>
+              Zaloguj się teraz
+            </button>
           </div>
         </motion.div>
       </div>
@@ -207,7 +210,7 @@ export default function Mint({ onMintSuccess }) {
       <div className="w-full pb-20">
         <div className="text-center mb-4 pt-10">
           <h1 className="text-4xl md:text-5xl font-black font-sans text-white tracking-tight mb-3">
-            <Trans i18nKey="mint_title" components={[<span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent" />]} />
+            <Trans i18nKey="mint_title" components={[<span className="bg-gradient-to-r from-gold-500 to-gold-600 bg-clip-text text-transparent" />]} />
           </h1>
           <p className="text-gray-400 text-lg">Zarejestruj się, aby uzyskać dostęp do galerii paszportów.</p>
         </div>
@@ -238,14 +241,14 @@ export default function Mint({ onMintSuccess }) {
             animate={{ opacity: 1, scale: 1 }}
             className="mt-8 max-w-md mx-auto relative group"
           >
-            <div className="absolute -inset-1 bg-gradient-to-r from-neon-cyan to-neon-purple rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+            <div className="absolute -inset-1 bg-gradient-to-r from-gold-500 to-gold-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
             <div className="relative bg-[#0d1117] border border-white/10 rounded-2xl p-4 flex gap-3">
               <input
                 type="text"
                 placeholder={t("mint_input_placeholder")}
                 value={nick}
                 onChange={(e) => setNick(e.target.value)}
-                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-all"
+                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold-500 transition-all"
               />
             </div>
           </motion.div>
@@ -255,8 +258,8 @@ export default function Mint({ onMintSuccess }) {
       {loading ? (
         <div className="flex justify-center items-center py-40">
           <div className="relative w-20 h-20">
-            <div className="absolute inset-0 border-4 border-neon-cyan/20 rounded-full"></div>
-            <div className="absolute inset-0 border-4 border-t-neon-cyan rounded-full animate-spin"></div>
+            <div className="absolute inset-0 border-4 border-gold-500/20 rounded-full"></div>
+            <div className="absolute inset-0 border-4 border-t-gold-500 rounded-full animate-spin"></div>
           </div>
         </div>
       ) : (
@@ -294,7 +297,7 @@ export default function Mint({ onMintSuccess }) {
                           ? "bg-white/5 text-gray-500 cursor-not-allowed"
                           : mintingId === nft.id
                             ? "bg-white/10 text-white cursor-wait"
-                            : "bg-white text-black hover:bg-neon-cyan hover:shadow-[0_0_20px_rgba(0,255,243,0.4)]"
+                            : "bg-white text-black hover:bg-gold-500 hover:shadow-[0_0_20px_rgba(201,168,76,0.4)]"
                           }`}
                       >
                         {nft.isMinted ? (

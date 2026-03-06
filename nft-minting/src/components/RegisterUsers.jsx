@@ -76,7 +76,7 @@ export default function RegisterUsers({ onRegisterSuccess }) {
   return (
     <div className="w-full flex flex-col items-center justify-center py-20 px-4">
       <h1 className="text-3xl font-bold font-sans text-white">
-        <Trans i18nKey="register_title" components={[<span className="text-neon-cyan" />]} />
+        <Trans i18nKey="register_title" components={[<span className="text-gold-500" />]} />
       </h1>
       <p className="text-gray-400 mt-2 text-center text-sm">{t("register_subtitle")}</p>
 
@@ -84,7 +84,7 @@ export default function RegisterUsers({ onRegisterSuccess }) {
         onSubmit={handleSubmit}
         className="mt-8 w-full max-w-md bg-[#0d1117] border border-white/10 p-6 rounded-2xl shadow-xl flex flex-col gap-4 relative overflow-hidden"
       >
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-cyan via-purple-500 to-neon-cyan animate-pulse" />
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gold-500 via-gold-600 to-gold-500 animate-pulse" />
 
         <div className="flex flex-col gap-1">
           <input
@@ -92,7 +92,7 @@ export default function RegisterUsers({ onRegisterSuccess }) {
             placeholder={t("register_email_placeholder")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors"
+            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold-500 transition-colors"
           />
         </div>
 
@@ -110,7 +110,7 @@ export default function RegisterUsers({ onRegisterSuccess }) {
             <button
               type="button"
               onClick={() => toast.error("Please sign in via the menu")}
-              className="text-[10px] text-neon-cyan text-right mt-1 hover:underline"
+              className="text-[10px] text-gold-500 text-right mt-1 hover:underline"
             >
               {t("register_connect_hint")}
             </button>
@@ -118,7 +118,7 @@ export default function RegisterUsers({ onRegisterSuccess }) {
         </div>
 
         <label className="flex items-center gap-3 cursor-pointer group">
-          <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${agreed ? "bg-neon-cyan border-neon-cyan text-black" : "border-white/20 bg-transparent group-hover:border-white/40"}`}>
+          <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${agreed ? "bg-gold-500 border-gold-500 text-black" : "border-white/20 bg-transparent group-hover:border-white/40"}`}>
             {agreed && <UserPlus size={14} />}
           </div>
           <input
@@ -128,7 +128,7 @@ export default function RegisterUsers({ onRegisterSuccess }) {
             className="hidden"
           />
           <span className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
-            <Trans i18nKey="register_privacy" components={[<span className="text-neon-cyan underline decoration-dotted" />]} />
+            <Trans i18nKey="register_privacy" components={[<span className="text-gold-500 underline decoration-dotted" />]} />
           </span>
         </label>
 

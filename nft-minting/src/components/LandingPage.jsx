@@ -13,24 +13,24 @@ import LongTermSavings from "./LongTermSavings";
 const BookingFlowSVG = ({ t }) => (
     <svg viewBox="0 0 600 120" className="w-full h-auto">
         <g transform="translate(50, 60)">
-            <circle cx="0" cy="0" r="40" fill="#0d1117" stroke="#2AA9FF" strokeWidth="2" opacity="0.8" />
+            <circle cx="0" cy="0" r="40" fill="#0d1117" stroke="#C9A84C" strokeWidth="2" opacity="0.8" />
             <text x="0" y="5" textAnchor="middle" fill="#fff" fontSize="14" fontWeight="bold">{t("booking_flow_14days")}</text>
         </g>
-        <path d="M100 60 L190 60" stroke="#2AA9FF" strokeWidth="1" strokeDasharray="5,5" markerEnd="url(#arrow)" opacity="0.5" />
+        <path d="M100 60 L190 60" stroke="#C9A84C" strokeWidth="1" strokeDasharray="5,5" markerEnd="url(#arrow)" opacity="0.5" />
         <g transform="translate(240, 60)">
-            <rect x="-50" y="-30" width="100" height="60" rx="10" fill="#0d1117" stroke="#2AA9FF" strokeWidth="2" opacity="0.8" />
+            <rect x="-50" y="-30" width="100" height="60" rx="10" fill="#0d1117" stroke="#C9A84C" strokeWidth="2" opacity="0.8" />
             <text x="0" y="5" textAnchor="middle" fill="#fff" fontSize="14" fontWeight="bold">{t("booking_flow_draw")}</text>
-            <text x="0" y="25" textAnchor="middle" fill="#2AA9FF" fontSize="10">{t("booking_flow_high_season")}</text>
+            <text x="0" y="25" textAnchor="middle" fill="#C9A84C" fontSize="10">{t("booking_flow_high_season")}</text>
         </g>
-        <path d="M300 60 L390 60" stroke="#2AA9FF" strokeWidth="1" strokeDasharray="5,5" markerEnd="url(#arrow)" opacity="0.5" />
+        <path d="M300 60 L390 60" stroke="#C9A84C" strokeWidth="1" strokeDasharray="5,5" markerEnd="url(#arrow)" opacity="0.5" />
         <g transform="translate(450, 60)">
-            <circle cx="0" cy="0" r="40" fill="#2AA9FF" opacity="0.2" />
-            <circle cx="0" cy="0" r="38" fill="none" stroke="#2AA9FF" strokeWidth="2" />
+            <circle cx="0" cy="0" r="40" fill="#C9A84C" opacity="0.2" />
+            <circle cx="0" cy="0" r="38" fill="none" stroke="#C9A84C" strokeWidth="2" />
             <text x="0" y="5" textAnchor="middle" fill="#fff" fontSize="14" fontWeight="bold">{t("booking_flow_stay")}</text>
         </g>
         <defs>
             <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2AA9FF" />
+                <path d="M0,0 L0,6 L9,3 z" fill="#C9A84C" />
             </marker>
         </defs>
     </svg>
@@ -126,11 +126,30 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
         <div id="landing-page" className="w-full pb-24 text-white font-sans animate-in fade-in duration-700">
 
             {/* 1. HERO SECTION */}
-            <section id="hero" className="relative flex flex-col items-center justify-center text-center px-4 min-h-[90vh] overflow-hidden film-grain">
-                {/* Optional subtle glow for depth, not neon */}
-                <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-gold-500/5 blur-[120px] rounded-full pointer-events-none" />
+            <section id="hero" className="relative flex flex-col items-center justify-center text-center px-4 min-h-screen overflow-hidden pt-[72px]">
+                {/* Background Video */}
+                <div className="absolute inset-0 z-0">
+                    <video
+                        className="w-full h-full object-cover"
+                        src="/silnawebvideo.mp4"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                    />
+                    {/* Dark gradient overlay as requested */}
+                    <div
+                        className="absolute inset-0 z-10"
+                        style={{
+                            background: 'linear-gradient(135deg, rgba(14, 18, 8, 0.88) 0%, rgba(14, 18, 8, 0.65) 50%, rgba(14, 18, 8, 0.75) 100%)'
+                        }}
+                    />
+                </div>
 
-                <div className="z-10 max-w-4xl mx-auto space-y-8 mt-12">
+                {/* Optional subtle glow for depth, not neon */}
+                <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-gold-500/5 blur-[120px] rounded-full pointer-events-none z-10" />
+
+                <div className="z-20 w-full max-w-6xl mx-auto space-y-8 px-4">
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="flex flex-col items-center">
 
                         {/* Elegant Tag */}
@@ -246,7 +265,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
 
                         {/* Title */}
                         <h2 className="text-4xl md:text-6xl font-playfair font-semibold leading-tight text-white mb-2 drop-shadow-md">
-                            Resort Silna
+                            DAOResorts — Silna, Lubuskie.
                         </h2>
                     </div>
                 </div>
@@ -286,7 +305,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                         <h3 className="text-xl font-bold mb-6 text-white text-center">{t("booking_logic_title")}</h3>
                         <BookingFlowSVG t={t} />
                         <div className="mt-8 space-y-4">
-                            <div className="pl-4 border-l-2 border-neon-cyan">
+                            <div className="pl-4 border-l-2 border-gold-500">
                                 <strong className="text-white block mb-1">{t("booking_high_season")}</strong>
                                 <p className="text-white/60 text-sm">{t("booking_high_season_desc")}</p>
                             </div>

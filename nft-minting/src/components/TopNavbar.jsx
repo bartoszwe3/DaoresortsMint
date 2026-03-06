@@ -8,7 +8,7 @@ import { useAppKit } from "@reown/appkit/react";
 
 const shortenAddr = (addr) => (addr ? `${addr.slice(0, 5)}...${addr.slice(-4)}` : "");
 
-export default function TopNavbar({ onNavigate, activeTab, isRegistered, address, isState3Member, isAdmin }) {
+export default function TopNavbar({ onNavigate, activeTab, isRegistered, address, isState3Member, isAdmin, onConnect }) {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { t, i18n } = useTranslation();
@@ -16,7 +16,10 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
     const { open } = useAppKit();
 
     const handleConnect = () => {
-        if (!isAuthenticated) open();
+        if (!isAuthenticated) {
+            if (onConnect) onConnect();
+            else open();
+        }
         else if (user?.type === "wallet") open({ view: "Account" });
         else logout();
     };
