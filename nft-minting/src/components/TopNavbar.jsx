@@ -31,7 +31,7 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
         { id: "home", label: t("nav_home") || "Home" },
         { id: "team", label: t("nav_team") || "Społeczność" },
         { id: "voting", label: t("nav_voting") || "Głosowania" },
-        ...(isState3Member ? [{ id: "projects", label: t("nav_projects") || "Rezerwuj" }] : []),
+        { id: "projects", label: t("nav_projects") || "Nasze Resorty" },
         { id: "faq", label: t("nav_faq") || "FAQ" },
         ...(isAdmin ? [{ id: "admin", label: t("nav_admin") || "Admin" }, { id: "stats", label: t("nav_stats") || "Statystyki" }] : []),
     ];
