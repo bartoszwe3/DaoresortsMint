@@ -42,7 +42,7 @@ export const TranslatorProvider = ({ children }) => {
       // const response = await axios.get("http://www.geoplugin.net/json.gp");
       // const countryCode = response.data.geoplugin_countryCode;
       // console.log("Country code detected:", countryCode);
-      return "US"; // Default to US to stop spam
+      return "PL"; // Default to PL as requested
     } catch (error) {
       console.error("Error detecting country code:", error);
       return null;
