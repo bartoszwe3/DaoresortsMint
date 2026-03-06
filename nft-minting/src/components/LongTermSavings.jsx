@@ -19,8 +19,8 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
     const MANAGEMENT_FEE_PERCENT = 0.20;
     const HOUSING_INFLATION = 0.03;
     const HOTEL_BREAKFAST_RATE = 70;
-    const DAO_BREAKFAST_RATE = 12.53;
-    const SELF_BREAKFAST_RATE = 5;
+    const DAO_BREAKFAST_HOUSE_RATE = 43;
+    const SELF_BREAKFAST_RATE = 8;
     const HOTEL_BREAKFAST_INFLATION = 0.05;
     const DAO_BREAKFAST_INFLATION = 0.02;
 
@@ -47,9 +47,16 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                 const yearHotelBF = HOTEL_BREAKFAST_RATE * peopleCount * DAYS_PER_YEAR * Math.pow(1 + HOTEL_BREAKFAST_INFLATION, i - 1);
 
                 // DAO cost depends on type
-                const bfRate = breakfastType === 'dao' ? DAO_BREAKFAST_RATE : (breakfastType === 'self' ? SELF_BREAKFAST_RATE : HOTEL_BREAKFAST_RATE);
-                const bfInflation = breakfastType === 'dao' ? DAO_BREAKFAST_INFLATION : (breakfastType === 'hotel' ? HOTEL_BREAKFAST_INFLATION : 0);
-                const yearDaoBF = bfRate * peopleCount * DAYS_PER_YEAR * Math.pow(1 + bfInflation, i - 1);
+                let yearDaoBF;
+                if (breakfastType === 'dao') {
+                    // Fixed per house
+                    yearDaoBF = DAO_BREAKFAST_HOUSE_RATE * DAYS_PER_YEAR * Math.pow(1 + DAO_BREAKFAST_INFLATION, i - 1);
+                } else {
+                    // Per person
+                    const bfRate = breakfastType === 'self' ? SELF_BREAKFAST_RATE : HOTEL_BREAKFAST_RATE;
+                    const bfInflation = breakfastType === 'hotel' ? HOTEL_BREAKFAST_INFLATION : 0;
+                    yearDaoBF = bfRate * peopleCount * DAYS_PER_YEAR * Math.pow(1 + bfInflation, i - 1);
+                }
 
                 cumulativeHotelBreakfast += yearHotelBF;
                 cumulativeDaoBreakfast += yearDaoBF;
@@ -75,8 +82,16 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
     const firstYearHotelHousing = dailyRate * DAYS_PER_YEAR;
     const firstYearDaoHousing = firstYearHotelHousing * MANAGEMENT_FEE_PERCENT;
     const firstYearHotelBF = includeBreakfast ? HOTEL_BREAKFAST_RATE * peopleCount * DAYS_PER_YEAR : 0;
-    const bfRate = breakfastType === 'dao' ? DAO_BREAKFAST_RATE : (breakfastType === 'self' ? SELF_BREAKFAST_RATE : HOTEL_BREAKFAST_RATE);
-    const firstYearDaoBF = includeBreakfast ? bfRate * peopleCount * DAYS_PER_YEAR : 0;
+
+    let firstYearDaoBF = 0;
+    if (includeBreakfast) {
+        if (breakfastType === 'dao') {
+            firstYearDaoBF = DAO_BREAKFAST_HOUSE_RATE * DAYS_PER_YEAR;
+        } else {
+            const bfRate = breakfastType === 'self' ? SELF_BREAKFAST_RATE : HOTEL_BREAKFAST_RATE;
+            firstYearDaoBF = bfRate * peopleCount * DAYS_PER_YEAR;
+        }
+    }
 
     const firstYearSavings = (firstYearHotelHousing + firstYearHotelBF) - (firstYearDaoHousing + firstYearDaoBF);
     const roiSeasons = (NFT_PRICE / firstYearSavings).toFixed(1);
@@ -195,20 +210,20 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                         {/* Breakfast Comparison Columns */}
                                         <div className="grid grid-cols-3 gap-2">
                                             {[
-                                                { id: 'self', label: t("calculator_breakfast_self"), price: '5 PLN' },
-                                                { id: 'dao', label: t("calculator_breakfast_dao"), price: '12,53 PLN' },
+                                                { id: 'self', label: t("calculator_breakfast_self"), price: '8 PLN' },
+                                                { id: 'dao', label: t("calculator_breakfast_dao"), price: '43 PLN' },
                                                 { id: 'hotel', label: t("calculator_breakfast_hotel"), price: '70 PLN' }
                                             ].map((opt) => (
                                                 <button
                                                     key={opt.id}
                                                     onClick={() => setBreakfastType(opt.id)}
                                                     className={`p-3 rounded-lg border text-center transition-all ${breakfastType === opt.id
-                                                        ? 'bg-gold-500/10 border-gold-500 text-gold-500 shadow-lg shadow-gold-500/5'
-                                                        : 'bg-white/5 border-white/5 text-gray-400 hover:border-white/10 hover:bg-white/10'
+                                                            ? 'bg-gold-500/10 border-gold-500 text-gold-500 shadow-lg shadow-gold-500/5'
+                                                            : 'bg-white/5 border-white/5 text-gray-400 hover:border-white/10 hover:bg-white/10'
                                                         }`}
                                                 >
                                                     <div className="text-[10px] uppercase tracking-wider mb-1 whitespace-nowrap overflow-hidden text-ellipsis">{opt.label}</div>
-                                                    <div className="text-xs font-bold">{opt.price}</div>
+                                                    <div className="text-xs font-bold">{opt.price}{opt.id === 'dao' ? ' / domek' : ''}</div>
                                                 </button>
                                             ))}
                                         </div>
