@@ -9,6 +9,7 @@ import Container from "./layouts/Container";
 import NftVoting from "./components/NftVoting";
 import AdminWhitelist from "./components/AdminWhitelist";
 import AdminUsersManagement from "./components/AdminUsersManagement";
+import AdminPanel from "./components/AdminPanel";
 import Team from "./components/Team";
 
 function RoutesFile() {
@@ -22,8 +23,8 @@ function RoutesFile() {
           <Route path="/mint" element={<Mint />} />
           <Route path="/my-collection" element={<MyNfts />} />
           <Route path="/voting" element={<NftVoting />} />
-          <Route path="/admin" element={<AdminWhitelist />} />
-          <Route path="/admin/users" element={<AdminUsersManagement />} />
+          <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/admin/users" element={<AdminPanel />} />
           <Route path="/team" element={<Team />} />
         </Routes>
       </Container>

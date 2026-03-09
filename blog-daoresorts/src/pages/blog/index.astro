@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import { sanityClient } from '../../lib/sanity';
+import { slugify } from '../../lib/utils';
 
 // Pagination and fetching all posts
 const query = `*[_type == "post"] | order(publishedAt desc) {
@@ -30,7 +31,7 @@ const categories = ['Wszystkie', 'Aktualności', 'Budowa', 'Web3 i NFT', 'Prawo 
   <nav class="flex flex-wrap items-center justify-center gap-2 mb-12">
     {categories.map((cat) => (
       <a 
-        href={cat === 'Wszystkie' ? '/blog' : `/blog/kategoria/${cat.toLowerCase().replace(/ /g, '-').replace(/&/g, 'i')}`}
+        href={cat === 'Wszystkie' ? '/blog' : `/blog/kategoria/${slugify(cat)}`}
         class={`px-4 py-2 rounded-full text-sm font-sans font-bold transition-colors ${cat === 'Wszystkie' ? 'bg-accent-gold text-bg-primary' : 'bg-bg-surface text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-border-subtle'}`}
       >
         {cat}

@@ -56,7 +56,7 @@ export default function CreateProposal({ onCreated }) {
     return (
         <form onSubmit={handleCreate} className="bg-[#0d1117] border border-white/10 rounded-3xl p-6 space-y-4">
             <h3 className="text-lg font-black text-white flex items-center gap-2">
-                <PlusCircle size={20} className="text-neon-cyan" />
+                <PlusCircle size={20} className="text-accent-gold" />
                 Nowe głosowanie
             </h3>
 
@@ -70,7 +70,7 @@ export default function CreateProposal({ onCreated }) {
                     placeholder="np. Jakiego koloru powinny być ławki?"
                     value={title}
                     onChange={e => setTitle(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-neon-cyan/50 transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-accent-gold/50 transition-colors"
                     required
                 />
             </div>
@@ -85,7 +85,7 @@ export default function CreateProposal({ onCreated }) {
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                     rows={3}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-neon-cyan/50 transition-colors resize-none"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-accent-gold/50 transition-colors resize-none"
                 />
             </div>
 
@@ -97,7 +97,7 @@ export default function CreateProposal({ onCreated }) {
                 <select
                     value={durationMinutes}
                     onChange={e => setDurationMinutes(Number(e.target.value))}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-cyan/50 transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-gold/50 transition-colors"
                 >
                     <option value={30}>30 minut</option>
                     <option value={60}>1 godzina</option>
@@ -113,7 +113,7 @@ export default function CreateProposal({ onCreated }) {
             <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 bg-gradient-to-r from-neon-cyan to-neon-purple text-black font-black rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50"
+                className="w-full py-3 bg-accent-gold text-bg-primary font-black rounded-xl hover:bg-accent-gold-hover transition-colors disabled:opacity-50"
             >
                 {loading ? "Tworzenie..." : "🗳️ Utwórz głosowanie"}
             </button>
