@@ -9,12 +9,20 @@ const sanityClient = createClient({
 
 async function run() {
     try {
-        const posts = await sanityClient.fetch(`*[_type == "post"] { _id, title, publishedAt, "isDraft": _id match "drafts.*" }`);
-        console.log("Published docs returned by query:", posts);
+        const posts = await sanityClient.fetch(`*[_type == "post"] { 
+            _id, 
+            title, 
+            slug, 
+            coverImage, 
+            kategoria, 
+            publishedAt, 
+            "isDraft": _id match "drafts.*" 
+        }`);
+        console.log("Published docs returned by query:", JSON.stringify(posts, null, 2));
 
         const allDocs = await sanityClient.fetch(`*[] { _id, _type, title }`);
         const allPosts = allDocs.filter(d => d._type === 'post' || d._type.includes('post'));
-        console.log("All docs of type post (including drafts if auth allowed, but here only public):", allPosts);
+        console.log("All docs of type post:", allPosts);
 
     } catch (err) {
         console.error("Sanity fetch error:", err);
