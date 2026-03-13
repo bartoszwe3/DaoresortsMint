@@ -7,6 +7,7 @@ const { ethers } = require("ethers");
 const { Mutex } = require("async-mutex");
 
 const txMutex = new Mutex();
+const dbMutex = new Mutex();
 const pendingPhotoIds = new Set();
 
 const app = express();
@@ -351,8 +352,8 @@ app.post('/api/mint', async (req, res) => {
     // Release after 5 minutes just in case of a crash, but normally cleared after confirmation/fail
     const pendingTimeout = setTimeout(() => pendingPhotoIds.delete(String(photoId)), 300000);
 
-    // --- ACQUIRE MUTEX ---
-    const release = await txMutex.acquire();
+    // --- ACQUIRE TRANSACTION MUTEX ---
+    const releaseTx = await txMutex.acquire();
     let tx;
 
     try {
@@ -380,8 +381,8 @@ app.post('/api/mint', async (req, res) => {
       console.log(`✅ Transakcja wysłana! Hash: ${tx.hash}`);
 
     } finally {
-      // Release mutex immediately after sending tx so others can queue up their txs with correct Nonce
-      release();
+      // Release tx mutex immediately after sending tx so others can queue up their txs with correct Nonce
+      releaseTx();
     }
 
     // --- NATYCHMIASTOWA ODPOWIEDŹ DLA KLIENTA ---
@@ -417,43 +418,49 @@ app.post('/api/mint', async (req, res) => {
 
         const mintDate = new Date().toLocaleString();
 
-        // Aktualizacja bazy danych
-        const usersForUpdate = loadJSON(FILE_USERS);
-        const userIndex = usersForUpdate.findIndex(u => u.wallet.toLowerCase() === targetAddress.toLowerCase());
+        // Aktualizacja bazy danych (THREAD SAFE)
+        await dbMutex.runExclusive(async () => {
+          const usersForUpdate = loadJSON(FILE_USERS);
+          const userIndex = usersForUpdate.findIndex(u => u.wallet.toLowerCase() === targetAddress.toLowerCase());
 
-        if (userIndex !== -1) {
-          usersForUpdate[userIndex].minted = true;
-          usersForUpdate[userIndex].membershipTokenId = mintedTokenId;
-          usersForUpdate[userIndex].membershipTxHash = tx.hash;
-          usersForUpdate[userIndex].photoId = photoId;
-          usersForUpdate[userIndex].memberName = targetNick || "";
-          usersForUpdate[userIndex].mintDate = mintDate;
-          saveJSON(FILE_USERS, usersForUpdate);
+          if (userIndex !== -1) {
+            usersForUpdate[userIndex].minted = true;
+            usersForUpdate[userIndex].membershipTokenId = mintedTokenId;
+            usersForUpdate[userIndex].membershipTxHash = tx.hash;
+            usersForUpdate[userIndex].photoId = photoId;
+            usersForUpdate[userIndex].memberName = targetNick || "";
+            usersForUpdate[userIndex].mintDate = mintDate;
+            saveJSON(FILE_USERS, usersForUpdate);
 
-          // Wysyłka Email
-          const user = usersForUpdate[userIndex];
-          if (user.email) {
-            const mintedCount = usersForUpdate.filter(u => u.minted === true).length;
-            const remainingSeats = Math.max(0, 150 - mintedCount);
+            // Wysyłka Email (Wewnątrz mutexu, aby mieć dostęp do najnowszych danych)
+            const user = usersForUpdate[userIndex];
+            if (user.email) {
+              const mintedCount = usersForUpdate.filter(u => u.minted === true).length;
+              const remainingSeats = Math.max(0, 150 - mintedCount);
 
-            const { data, error } = await resend.emails.send({
-              from: 'DAOResorts <witaj@daoresorts.club>',
-              to: [user.email],
-              subject: `Witaj w rodzinie ${targetNick}! Twój Paszport jest gotowy 🦫`,
-              html: `
-                <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #0c1208; color: #F5F0E8;">
-                    <h1 style="color: #C9A84C;">Witaj w klubie, ${targetNick}!</h1>
-                    <p>Twój Paszport <strong>#${photoId}</strong> został pomyślnie wymintowany.</p>
-                    <p>Transakcja: <a href="https://polygonscan.com/tx/${tx.hash}" style="color: #C9A84C;">${tx.hash}</a></p>
-                    <img src="https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2pbbrpz6qsmbgeajptl3q/${photoId}.webp" width="300" style="border-radius: 10px;" />
-                    <p>Do zobaczenia w resorcie!</p>
-                </div>
-              `
-            });
-            if (error) console.error('❌ [BKG] Resend Error:', error);
-            else console.log('✅ [BKG] Email sent:', data);
+              try {
+                const { data, error } = await resend.emails.send({
+                  from: 'DAOResorts <witaj@daoresorts.club>',
+                  to: [user.email],
+                  subject: `Witaj w rodzinie ${targetNick}! Twój Paszport jest gotowy 🦫`,
+                  html: `
+                    <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #0c1208; color: #F5F0E8;">
+                        <h1 style="color: #C9A84C;">Witaj w klubie, ${targetNick}!</h1>
+                        <p>Twój Paszport <strong>#${photoId}</strong> został pomyślnie wymintowany.</p>
+                        <p>Transakcja: <a href="https://polygonscan.com/tx/${tx.hash}" style="color: #C9A84C;">${tx.hash}</a></p>
+                        <img src="https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2pbbrpz6qsmbgeajptl3q/${photoId}.webp" width="300" style="border-radius: 10px;" />
+                        <p>Do zobaczenia w resorcie!</p>
+                    </div>
+                  `
+                });
+                if (error) console.error('❌ [BKG] Resend Error:', error);
+                else console.log('✅ [BKG] Email sent:', data);
+              } catch (emailErr) {
+                console.error('❌ [BKG] Email failed:', emailErr);
+              }
+            }
           }
-        }
+        });
       } catch (backgroundError) {
         console.error("❌ [BKG] Background processing failed:", backgroundError);
       } finally {
