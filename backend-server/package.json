@@ -8,6 +8,7 @@
         "build": "cd ../nft-minting && npm install && CI=false REACT_APP_API_BASE='' npm run build && cd ../backend-server && rm -rf public && cp -r ../nft-minting/build public"
     },
     "dependencies": {
+        "async-mutex": "^0.5.0",
         "cors": "^2.8.5",
         "dotenv": "^16.3.1",
         "ethers": "^6.7.1",

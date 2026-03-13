@@ -4,6 +4,10 @@ const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
 const { ethers } = require("ethers");
+const { Mutex } = require("async-mutex");
+
+const txMutex = new Mutex();
+const pendingPhotoIds = new Set();
 
 const app = express();
 
@@ -241,6 +245,7 @@ app.post("/api/update-email", (req, res) => {
 // -------------------------------
 // ADMIN WHITELIST USER
 app.post("/api/admin/whitelist", async (req, res) => {
+  const release = await txMutex.acquire();
   try {
     const { wallet: userWallet } = req.body;
 
@@ -259,9 +264,19 @@ app.post("/api/admin/whitelist", async (req, res) => {
     // Contract call
     console.log("Sending addToWhitelist tx to:", userWallet);
 
-    const tx = await contract.addToWhitelist(userWallet, {
-      gasLimit: 100000, // set reasonable gas limit
-    });
+    const contractWithSigner = contract.connect(wallet);
+
+    // --- OPTYMALIZACJA GASU ---
+    let gasOptions = { gasLimit: 200000 };
+    try {
+      const feeData = await provider.getFeeData();
+      if (feeData.maxPriorityFeePerGas) {
+        gasOptions.maxPriorityFeePerGas = (feeData.maxPriorityFeePerGas * 150n) / 100n;
+        gasOptions.maxFeePerGas = (feeData.maxFeePerGas * 200n) / 100n + gasOptions.maxPriorityFeePerGas;
+      }
+    } catch (e) { }
+
+    const tx = await contractWithSigner.addToWhitelist(userWallet, gasOptions);
     console.log("Transaction sent. Hash:", tx.hash);
 
     await tx.wait();
@@ -270,9 +285,9 @@ app.post("/api/admin/whitelist", async (req, res) => {
     res.json({ message: "Whitelisted successfully", tx: tx.hash });
   } catch (err) {
     console.error("Whitelist error:", err);
-    if (err.reason) console.error("Reason:", err.reason);
-    if (err.data) console.error("Data:", err.data);
     res.status(500).json({ error: "Whitelist failed", details: err.message });
+  } finally {
+    release();
   }
 });
 
@@ -317,299 +332,139 @@ app.post('/api/mint', async (req, res) => {
 
     console.log(`🚀 Start mintowania dla: ${targetNick} (Bober #${photoId})`);
 
-    // --- SPRAWDZENIE DOSTĘPNOŚCI (Backend Guard) ---
+    // --- SPRAWDZENIE DOSTĘPNOŚCI (Backend + In-Memory Guard) ---
+    if (pendingPhotoIds.has(String(photoId))) {
+      return res.status(409).json({ error: "Ten Bober jest właśnie w trakcie adoptowania. Spróbuj za chwilę!" });
+    }
+
     const users = loadJSON(FILE_USERS);
-    const alreadyMinted = users.find(u => u.minted && String(u.photoId) === String(photoId));
+    const alreadyMinted = users.find(u => (u.minted || u.membershipTxHash) && String(u.photoId) === String(photoId));
 
     if (alreadyMinted) {
-      console.log(`⚠️ Bober #${photoId} jest już zajęty przez ${alreadyMinted.wallet}!`);
+      console.log(`⚠️ Bober #${photoId} jest już zajęty!`);
       return res.status(409).json({ error: "Ten Bober został już adoptowany. Wybierz innego!" });
     }
 
-    // Backend łączy się z kontraktem jako Portfel Admina
-    const contractWithSigner = contract.connect(wallet);
+    // Mark as pending in-memory
+    pendingPhotoIds.add(String(photoId));
 
-    // Wywołanie funkcji na blockchainie - Backend płaci za gas tutaj!
-    const tx = await contractWithSigner.mintPassport(targetAddress, photoId, targetNick || "Unknown", {
-      gasLimit: 300000
-    });
+    // Release after 5 minutes just in case of a crash, but normally cleared after confirmation/fail
+    const pendingTimeout = setTimeout(() => pendingPhotoIds.delete(String(photoId)), 300000);
 
-    console.log("⏳ Czekam na potwierdzenie transakcji (Polygon Mainnet)...");
-    const receipt = await tx.wait();
+    // --- ACQUIRE MUTEX ---
+    const release = await txMutex.acquire();
+    let tx;
 
-    // Pobranie Token ID z logów transakcji
-    // W Ethers v6: receipt.logs
-    // Szukamy eventu Transfer (index 0 zazwyczaj dla _safeMint)
-    let mintedTokenId = photoId; // fallback
     try {
-      // W prostej wersji _safeMint, pierwszy log to zazwyczaj Transfer
-      // Można też sparsować logi za pomocą interface, ale tu wiemy że to pierwsza emisja
-      if (receipt.logs && receipt.logs[0]) {
-        mintedTokenId = ethers.toNumber(receipt.logs[0].topics[3]);
-      }
-    } catch (e) {
-      console.log("⚠️ Nie udało się wyłuskać TokenID z logów, używam photoId jako fallback.");
-    }
+      // Backend łączy się z kontraktem jako Portfel Admina
+      const contractWithSigner = contract.connect(wallet);
 
-    const mintDate = new Date().toLocaleString();
-    console.log("\n===============================================");
-    console.log("✅ NFT WYMINTOWANE POMYŚLNIE!");
-    console.log(`📅 Data: ${mintDate}`);
-    console.log(`🔗 Tx Hash: ${tx.hash}`);
-    console.log(`🆔 Token ID (Blockchain): ${mintedTokenId}`);
-    console.log(`🖼️  Photo ID (Bober): ${photoId}`);
-    console.log(`👤 Odbiorca: ${targetAddress}`);
-    console.log("===============================================\n");
+      // --- OPTYMALIZACJA GASU (Polygon) ---
+      let gasOptions = { gasLimit: 500000 }; // Zwiększony limit
+      try {
+        const feeData = await provider.getFeeData();
+        console.log(`📈 Fee Data: Priority=${feeData.maxPriorityFeePerGas}, Max=${feeData.maxFeePerGas}`);
 
-    // EMAIL AUTOMATION & UPDATE DB
-    try {
-      const users = loadJSON(FILE_USERS);
-      const userIndex = users.findIndex(u => u.wallet.toLowerCase() === targetAddress.toLowerCase());
-
-      if (userIndex !== -1) {
-        // Zapisanie wy-mintowanego ID do bazy JSON!
-        // WAŻNE: W walletach używamy Token ID, a w UI Photo ID
-        users[userIndex].minted = true;
-        users[userIndex].membershipTokenId = mintedTokenId;
-        users[userIndex].membershipTxHash = tx.hash;
-        users[userIndex].photoId = photoId;
-        users[userIndex].memberName = targetNick || "";
-        users[userIndex].mintDate = mintDate;
-        saveJSON(FILE_USERS, users);
-
-        const user = users[userIndex];
-        if (user.email) {
-          // Dynamic calculation of remaining seats (Total 150)
-          const mintedCount = users.filter(u => u.minted === true).length;
-          const remainingSeats = Math.max(0, 150 - mintedCount);
-
-          console.log(`📧 Sending premium email to ${user.email}... (Remaining seats: ${remainingSeats})`);
-
-          const { data, error } = await resend.emails.send({
-            from: 'DAOResorts <witaj@daoresorts.club>',
-            to: [user.email],
-            subject: `Witaj w rodzinie ${targetNick}! Twój Paszport jest gotowy 🦫`,
-            html: `
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-<meta charset="UTF-8">
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
-</style>
-</head>
-<body style="margin: 0; padding: 0; background-color: #0c1208; font-family: 'DM Sans', Arial, sans-serif; color: #F5F0E8;">
-
-<div style="width: 100%; max-width: 600px; margin: 0 auto; background-color: #0E1208;">
-
-  <!-- HEADER -->
-  <div style="background: linear-gradient(160deg, #0E1208 0%, #1C2614 50%, #0E1208 100%); padding: 48px 20px 0; text-align: center;">
-    <div style="font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: #F5F0E8; letter-spacing: 0.02em; margin-bottom: 40px;">DAOResorts<span style="color: #C9A84C;">.</span>club</div>
-
-    <!-- NFT Image -->
-    <div style="width: 160px; height: 160px; margin: 0 auto 32px; position: relative;">
-        <img src="https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2pbbrpz6qsmbgeajptl3q/${photoId}.webp" alt="Beaver #${photoId}" style="width: 100%; height: 100%; border-radius: 50%; border: 2px solid rgba(201,168,76,0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.5); object-fit: cover;" />
-    </div>
-
-    <div style="display: inline-block; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); color: #C9A84C; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 16px; border-radius: 4px; margin-bottom: 24px;">Paszport Członkowski</div>
-
-    <h1 style="font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 600; line-height: 1.2; color: #F5F0E8; margin-bottom: 16px; margin-top: 0;">
-      Witaj w klubie,<br><em style="font-style: italic; color: #C9A84C;">${targetNick}.</em>
-    </h1>
-
-    <p style="font-size: 16px; line-height: 1.6; color: #8A9E8A; max-width: 400px; margin: 0 auto 40px;">
-      Twój darmowy Paszport DAOResorts jest gotowy. Jesteś o jeden krok od dożywotniego członkostwa.
-    </p>
-
-    <!-- NFT Passport Card -->
-    <div style="background: linear-gradient(135deg, #1C2614 0%, #162010 50%, #1C2614 100%); border: 1px solid rgba(201,168,76,0.25); border-radius: 16px; padding: 28px 32px; margin: 0 10px; position: relative; text-align: left;">
-      <div style="font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #6B7A60; margin-bottom: 8px;">Paszport Członkowski</div>
-      <div style="font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; color: #F5F0E8; margin-bottom: 4px;">${targetNick}</div>
-      <div style="font-size: 13px; font-weight: 500; color: #C9A84C; letter-spacing: 0.08em;">PASZPORT #${photoId}</div>
-      <div style="position: absolute; top: 28px; right: 32px; background: rgba(45, 90, 61, 0.4); border: 1px solid rgba(45, 90, 61, 0.8); color: #6DB88A; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px;">✓ Aktywny</div>
-    </div>
-  </div>
-
-  <!-- STATS BAR -->
-  <div style="display: table; width: 100%; padding: 32px 48px; border-collapse: separate;">
-    <div style="display: table-cell; text-align: center; border-right: 1px solid rgba(201,168,76,0.1);">
-      <span style="font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: #C9A84C; display: block; margin-bottom: 4px;">${remainingSeats}</span>
-      <span style="font-size: 11px; font-weight: 400; color: #6B7A60; letter-spacing: 0.05em;">miejsc pozostało</span>
-    </div>
-    <div style="display: table-cell; text-align: center; border-right: 1px solid rgba(201,168,76,0.1);">
-      <span style="font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: #C9A84C; display: block; margin-bottom: 4px;">14</span>
-      <span style="font-size: 11px; font-weight: 400; color: #6B7A60; letter-spacing: 0.05em;">nocy rocznie</span>
-    </div>
-    <div style="display: table-cell; text-align: center;">
-      <span style="font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: #C9A84C; display: block; margin-bottom: 4px;">∞</span>
-      <span style="font-size: 11px; font-weight: 400; color: #6B7A60; letter-spacing: 0.05em;">dożywotnio</span>
-    </div>
-  </div>
-
-  <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.15), transparent); margin: 8px 48px;"></div>
-
-  <!-- BODY -->
-  <div style="padding: 56px 48px 40px;">
-    <div style="font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #C9A84C; margin-bottom: 12px;">Co dalej</div>
-    <h2 style="font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; color: #F5F0E8; line-height: 1.3; margin-bottom: 16px; margin-top: 0;">Twój Paszport jest gotowy.<br>Token Członkowski czeka.</h2>
-    <p style="font-size: 15px; line-height: 1.7; color: #A8B89A; margin-bottom: 32px;">
-      Właśnie dołączyłeś do grupy osób które budują razem coś czego nie było dotąd w Polsce.
-      Luksusowy resort wakacyjny <strong style="color: #F5F0E8; font-weight: 500;">posiadany i zarządzany przez społeczność</strong> —
-      bez banków, bez marży hotelowej, bez ukrytych prowizji.
-    </p>
-
-    <!-- Steps -->
-    <div style="margin: 32px 0;">
-      <div style="display: table; width: 100%; margin-bottom: 20px; border-bottom: 1px solid rgba(201,168,76,0.08); padding-bottom: 20px;">
-        <div style="display: table-cell; width: 32px; padding-right: 16px; vertical-align: top;">
-          <div style="width: 32px; height: 32px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); border-radius: 50%; text-align: center; line-height: 32px; font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 600; color: #C9A84C;">1</div>
-        </div>
-        <div style="display: table-cell; vertical-align: top;">
-          <div style="font-size: 14px; font-weight: 500; color: #F5F0E8; margin-bottom: 4px;">✓ Paszport odebrany</div>
-          <div style="font-size: 13px; line-height: 1.5; color: #6B7A60;">Twój bober ${targetNick} #${photoId} jest już Twój. Darmowy, na zawsze.</div>
-        </div>
-      </div>
-      <div style="display: table; width: 100%; margin-bottom: 20px; border-bottom: 1px solid rgba(201,168,76,0.08); padding-bottom: 20px;">
-        <div style="display: table-cell; width: 32px; padding-right: 16px; vertical-align: top;">
-          <div style="width: 32px; height: 32px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); border-radius: 50%; text-align: center; line-height: 32px; font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 600; color: #C9A84C;">2</div>
-        </div>
-        <div style="display: table-cell; vertical-align: top;">
-          <div style="font-size: 14px; font-weight: 500; color: #F5F0E8; margin-bottom: 4px;">Zweryfikuj tożsamość (KYC)</div>
-          <div style="font-size: 13px; line-height: 1.5; color: #6B7A60;">Szybka weryfikacja przez DidIt.me — zajmuje 2 minuty.</div>
-        </div>
-      </div>
-      <div style="display: table; width: 100%;">
-        <div style="display: table-cell; width: 32px; padding-right: 16px; vertical-align: top;">
-          <div style="width: 32px; height: 32px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); border-radius: 50%; text-align: center; line-height: 32px; font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 600; color: #C9A84C;">3</div>
-        </div>
-        <div style="display: table-cell; vertical-align: top;">
-          <div style="font-size: 14px; font-weight: 500; color: #F5F0E8; margin-bottom: 4px;">Kup Token Członkowski</div>
-          <div style="font-size: 13px; line-height: 1.5; color: #6B7A60;">19 990 PLN jednorazowo. 14 nocy rocznie po kosztach operacyjnych — dożywotnio. Zostało ${remainingSeats} miejsc założycielskich.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CTA -->
-    <div style="text-align: center; padding: 32px 0;">
-      <a href="https://daoresorts.club" style="display: inline-block; background: #C9A84C; color: #0E1208; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; padding: 16px 40px; border-radius: 6px; margin-bottom: 16px;">
-        Sprawdź dostępność →
-      </a>
-      <div style="font-size: 12px; color: #6B7A60;">Zostało ${remainingSeats} z 150 miejsc założycielskich</div>
-    </div>
-  </div>
-
-  <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.15), transparent); margin: 8px 48px;"></div>
-
-  <!-- PROJECT STATUS (Full High-Fidelity Roadmap) -->
-  <div style="padding: 48px 48px; background: #0B1008;">
-    <div style="font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #C9A84C; margin-bottom: 12px;">Projekt w trakcie realizacji</div>
-    <h3 style="font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: #F5F0E8; margin-bottom: 8px; margin-top: 0;">Budujemy. Publicznie i transparentnie.</h3>
-    <p style="font-size: 13px; color: #6B7A60; margin-bottom: 32px; line-height: 1.5;">Każdy etap budowy jest widoczny dla społeczności. Oto gdzie jesteśmy:</p>
-
-    <!-- Roadmap Wrapper -->
-    <div style="position: relative;">
-      
-      <!-- Milestone 1 -->
-      <div style="display: table; width: 100%; border-left: 1px solid rgba(201,168,76,0.25); margin-left: 11px; padding-left: 20px; position: relative; padding-bottom: 24px;">
-          <div style="position: absolute; left: -11px; top: 0; width: 22px; height: 22px; background: rgba(45, 90, 61, 0.4); border: 1px solid #2D5A3D; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #6DB88A; z-index: 1;">✓</div>
-          <div style="font-size: 14px; font-weight: 500; color: #F5F0E8; margin-bottom: 2px;">Działka zakupiona</div>
-          <div style="font-size: 12px; line-height: 1.4; color: #6B7A60;">2530m² w Pszczew, Wielkopolska. Las, cisza, jezioro w pobliżu.</div>
-      </div>
-
-      <!-- Milestone 2 -->
-      <div style="display: table; width: 100%; border-left: 1px solid rgba(201,168,76,0.25); margin-left: 11px; padding-left: 20px; position: relative; padding-bottom: 24px;">
-          <div style="position: absolute; left: -11px; top: 0; width: 22px; height: 22px; background: rgba(45, 90, 61, 0.4); border: 1px solid #2D5A3D; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #6DB88A; z-index: 1;">✓</div>
-          <div style="font-size: 14px; font-weight: 500; color: #F5F0E8; margin-bottom: 2px;">Umowa z architektem podpisana</div>
-          <div style="font-size: 12px; line-height: 1.4; color: #6B7A60;">Architekt wybrany, umowa podpisana. Projekt ruszył.</div>
-      </div>
-
-      <!-- Milestone 3 -->
-      <div style="display: table; width: 100%; border-left: 1px solid rgba(201,168,76,0.25); margin-left: 11px; padding-left: 20px; position: relative; padding-bottom: 24px;">
-          <div style="position: absolute; left: -11px; top: 0; width: 22px; height: 22px; background: rgba(45, 90, 61, 0.4); border: 1px solid #2D5A3D; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #6DB88A; z-index: 1;">✓</div>
-          <div style="font-size: 14px; font-weight: 500; color: #F5F0E8; margin-bottom: 2px;">Aplikacja uruchomiona</div>
-          <div style="font-size: 12px; line-height: 1.4; color: #6B7A60;">System paszportów, KYC, głosowania i rezerwacji działa i jest dostępny dla członków.</div>
-      </div>
-
-      <!-- Milestone 4 (ACTIVE) -->
-      <div style="display: table; width: 100%; border-left: 1px solid rgba(201,168,76,0.25); margin-left: 11px; padding-left: 20px; position: relative; padding-bottom: 24px;">
-          <div style="position: absolute; left: -11px; top: 0; width: 22px; height: 22px; background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A84C; z-index: 1;">→</div>
-          <div style="font-size: 14px; font-weight: 500; color: #C9A84C; margin-bottom: 2px;">Praca z architektem nad projektem — trwa</div>
-          <div style="font-size: 12px; line-height: 1.4; color: #8A7A50;">Projekt 6 domków 70m² z jacuzzi, restauracja, sala kinowa. Prace projektowe w toku.</div>
-      </div>
-
-      <!-- Milestone 5 (PENDING) -->
-      <div style="display: table; width: 100%; border-left: 1px solid rgba(201,168,76,0.25); margin-left: 11px; padding-left: 20px; position: relative; padding-bottom: 24px;">
-          <div style="position: absolute; left: -11px; top: 0; width: 22px; height: 22px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #3A4A35; z-index: 1;">○</div>
-          <div style="font-size: 14px; font-weight: 500; color: #4A5A42; margin-bottom: 2px;">Oczekiwanie na pozwolenie na budowę</div>
-          <div style="font-size: 12px; line-height: 1.4; color: #3A4A35;">Złożenie dokumentacji i decyzja administracyjna.</div>
-      </div>
-
-      <!-- Milestone 6 (PENDING) -->
-      <div style="display: table; width: 100%; border-left: 1px solid rgba(201,168,76,0.25); margin-left: 11px; padding-left: 20px; position: relative; padding-bottom: 24px;">
-          <div style="position: absolute; left: -11px; top: 0; width: 22px; height: 22px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #3A4A35; z-index: 1;">○</div>
-          <div style="font-size: 14px; font-weight: 500; color: #4A5A42; margin-bottom: 2px;">Sprzedaż członkostwa</div>
-          <div style="font-size: 12px; line-height: 1.4; color: #3A4A35;">Zbieramy 150 członków założycielskich. Zostało ${remainingSeats} miejsc.</div>
-      </div>
-
-      <!-- Milestone 7 (PENDING) -->
-      <div style="display: table; width: 100%; border-left: 1px solid rgba(201,168,76,0.25); margin-left: 11px; padding-left: 20px; position: relative; padding-bottom: 24px;">
-          <div style="position: absolute; left: -11px; top: 0; width: 22px; height: 22px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #3A4A35; z-index: 1;">○</div>
-          <div style="font-size: 14px; font-weight: 600; color: #4A5A42; margin-bottom: 2px;">Start budowy</div>
-          <div style="font-size: 12px; line-height: 1.4; color: #3A4A35;">Po zebraniu społeczności. Fundamenty, stan surowy, wykończenie premium.</div>
-      </div>
-
-      <!-- Milestone 8 (FINAL) -->
-      <div style="display: table; width: 100%; margin-left: 11px; padding-left: 20px; position: relative;">
-          <div style="position: absolute; left: -11px; top: 0; width: 22px; height: 22px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #3A4A35; z-index: 1;">○</div>
-          <div style="font-size: 14px; font-weight: 500; color: #4A5A42; margin-bottom: 2px;">Otwarcie resortu — 2026</div>
-          <div style="font-size: 12px; line-height: 1.4; color: #3A4A35;">Pierwsze rezerwacje dla członków założycielskich.</div>
-      </div>
-
-    </div>
-  </div>
-
-  <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.15), transparent); margin: 8px 48px;"></div>
-
-  <!-- FOOTER -->
-  <div style="background: #080D05; padding: 48px 48px; border-top: 1px solid rgba(201,168,76,0.08);">
-    <div style="font-family: 'Playfair Display', serif; font-size: 16px; color: #F5F0E8; margin-bottom: 12px;">DAOResorts<span style="color: #C9A84C;">.</span>club</div>
-    <p style="font-size: 12px; line-height: 1.6; color: #4A5A42;">Pierwszy Web3 Vacation Club w Polsce. Pszczew, Wielkopolska.</p>
-    <div style="margin-top: 16px;">
-      <a href="https://daoresorts.club" style="font-size: 12px; color: #6B7A60; text-decoration: none; margin-right: 16px;">WWW</a>
-      <a href="#" style="font-size: 12px; color: #6B7A60; text-decoration: none;">FAQ</a>
-    </div>
-    <div style="font-size: 11px; line-height: 1.5; color: #3A4A35; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 16px; margin-top: 16px;">
-      Ten mail został wysłany do ${user.email}. Token NFT stanowi cyfrowy dokument członkostwa w DAOResorts.
-    </div>
-  </div>
-
-</div>
-</body>
-</html>
-            `
-          });
-
-          if (error) {
-            console.error('❌ Resend Error:', error);
-          } else {
-            console.log('✅ Email sent:', data);
-          }
-        } else {
-          console.log("⚠️ No email found for this wallet, skipping email notification.");
+        if (feeData.maxPriorityFeePerGas) {
+          // Gwarantujemy wyższy priorytet (1.5x)
+          gasOptions.maxPriorityFeePerGas = (feeData.maxPriorityFeePerGas * 150n) / 100n;
+          // Max fee musi być na tyle duże, żeby pokryć base fee (2x base fee + priority)
+          gasOptions.maxFeePerGas = (feeData.maxFeePerGas * 200n) / 100n + gasOptions.maxPriorityFeePerGas;
         }
+      } catch (e) {
+        console.log("⚠️ Nie udało się pobrać aktualnych stawek gas, używam domyślnych.");
       }
-    } catch (dbErr) {
-      console.error("❌ DB/Email automation failed:", dbErr);
+
+      console.log(`📡 Wysyłanie transakcji... Gas Limit: ${gasOptions.gasLimit}`);
+      tx = await contractWithSigner.mintPassport(targetAddress, photoId, targetNick || "Unknown", gasOptions);
+      console.log(`✅ Transakcja wysłana! Hash: ${tx.hash}`);
+
+    } finally {
+      // Release mutex immediately after sending tx so others can queue up their txs with correct Nonce
+      release();
     }
 
+    // --- NATYCHMIASTOWA ODPOWIEDŹ DLA KLIENTA ---
     res.json({
       success: true,
-      message: "NFT został wysłany! Backend opłacił gas.",
+      message: "NFT wysłany do sieci! Pojawi się w Twojej galerii za chwilę.",
       txHash: tx.hash
     });
 
+    // --- PRZETWARZANIE W TLE ---
+    (async () => {
+      try {
+        console.log(`⏳ [BKG] Czekam na potwierdzenie: ${tx.hash}...`);
+        const receipt = await tx.wait();
+
+        if (receipt.status === 0) {
+          throw new Error("Transakcja została odrzucona przez sieć (Execution Reverted).");
+        }
+
+        let mintedTokenId = photoId;
+        try {
+          if (receipt.logs && receipt.logs.length > 0) {
+            const transferLog = receipt.logs.find(l =>
+              l.topics[0] === "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+            );
+            if (transferLog) {
+              mintedTokenId = ethers.toNumber(transferLog.topics[3]);
+            }
+          }
+        } catch (e) {
+          console.log("⚠️ [BKG] Nie udało się wyłuskać TokenID z logów.");
+        }
+
+        const mintDate = new Date().toLocaleString();
+
+        // Aktualizacja bazy danych
+        const usersForUpdate = loadJSON(FILE_USERS);
+        const userIndex = usersForUpdate.findIndex(u => u.wallet.toLowerCase() === targetAddress.toLowerCase());
+
+        if (userIndex !== -1) {
+          usersForUpdate[userIndex].minted = true;
+          usersForUpdate[userIndex].membershipTokenId = mintedTokenId;
+          usersForUpdate[userIndex].membershipTxHash = tx.hash;
+          usersForUpdate[userIndex].photoId = photoId;
+          usersForUpdate[userIndex].memberName = targetNick || "";
+          usersForUpdate[userIndex].mintDate = mintDate;
+          saveJSON(FILE_USERS, usersForUpdate);
+
+          // Wysyłka Email
+          const user = usersForUpdate[userIndex];
+          if (user.email) {
+            const mintedCount = usersForUpdate.filter(u => u.minted === true).length;
+            const remainingSeats = Math.max(0, 150 - mintedCount);
+
+            const { data, error } = await resend.emails.send({
+              from: 'DAOResorts <witaj@daoresorts.club>',
+              to: [user.email],
+              subject: `Witaj w rodzinie ${targetNick}! Twój Paszport jest gotowy 🦫`,
+              html: `
+                <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #0c1208; color: #F5F0E8;">
+                    <h1 style="color: #C9A84C;">Witaj w klubie, ${targetNick}!</h1>
+                    <p>Twój Paszport <strong>#${photoId}</strong> został pomyślnie wymintowany.</p>
+                    <p>Transakcja: <a href="https://polygonscan.com/tx/${tx.hash}" style="color: #C9A84C;">${tx.hash}</a></p>
+                    <img src="https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2pbbrpz6qsmbgeajptl3q/${photoId}.webp" width="300" style="border-radius: 10px;" />
+                    <p>Do zobaczenia w resorcie!</p>
+                </div>
+              `
+            });
+            if (error) console.error('❌ [BKG] Resend Error:', error);
+            else console.log('✅ [BKG] Email sent:', data);
+          }
+        }
+      } catch (backgroundError) {
+        console.error("❌ [BKG] Background processing failed:", backgroundError);
+      } finally {
+        // Zawsze czyścimy flagę oczekiwania, nawet przy błędzie
+        pendingPhotoIds.delete(String(photoId));
+        clearTimeout(pendingTimeout);
+      }
+    })();
+
   } catch (error) {
-    console.error("❌ Błąd mintowania:", error);
+    console.error("❌ Błąd mintowania (Submit):", error);
     res.status(500).json({ error: error.message });
   }
 });

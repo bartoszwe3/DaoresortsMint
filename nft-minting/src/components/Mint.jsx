@@ -132,9 +132,29 @@ export default function Mint({ onMintSuccess, onConnect }) {
       const result = await response.json();
 
       if (response.ok && result.success) {
-        toast.success(t("toast_mint_success"), { id: toastId });
+        // Show success toast with Polygonscan link
+        toast.success(
+          () => (
+            <div className="flex flex-col gap-1">
+              <span className="font-bold">{result.message || "NFT wysłany do sieci!"}</span>
+              {result.txHash && (
+                <a
+                  href={`https://polygonscan.com/tx/${result.txHash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gold-500 underline text-xs"
+                >
+                  Śledź transakcję na Polygonscan
+                </a>
+              )}
+            </div>
+          ),
+          { id: toastId, duration: 8000 }
+        );
+
         setHasNft(true);
-        fetchNFTs();
+        // Refresh gallery after a delay to show updated blockchain state
+        setTimeout(() => fetchNFTs(), 8000);
         if (onMintSuccess) onMintSuccess();
       } else {
         throw new Error(result.error || "Minting failed");
