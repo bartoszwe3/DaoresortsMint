@@ -75,7 +75,7 @@ function VoteBar({ votesFor = 0, votesAgainst = 0, votesAbstain = 0 }) {
         )}
         {votesAbstain > 0 && (
           <span className="text-gray-400 text-xs font-medium flex items-center gap-1">
-            — WSTRZYMAŁO SIĘ <strong>{votesAbstain}</strong>
+            - WSTRZYMAŁO SIĘ <strong>{votesAbstain}</strong>
             <span className="text-gray-600">({pAbstain}%)</span>
           </span>
         )}
@@ -206,7 +206,7 @@ export default function NftVoting({ isState3Member }) {
             </button>
             {isAdmin && (
               <button onClick={() => setShowCreate(s => !s)}
-                className="px-4 py-2 bg-gradient-to-r from-neon-cyan to-neon-purple text-black text-sm font-black rounded-xl">
+                className="px-4 py-2 bg-gradient-to-r from-gold-500 to-gold-400 hover:from-gold-400 hover:to-gold-300 text-black text-sm font-black rounded-xl transition-all shadow-[0_0_15px_rgba(201,168,76,0.3)]">
                 {showCreate ? "Anuluj" : "+ Nowe głosowanie"}
               </button>
             )}
@@ -351,7 +351,7 @@ export default function NftVoting({ isState3Member }) {
                         <div className="flex items-center gap-2 text-sm">
                           <CheckCircle2 size={16} className="text-green-400" />
                           <span className="text-green-400 font-bold">
-                            Zagłosowano: {myVoteChoice(p.id, myTokenIds[0]) === "for" ? "✅ ZA" : myVoteChoice(p.id, myTokenIds[0]) === "against" ? "❌ PRZECIW" : "— WSTRZYMANIE"}
+                            Zagłosowano: {myVoteChoice(p.id, myTokenIds[0]) === "for" ? "✅ ZA" : myVoteChoice(p.id, myTokenIds[0]) === "against" ? "❌ PRZECIW" : "- WSTRZYMANIE"}
                           </span>
                         </div>
                       ) : (
@@ -379,7 +379,7 @@ export default function NftVoting({ isState3Member }) {
                           <button
                             onClick={() => castVote(p.id)}
                             disabled={state.sending || !state.selectedChoice}
-                            className="w-full py-2.5 bg-gradient-to-r from-neon-cyan to-neon-purple text-black font-black rounded-xl text-sm disabled:opacity-40 transition-opacity hover:opacity-90"
+                            className="w-full py-2.5 bg-gradient-to-r from-gold-500 to-gold-400 text-black font-black rounded-xl text-sm disabled:opacity-40 transition-all hover:scale-[1.02] shadow-[0_0_15px_rgba(201,168,76,0.3)]"
                           >
                             {state.sending ? "Wysyłanie..." : "Potwierdź głos"}
                           </button>

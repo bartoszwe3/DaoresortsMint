@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink, Calendar, Hash, User, Shield, Image as ImageIcon, Lock, Crown, CheckCircle, Clock, AlertCircle, Edit3 } from "lucide-react";
 import { useTranslation, Trans } from "react-i18next";
 import toast from "react-hot-toast";
+import { PAYMENT_STAGES } from "../constants/tokenomics";
 
 const IPFS_BASE = "https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2pbbrpz6qsmbgeajptl3q/";
 const API_BASE = process.env.REACT_APP_API_BASE ?? "";
@@ -15,7 +16,7 @@ const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 function KycBadge({ status, large = false }) {
   const configs = {
     approved: {
-      label: "✅ KYC Zweryfikowany — Pełny dostęp",
+      label: "✅ KYC Zweryfikowany - Pełny dostęp",
       className: "bg-green-500/15 text-green-400 border-green-500/30",
     },
     pending: {
@@ -23,7 +24,7 @@ function KycBadge({ status, large = false }) {
       className: "bg-yellow-500/15 text-yellow-400 border-yellow-500/30",
     },
     rejected: {
-      label: "❌ KYC Odrzucony — Spróbuj ponownie",
+      label: "❌ KYC Odrzucony - Spróbuj ponownie",
       className: "bg-red-500/15 text-red-400 border-red-500/30",
     },
     not_started: {
@@ -36,6 +37,75 @@ function KycBadge({ status, large = false }) {
     <span className={`inline-flex items-center border font-bold rounded-full ${large ? "px-5 py-2 text-sm" : "px-3 py-1 text-xs"} ${c.className}`}>
       {c.label}
     </span>
+  );
+}
+
+// ─── Stage Progress Bar ──────────────────────────────────────────────────────
+function StageProgressBar({ stages = {}, currentStage = 0, onPayNext }) {
+  return (
+    <div className="bg-[#0d1117] border border-white/10 rounded-2xl p-6 mb-8">
+      <h3 className="text-white font-bold mb-6 flex items-center gap-2">
+        <Clock size={18} className="text-gold-500" />
+        Status Członkostwa (5 Etapów)
+      </h3>
+
+      <div className="relative">
+        {/* Connection Line */}
+        <div className="absolute top-4 left-0 w-full h-0.5 bg-white/5 -z-0" />
+        <div
+          className="absolute top-4 left-0 h-0.5 bg-gold-500 transition-all duration-500 -z-0"
+          style={{ width: `${(Math.min(currentStage, 4) / 4) * 100}%` }}
+        />
+
+        <div className="flex justify-between relative z-10">
+          {PAYMENT_STAGES.map((s, idx) => {
+            const stageData = (stages || {})[s.id];
+            const isConfirmed = stageData?.status === 'confirmed';
+            const isPending = stageData?.status === 'awaiting' || stageData?.status === 'verification';
+            const isCurrent = s.id === currentStage;
+
+            return (
+              <div key={idx} className="flex flex-col items-center group">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${isConfirmed ? "bg-gold-500 border-gold-500 text-forest-900" :
+                  isPending ? "bg-yellow-500/20 border-yellow-500 text-yellow-400 animate-pulse" :
+                    isCurrent ? "bg-white/10 border-gold-500 text-gold-500 scale-110" :
+                      "bg-black border-white/10 text-gray-600"
+                  }`}>
+                  {isConfirmed ? <CheckCircle size={16} /> : <span className="text-xs font-bold">{s.id}</span>}
+                </div>
+                <div className="mt-2 text-center">
+                  <p className={`text-[10px] font-bold uppercase tracking-wider ${isCurrent ? "text-gold-500" : "text-gray-500"}`}>
+                    {s.label_pl}
+                  </p>
+                  <p className="text-[9px] text-gray-600 hidden md:block max-w-[80px] leading-tight mt-0.5">
+                    {s.amount.toLocaleString()} PLN
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {currentStage < 5 && !Object.values(stages || {}).some(s => s.status === 'awaiting' || s.status === 'verification') && (
+        <div className="mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div>
+            <p className="text-white font-bold text-sm">
+              Następny krok: {PAYMENT_STAGES[currentStage]?.label_pl}
+            </p>
+            <p className="text-gray-400 text-xs">
+              {PAYMENT_STAGES[currentStage]?.desc_pl} - {PAYMENT_STAGES[currentStage]?.amount.toLocaleString()} PLN
+            </p>
+          </div>
+          <button
+            onClick={() => onPayNext(currentStage)}
+            className="w-full md:w-auto bg-gold-500 hover:bg-gold-600 text-forest-900 font-bold px-6 py-2 rounded-xl transition-all hover:scale-105 shadow-lg shadow-gold-500/20"
+          >
+            Opłać etap {currentStage} →
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -82,7 +152,7 @@ export default function MyNfts() {
     return `${name.charAt(0)}***@${domain}`;
   };
 
-  // Fetch NFTs — convert ethers Result (BigNumber proxy) to plain JS objects immediately
+  // Fetch NFTs - convert ethers Result (BigNumber proxy) to plain JS objects immediately
   useEffect(() => {
     const fetchMyNfts = async () => {
       if (!isAuthenticated || !currentUserAddress) { setNfts([]); return; }
@@ -108,7 +178,7 @@ export default function MyNfts() {
     fetchMyNfts();
   }, [isAuthenticated, currentUserAddress, getOwnedBeavers]);
 
-  // Fetch registration status — full record including minted/tokenId/photoId
+  // Fetch registration status - full record including minted/tokenId/photoId
   useEffect(() => {
     if (!isAuthenticated || !currentUserAddress) return;
     fetch(`${API_BASE}/api/status/${currentUserAddress}`)
@@ -255,7 +325,7 @@ export default function MyNfts() {
     } catch { toast.error("Błąd połączenia"); } finally { setSavingName(false); }
   };
 
-  // Derived helpers — use blockchain NFTs first, fall back to API record
+  // Derived helpers - use blockchain NFTs first, fall back to API record
   const firstNft = nfts[0];
   // Use photoId from blockchain NFT, or from users.json record
   const avatarPhotoId = firstNft?.photoId || userRecord?.photoId;
@@ -266,6 +336,21 @@ export default function MyNfts() {
     || userRecord?.memberName
     || "";
   const isApproved = kycStatus === "approved";
+  const isReserved = userRecord?.status === 'reserved' || (userRecord?.paymentStages?.[0]?.status === 'confirmed');
+
+  // Calculate current stage (first one that isn't confirmed)
+  const currentStage = (() => {
+    if (!userRecord?.paymentStages) return 0;
+    for (let i = 0; i <= 4; i++) {
+      if (!userRecord.paymentStages[i] || userRecord.paymentStages[i].status !== 'confirmed') return i;
+    }
+    return 5; // All confirmed
+  })();
+
+  const isState3Member = !!(firstNft?.tokenId || userRecord?.membershipTokenId) ||
+    (currentUserAddress && process.env.REACT_APP_OWNER_ADDRESS && currentUserAddress.toLowerCase() === process.env.REACT_APP_OWNER_ADDRESS.toLowerCase()) ||
+    (userRecord?.paymentStages?.[4]?.status === 'confirmed');
+
   // Build a synthetic NFT row from API data when blockchain is unavailable
   const apiNftRow = userRecord?.minted && userRecord?.membershipTokenId != null ? {
     tokenId: String(userRecord.membershipTokenId),
@@ -282,7 +367,7 @@ export default function MyNfts() {
       {isAuthenticated ? (
         <>
           {/* ──────────────────────────────────────
-              1. HEADER — Profil użytkownika
+              1. HEADER - Profil użytkownika
           ────────────────────────────────────── */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -291,7 +376,7 @@ export default function MyNfts() {
           >
             {/* Avatar */}
             <div className="relative shrink-0">
-              <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden border-2 border-neon-cyan/40 shadow-lg shadow-neon-cyan/10">
+              <div className={`w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden shadow-lg ${userRecord?.status === 'reserved' ? "border-4 border-gold-500 shadow-gold-500/20" : "border-2 border-neon-cyan/40 shadow-neon-cyan/10"}`}>
                 {avatarPhotoId ? (
                   <img
                     src={`${IPFS_BASE}${avatarPhotoId}.webp`}
@@ -304,7 +389,7 @@ export default function MyNfts() {
                   </div>
                 )}
               </div>
-              {isApproved && (
+              {(isApproved || userRecord?.status === 'reserved') && (
                 <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center border-2 border-[#0d1117]">
                   <CheckCircle size={14} className="text-white" />
                 </div>
@@ -323,7 +408,7 @@ export default function MyNfts() {
                       className="flex items-center gap-2 text-gray-400 hover:text-neon-cyan transition-colors group"
                     >
                       <Edit3 size={18} className="group-hover:scale-110 transition-transform" />
-                      Nazwij swojego bobra
+                      Ustaw nazwę paszportu
                     </button>
                   )}
                 </h1>
@@ -338,8 +423,20 @@ export default function MyNfts() {
                   <span className="text-gray-600 italic">Brak adresu email</span>
                 )}
               </p>
-              {/* 2. KYC Badge */}
-              <KycBadge status={kycStatus} large />
+              {/* Status Badges */}
+              <div className="flex flex-wrap gap-2 mt-2">
+                <KycBadge status={kycStatus} />
+                {userRecord?.status === 'reserved' && (
+                  <span className="bg-gold-500/15 text-gold-500 border border-gold-500/30 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">
+                    ⭐ ZAREZERWOWANE #{userRecord?.tokenNumber || "47"}
+                  </span>
+                )}
+                {userRecord?.status === 'pending_payment' && (
+                  <span className="bg-yellow-500/15 text-yellow-400 border border-yellow-500/30 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider animate-pulse">
+                    ⏳ Oczekiwanie na wpłatę
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* KYC action if not started */}
@@ -367,6 +464,15 @@ export default function MyNfts() {
             </div>
           ) : (
             <div className="flex flex-col gap-8">
+
+              {/* 5-Stage Progress Bar */}
+              {(isReserved || (userRecord?.paymentStages && Object.keys(userRecord.paymentStages).length > 0)) && (
+                <StageProgressBar
+                  stages={userRecord?.paymentStages || {}}
+                  currentStage={currentStage}
+                  onPayNext={(s) => navigate(`/checkout/stage/${s}`)}
+                />
+              )}
 
               {/* ──────────────────────────────────────
                   3. Tabela Szczegółów Konta
@@ -401,7 +507,7 @@ export default function MyNfts() {
                         <tr>
                           <td colSpan={3} className="p-8 text-center text-gray-500">
                             <ImageIcon size={32} className="mx-auto mb-2 opacity-30" />
-                            Brak paszportów NFT
+                            Brak aktywnych paszportów
                           </td>
                         </tr>
                       )}
@@ -411,9 +517,63 @@ export default function MyNfts() {
               </motion.div>
 
               {/* ──────────────────────────────────────
-                  4. Komunikat po weryfikacji KYC
-              ────────────────────────────────────── */}
-              {isApproved && (
+                 {/* 4. Komunikat po rezerwacji / PNB */}
+              {userRecord?.status === 'reserved' && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.97 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-gradient-to-br from-[#1C2614] to-[#0d1117] border border-gold-500/30 rounded-2xl p-6 md:p-8 shadow-lg shadow-gold-500/5 relative overflow-hidden"
+                >
+                  {/* Background element */}
+                  <div className="absolute top-0 right-0 p-4 opacity-10">
+                    <Crown size={120} className="text-gold-500" />
+                  </div>
+
+                  <div className="flex flex-col md:flex-row items-center gap-6 relative z-10">
+                    <div className="w-16 h-16 bg-gold-500/20 rounded-2xl flex items-center justify-center shrink-0">
+                      <Clock size={32} className="text-gold-500" />
+                    </div>
+                    <div className="flex-1 text-center md:text-left">
+                      <h3 className="text-xl font-black text-white mb-2">
+                        ✨ Masz zarezerwowane miejsce #{userRecord?.tokenNumber || "47"}
+                      </h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                        <div className="bg-black/20 p-3 rounded-lg border border-white/5">
+                          <p className="text-gray-400 text-xs uppercase">Pozostało do zapłaty</p>
+                          <p className="text-[#F5F0E8] font-bold text-lg">17 990 PLN</p>
+                        </div>
+                        <div className="bg-black/20 p-3 rounded-lg border border-white/5">
+                          <p className="text-gray-400 text-xs uppercase">Termin dopłaty</p>
+                          <p className="text-gold-500 font-bold text-lg">30 dni od uzyskania PNB</p>
+                        </div>
+                      </div>
+                      <p className="text-gray-400 text-sm mt-4 leading-relaxed">
+                        Twoje miejsce jest bezpieczne. Poinformujemy Cię niezwłocznie po uzyskaniu pozwolenia na budowę (PNB), abyś mógł aktywować pełne członkostwo.
+                      </p>
+                    </div>
+                    <div className="shrink-0">
+                      {userRecord?.pnbObtained ? (
+                        <button
+                          onClick={() => navigate("/checkout/activate")}
+                          className="bg-gold-500 hover:bg-gold-600 text-forest-900 font-black px-8 py-4 rounded-2xl transition-all hover:scale-105 shadow-xl shadow-gold-500/25 text-lg whitespace-nowrap"
+                        >
+                          Aktywuj Członkostwo →
+                        </button>
+                      ) : (
+                        <div className="text-center">
+                          <span className="text-[#8A9E8A] text-xs block mb-2">Dostępne po PNB</span>
+                          <button disabled className="bg-gray-800 text-gray-500 font-black px-8 py-4 rounded-2xl cursor-not-allowed opacity-50 text-lg whitespace-nowrap">
+                            Aktywuj Członkostwo
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Original Full Member logic if they have tokenId (Stage 3) */}
+              {isState3Member && !isReserved && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.97 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -425,17 +585,12 @@ export default function MyNfts() {
                     </div>
                     <div className="flex-1 text-center md:text-left">
                       <h3 className="text-xl font-black text-white mb-2">
-                        ✅ Twoje miejsce jest zarezerwowane
+                        ✅ Członkostwo Aktywne
                       </h3>
                       <p className="text-green-300/80 text-sm leading-relaxed">
-                        Możesz korzystać z pełni funkcjonalności klubu wakacyjnego DAOResorts.
-                        Dołącz do ekskluzywnej społeczności i korzystaj ze zniżek na wypoczynek.
+                        Gratulacje! Jesteś pełnoprawnym Członkiem Założycielem DAOResorts.
+                        Twoje 14 nocy rocznie jest gotowe do rezerwacji (system rezerwacji wkrótce).
                       </p>
-                    </div>
-                    <div className="shrink-0">
-                      <button className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-black px-8 py-4 rounded-2xl transition-all hover:scale-105 shadow-lg shadow-green-500/25 text-lg whitespace-nowrap">
-                        💎 Kup Token — 19 990 PLN
-                      </button>
                     </div>
                   </div>
                 </motion.div>
@@ -698,14 +853,14 @@ export default function MyNfts() {
               <button onClick={() => setShowNameModal(false)} className="absolute top-4 right-4 text-gray-400 hover:text-white">
                 <X size={20} />
               </button>
-              <h3 className="text-xl font-black text-white mb-2">🦫 Nazwij swojego bobra</h3>
-              <p className="text-gray-400 text-sm mb-6">Podaj unikalne imię dla swojego NFT Paszportu</p>
+              <h3 className="text-xl font-black text-white mb-2">🪪 Ustaw nazwę paszportu</h3>
+              <p className="text-gray-400 text-sm mb-6">Podaj unikalną nazwę dla swojego Pashportu</p>
               <input
                 type="text"
                 value={beaverName}
                 onChange={e => setBeaverName(e.target.value)}
                 onKeyDown={e => e.key === "Enter" && handleSaveName()}
-                placeholder="np. Bober Wielki, Kastor..."
+                placeholder="np. Golden Pass, First Member..."
                 maxLength={30}
                 className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-cyan transition-colors mb-4"
               />
@@ -716,7 +871,7 @@ export default function MyNfts() {
                 </button>
                 <button onClick={handleSaveName} disabled={savingName}
                   className="flex-1 bg-neon-cyan hover:bg-cyan-400 text-black font-bold py-3 rounded-xl transition-colors disabled:opacity-50">
-                  {savingName ? "Zapisywanie..." : "Zapisz imię 🦫"}
+                  {savingName ? "Zapisywanie..." : "Zapisz nazwę"}
                 </button>
               </div>
             </motion.div>

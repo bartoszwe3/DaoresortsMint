@@ -381,11 +381,11 @@
     "stats_proposals_voted": "Proposals this NFT voted on:",
     "stats_total_votes": "Total votes (this NFT across all proposals):",
     "stats_proposal_ids": "Proposal IDs:",
-    "project_silna_location": "Silna, Poland",
+    "project_silna_location": "Silna, Lubusz Region",
     "project_silna_status": "Active",
     "resort_status_active": "Active",
-    "resort_location_silna": "Silna, Poland",
-    "project_silna_desc": "Exclusive vacation resort located in the picturesque village of Silna. Experience luxury in nature with private lake access and breathtaking views.",
+    "resort_location_silna": "Silna, Lubusz Region",
+    "project_silna_desc": "An exclusive holiday resort in the heart of the Lubusz region, in the village of Silna — a place with a history dating back to 1828, where Fryderyk Chopin himself stayed on his way to Berlin. The silence of the forest, Lake Pszczewskie, and nature at its best.",
     "project_feature_1": "Relaxation and Warmth: Private jacuzzi and underfloor heating comfort in every house (all-year premium standard).",
     "project_feature_2": "Club Heart: Common restaurant – a meeting place for our community and shared DAO dinners.",
     "project_feature_3": "Wild Nature: Surrounded by dense forests and direct proximity to the lake (Pszczew at its best).",
@@ -442,5 +442,15 @@
     "project_tile_3_label": "Common breakfasts at cost",
     "project_tile_3_value": ".club HOUSE",
     "project_tile_4_label": "Lifetime",
-    "project_tile_4_value": "2 weeks"
+    "project_tile_4_value": "2 weeks",
+    "company": {
+        "name": "WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.",
+        "krs": "0001188626",
+        "nip": "9731114421",
+        "regon": "542448933",
+        "address": "ul. Kazimierza Wielkiego 7/5, 65-047 Zielona Góra",
+        "registeredDate": "August 13, 2025",
+        "email": "kontakt@daoresorts.club",
+        "website": "daoresorts.club"
+    }
 }

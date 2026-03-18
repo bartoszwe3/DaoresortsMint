@@ -18,6 +18,7 @@ const AdminUsersManagement = () => {
     const [stats, setStats] = useState({
         total: 0,
         kycApproved: 0,
+        reserved: 0,
         awaitingPayment: 0,
         nftMinted: 0
     });
@@ -43,12 +44,23 @@ const AdminUsersManagement = () => {
 
             // Integrate user data with payment data locally
             const combinedUsers = usersData.map(u => {
-                const payment = payData.payments.find(p => p.userId.toLowerCase() === u.wallet.toLowerCase());
+                const userPayments = payData.payments.filter(p => p.userId.toLowerCase() === u.wallet.toLowerCase());
+
+                // Determine next stage (first not confirmed)
+                let next = 0;
+                if (u.paymentStages) {
+                    for (let i = 0; i <= 4; i++) {
+                        if (!u.paymentStages[i] || u.paymentStages[i].status !== 'confirmed') {
+                            next = i;
+                            break;
+                        }
+                    }
+                }
+
                 return {
                     ...u,
-                    paymentGenerated: u.paymentGenerated || !!payment,
-                    paymentStatus: u.paymentStatus || (payment ? payment.status : 'none'),
-                    paymentDetails: payment || null
+                    nextStage: next,
+                    userPayments: userPayments
                 };
             });
 
@@ -58,7 +70,8 @@ const AdminUsersManagement = () => {
             setStats({
                 total: combinedUsers.length,
                 kycApproved: combinedUsers.filter(u => u.kycStatus === 'approved' || u.kycStatus === 'zatwierdzone').length,
-                awaitingPayment: combinedUsers.filter(u => u.paymentStatus === 'awaiting').length,
+                reserved: combinedUsers.filter(u => u.paymentStages?.[0]?.status === 'confirmed').length,
+                awaitingPayment: combinedUsers.some(u => Object.values(u.paymentStages || {}).some(s => s.status === 'awaiting')),
                 nftMinted: combinedUsers.filter(u => u.membershipTokenId).length
             });
 
@@ -70,29 +83,29 @@ const AdminUsersManagement = () => {
         }
     };
 
-    const handleGeneratePayment = async (wallet) => {
+    const handleGeneratePayment = async (wallet, stage) => {
         try {
             const res = await fetch(`${API_BASE}/api/admin/payments/generate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ userId: wallet })
+                body: JSON.stringify({ userId: wallet, stage: stage })
             });
 
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || 'Failed to generate');
 
-            toast.success("Płatność wygenerowana!");
+            toast.success(`Płatność dla Etapu ${stage} wygenerowana!`);
             fetchData();
         } catch (err) {
             toast.error(err.message);
         }
     };
 
-    const verifyPayment = async (paymentId) => {
+    const verifyPayment = async (paymentId, stage) => {
         try {
-            const toastId = toast.loading("Weryfikacja płatności i mintowanie NFT...");
+            const toastId = toast.loading(`Weryfikacja płatności Etapu ${stage}...`);
             const res = await fetch(`${API_BASE}/api/admin/payments/${paymentId}/verify`, {
                 method: 'PATCH',
             });
@@ -126,10 +139,8 @@ const AdminUsersManagement = () => {
             || (filterKyc === 'odrzucone' && u.kycStatus === 'rejected')
             || (filterKyc === 'wymagane' && (u.kycStatus === 'not_started' || !u.kycStatus));
 
-        // Payment Filter
-        const pMatch = filterPayment === 'all'
-            ? true
-            : u.paymentStatus === filterPayment;
+        // Payment Filter (Simplified for Phase 1)
+        const pMatch = filterPayment === 'all' ? true : u.paymentStatus === filterPayment;
 
         // Search
         const searchLower = search.toLowerCase();
@@ -161,25 +172,30 @@ const AdminUsersManagement = () => {
         <div className="w-full min-h-screen py-10 px-4 text-white">
             <header className="mb-10 text-center">
                 <h1 className="text-4xl font-bold font-sans text-white">Zarządzanie Użytkownikami</h1>
+                <p className="text-gray-400 mt-2">System Płatności Etapowych (5 Etapów)</p>
             </header>
 
             {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6 max-w-7xl mx-auto mb-10">
                 <div className="bg-[#0d1117] border border-white/10 p-6 rounded-2xl flex flex-col items-center">
-                    <span className="text-gray-400 text-sm font-bold uppercase tracking-wider">Wszyscy użytkownicy</span>
-                    <span className="text-3xl text-white font-bold mt-2">{stats.total}</span>
+                    <span className="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Wszyscy użytkownicy</span>
+                    <span className="text-2xl text-white font-bold mt-1">{stats.total}</span>
                 </div>
                 <div className="bg-[#0d1117] border border-white/10 p-6 rounded-2xl flex flex-col items-center">
-                    <span className="text-gray-400 text-sm font-bold uppercase tracking-wider">KYC zatwierdzone</span>
-                    <span className="text-3xl text-green-400 font-bold mt-2">{stats.kycApproved}</span>
+                    <span className="text-gray-400 text-[10px] font-bold uppercase tracking-wider">KYC zatwierdzone</span>
+                    <span className="text-2xl text-green-400 font-bold mt-1">{stats.kycApproved}</span>
+                </div>
+                <div className="bg-[#0d1117] border border-white/10 p-6 rounded-2xl flex flex-col items-center border-gold-500/20 shadow-lg shadow-gold-500/5">
+                    <span className="text-gold-500 text-[10px] font-bold uppercase tracking-wider">Rezerwacje (Etap 0)</span>
+                    <span className="text-2xl text-gold-500 font-bold mt-1">{stats.reserved}</span>
                 </div>
                 <div className="bg-[#0d1117] border border-white/10 p-6 rounded-2xl flex flex-col items-center">
-                    <span className="text-gray-400 text-sm font-bold uppercase tracking-wider">Oczekuje płatności</span>
-                    <span className="text-3xl text-yellow-400 font-bold mt-2">{stats.awaitingPayment}</span>
+                    <span className="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Weryfikacja/Awaiting</span>
+                    <span className="text-2xl text-yellow-400 font-bold mt-1">{stats.awaitingPayment ? 'Tak' : 'Brak'}</span>
                 </div>
                 <div className="bg-[#0d1117] border border-white/10 p-6 rounded-2xl flex flex-col items-center">
-                    <span className="text-gray-400 text-sm font-bold uppercase tracking-wider">NFT utworzone</span>
-                    <span className="text-3xl text-neon-cyan font-bold mt-2">{stats.nftMinted}</span>
+                    <span className="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Aktywne Członkostwa</span>
+                    <span className="text-2xl text-neon-cyan font-bold mt-1">{stats.nftMinted}</span>
                 </div>
             </div>
 
@@ -206,7 +222,7 @@ const AdminUsersManagement = () => {
                     <option value="none">Brak płatności</option>
                     <option value="awaiting">Oczekuje płatności</option>
                     <option value="verification">W weryfikacji</option>
-                    <option value="confirmed">Potwierdzone</option>
+                    <option value="confirmed">Potwierdzone (etap 4)</option>
                 </select>
 
                 <input
@@ -226,7 +242,7 @@ const AdminUsersManagement = () => {
                                 <th className="p-4 font-bold text-gray-400 tracking-wider text-sm uppercase">Email</th>
                                 <th className="p-4 font-bold text-gray-400 tracking-wider text-sm uppercase">Wallet</th>
                                 <th className="p-4 font-bold text-gray-400 tracking-wider text-sm uppercase">Status KYC</th>
-                                <th className="p-4 font-bold text-gray-400 tracking-wider text-sm uppercase">Płatność</th>
+                                <th className="p-4 font-bold text-gray-400 tracking-wider text-sm uppercase">Postęp Płatności</th>
                                 <th className="p-4 font-bold text-gray-400 tracking-wider text-sm uppercase">NFT</th>
                                 <th className="p-4 font-bold text-gray-400 tracking-wider text-sm uppercase text-right">Akcje</th>
                             </tr>
@@ -237,44 +253,82 @@ const AdminUsersManagement = () => {
                             ) : filteredUsers.length === 0 ? (
                                 <tr><td colSpan="6" className="text-center py-10">Brak wyników</td></tr>
                             ) : (
-                                filteredUsers.map(u => (
-                                    <tr key={u.wallet} className="hover:bg-white/5 transition-colors">
-                                        <td className="p-4">{u.email}</td>
-                                        <td className="p-4">
-                                            <code className="text-sm text-gray-300 mr-2">
-                                                {u.wallet ? `${u.wallet.slice(0, 6)}...${u.wallet.slice(-4)}` : '-'}
-                                            </code>
-                                            {u.wallet && <button onClick={() => copyToClipboard(u.wallet)} className="text-gray-500 hover:text-white">📋</button>}
-                                        </td>
-                                        <td className="p-4">
-                                            <span className={`px-3 py-1 rounded-full text-xs font-bold ${getKYCBadgeColor(u.kycStatus)}`}>
-                                                {formatKYCStatus(u.kycStatus)}
-                                            </span>
-                                        </td>
-                                        <td className="p-4 text-sm font-bold">
-                                            {u.paymentStatus === 'none' && (!u.kycStatus || u.kycStatus === 'not_started' || u.kycStatus === 'pending') && <span className="text-gray-500">-</span>}
-                                            {u.paymentStatus === 'none' && (u.kycStatus === 'approved' || u.kycStatus === 'zatwierdzone') && <span className="text-gray-400 bg-gray-500/20 px-3 py-1 rounded-full">Brak wygenerowanej</span>}
-                                            {u.paymentStatus === 'awaiting' && <span className="text-yellow-400 bg-yellow-500/20 px-3 py-1 rounded-full">Oczekuje</span>}
-                                            {u.paymentStatus === 'verification' && <span className="text-blue-400 bg-blue-500/20 px-3 py-1 rounded-full">Weryfikacja</span>}
-                                            {u.paymentStatus === 'confirmed' && <span className="text-green-400 bg-green-500/20 px-3 py-1 rounded-full">Opłacono ✓</span>}
-                                        </td>
-                                        <td className="p-4 font-mono font-bold text-neon-cyan">
-                                            {u.membershipTokenId ? `#${u.membershipTokenId}` : <span className="text-gray-600">-</span>}
-                                        </td>
-                                        <td className="p-4 text-right">
-                                            {u.paymentStatus === 'verification' && (
-                                                <button onClick={() => setSelectedUser(u)} className="bg-blue-500/20 text-blue-400 border border-blue-500/30 px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-500/30 mr-2">
-                                                    ✅ Weryfikuj płatność
-                                                </button>
-                                            )}
-                                            {(u.kycStatus === 'approved' || u.kycStatus === 'zatwierdzone') && !u.paymentGenerated && (
-                                                <button onClick={() => handleGeneratePayment(u.wallet)} className="bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30 px-4 py-2 rounded-xl text-xs font-bold hover:bg-neon-cyan/30">
-                                                    💳 Generuj Płatność
-                                                </button>
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))
+                                filteredUsers.map(u => {
+                                    const hasVerification = Object.entries(u.paymentStages || {}).find(([s, data]) => data.status === 'verification');
+
+                                    return (
+                                        <tr key={u.wallet} className="hover:bg-white/5 transition-colors">
+                                            <td className="p-4">{u.email}</td>
+                                            <td className="p-4">
+                                                <code className="text-sm text-gray-300 mr-2">
+                                                    {u.wallet ? `${u.wallet.slice(0, 6)}...${u.wallet.slice(-4)}` : '-'}
+                                                </code>
+                                                {u.wallet && <button onClick={() => copyToClipboard(u.wallet)} className="text-gray-500 hover:text-white">📋</button>}
+                                            </td>
+                                            <td className="p-4">
+                                                <span className={`px-3 py-1 rounded-full text-xs font-bold ${getKYCBadgeColor(u.kycStatus)}`}>
+                                                    {formatKYCStatus(u.kycStatus)}
+                                                </span>
+                                            </td>
+                                            <td className="p-4 text-sm font-bold">
+                                                <div className="flex gap-1.5 items-center">
+                                                    {[0, 1, 2, 3, 4].map(s => {
+                                                        const stage = u.paymentStages?.[s];
+                                                        const status = stage?.status || 'none';
+                                                        let color = 'bg-gray-800'; // none
+                                                        if (status === 'confirmed') color = 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]';
+                                                        if (status === 'verification') color = 'bg-blue-400 animate-pulse';
+                                                        if (status === 'awaiting') color = 'bg-yellow-400';
+
+                                                        return (
+                                                            <div key={s} className={`w-3 h-3 rounded-full ${color} border border-white/5`} title={`Etap ${s}: ${status}`} />
+                                                        );
+                                                    })}
+                                                </div>
+                                            </td>
+                                            <td className="p-4 font-mono font-bold">
+                                                {u.membershipTokenId ? <span className="text-neon-cyan">#{u.membershipTokenId}</span> : u.tokenNumber ? <span className="text-gold-500">Res #{u.tokenNumber}</span> : <span className="text-gray-600">-</span>}
+                                            </td>
+                                            <td className="p-4 text-right">
+                                                <div className="flex items-center justify-end gap-2">
+                                                    {hasVerification && (
+                                                        <button
+                                                            onClick={() => {
+                                                                const payment = u.userPayments.find(p => p.stage == hasVerification[0] && p.status === 'verification');
+                                                                setSelectedUser({ ...u, currentVerificationStage: hasVerification[0], paymentDetails: payment });
+                                                            }}
+                                                            className="bg-blue-500/20 text-blue-400 border border-blue-500/30 px-3 py-1.5 rounded-lg text-[10px] font-bold hover:bg-blue-500/30"
+                                                        >
+                                                            ✅ Weryfikuj S{hasVerification[0]}
+                                                        </button>
+                                                    )}
+                                                    {(u.kycStatus === 'approved' || u.kycStatus === 'zatwierdzone') && (
+                                                        <>
+                                                            <select
+                                                                value={u.nextStage}
+                                                                className="bg-black/40 border border-white/10 rounded-lg p-1 text-[10px] text-white outline-none h-8"
+                                                                onChange={(e) => {
+                                                                    const val = parseInt(e.target.value);
+                                                                    setUsersInfo(prev => prev.map(usr => usr.wallet === u.wallet ? { ...usr, nextStage: val } : usr));
+                                                                }}
+                                                            >
+                                                                {[0, 1, 2, 3, 4].map(s => (
+                                                                    <option key={s} value={s}>Etap {s}</option>
+                                                                ))}
+                                                            </select>
+                                                            <button
+                                                                onClick={() => handleGeneratePayment(u.wallet, u.nextStage)}
+                                                                className="bg-gold-500/10 text-gold-500 border border-gold-500/20 px-3 py-1.5 rounded-lg text-[10px] font-bold hover:bg-gold-500/20"
+                                                            >
+                                                                💳 Generuj
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
                             )}
                         </tbody>
                     </table>
@@ -286,7 +340,7 @@ const AdminUsersManagement = () => {
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                     <div className="bg-[#0d1117] border border-white/10 rounded-2xl w-full max-w-lg p-6 relative">
                         <button onClick={() => setSelectedUser(null)} className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
-                        <h2 className="text-xl font-bold mb-6">Weryfikacja Płatności</h2>
+                        <h2 className="text-xl font-bold mb-6">Weryfikacja Płatności: Etap {selectedUser.currentVerificationStage}</h2>
 
                         <div className="space-y-4 mb-8">
                             <div>
@@ -309,8 +363,12 @@ const AdminUsersManagement = () => {
                         </div>
 
                         <div className="flex gap-4 border-t border-white/10 pt-6">
-                            <button onClick={() => verifyPayment(selectedUser.paymentDetails.id)} className="flex-1 bg-green-500 hover:bg-green-400 text-black font-bold py-3 rounded-xl transition-colors text-center shadow-lg shadow-green-500/20">
-                                ✅ Zatwierdź i Mintuj NFT
+                            <button
+                                onClick={() => verifyPayment(selectedUser.paymentDetails.id, selectedUser.currentVerificationStage)}
+                                className="flex-1 bg-green-500 hover:bg-green-400 text-black font-bold py-3 rounded-xl transition-colors text-center shadow-lg shadow-green-500/20"
+                            >
+                                ✅ Zatwierdź Etap {selectedUser.currentVerificationStage}
+                                {selectedUser.currentVerificationStage == 4 && " & Aktywuj Członkostwo"}
                             </button>
                         </div>
                     </div>

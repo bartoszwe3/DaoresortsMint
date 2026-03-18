@@ -1,9 +1,13 @@
 // src/components/LandingPage.jsx
 import React, { useState, useRef, useLayoutEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Shield, MapPin, Check, ArrowRight, Zap, BadgeCheck, Vote, Users, FileText, Pickaxe, Key, Home, Calendar, Wrench, Settings, ShieldCheck, Globe } from "lucide-react";
+import { Shield, MapPin, Check, ArrowRight, Zap, BadgeCheck, Vote, Users, FileText, Pickaxe, Key, Home, Calendar, Wrench, Settings, ShieldCheck, TrendingDown, Infinity } from "lucide-react";
 import { useTranslation, Trans } from "react-i18next";
 import LongTermSavings from "./LongTermSavings";
+import MembershipProgress from "./MembershipProgress";
+import { FounderTeaser } from "./FounderTeaser";
+import FAQ from "./FAQ";
+
 
 /* ========================================================
    SVG COMPONENTS
@@ -80,7 +84,9 @@ function MemberCarousel() {
 
 export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavigate }) {
     const { t } = useTranslation();
-    const NFT_PRICE = 18900;
+    const [isMobile, setIsMobile] = useState(false);
+
+    // NFT_PRICE is replaced by MEMBERSHIP_TOTAL below
     const roadmapRef = useRef(null);
     const contentRef = useRef(null);
     const [scrollRange, setScrollRange] = useState(0);
@@ -102,25 +108,28 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
     ];
 
     useLayoutEffect(() => {
-        if (contentRef.current && roadmapRef.current) {
-            const calculateScroll = () => {
+        const calculateScroll = () => {
+            const mobile = window.innerWidth < 768;
+            setIsMobile(mobile);
+
+            if (contentRef.current && roadmapRef.current && !mobile) {
                 const scrollWidth = contentRef.current.scrollWidth;
                 const clientWidth = window.innerWidth;
                 setScrollRange(scrollWidth - clientWidth + 100); // +100 padding for safety
-            };
+            }
+        };
 
-            calculateScroll();
-            window.addEventListener("resize", calculateScroll);
-            return () => window.removeEventListener("resize", calculateScroll);
-        }
+        calculateScroll();
+        window.addEventListener("resize", calculateScroll);
+        return () => window.removeEventListener("resize", calculateScroll);
     }, [t]); // Re-calculate on translation change
 
     const { scrollYProgress } = useScroll({
-        container: scrollContainer,
         target: roadmapRef,
-        offset: ["start start", "end end"]
+        offset: ["start 72px", "end end"]
     });
-    const x = useTransform(scrollYProgress, [0, 1], ["0px", `-${scrollRange}px`]);
+    const xTransform = useTransform(scrollYProgress, [0, 1], ["0px", `-${scrollRange}px`]);
+    const x = isMobile ? "0px" : xTransform;
 
     return (
         <div id="landing-page" className="w-full pb-24 text-white font-sans animate-in fade-in duration-700">
@@ -171,21 +180,41 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                             <Trans i18nKey="hero_desc" components={[<span className="text-text-primary font-medium" />, <span className="text-text-primary font-medium" />]} />
                         </p>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                            <button
-                                onClick={() => {
-                                    if (hasNft && onNavigate) {
-                                        onNavigate("projects");
-                                    } else if (onNavigate) {
-                                        onNavigate("mint");
-                                    } else {
-                                        onConnect();
-                                    }
-                                }}
-                                className="px-10 py-4 bg-gold-500 hover:bg-gold-600 text-forest-900 font-sans font-bold uppercase tracking-wider rounded-sm transition-all shadow-btn-primary hover:shadow-btn-primary-hover flex items-center justify-center gap-3 text-sm min-w-[240px]"
+                        <div className="flex flex-col items-center justify-center gap-4">
+                            {/* Główny - rezerwacja */}
+                            <a
+                                href="/checkout/stage/0"
+                                className="px-10 py-4 bg-gold-500 hover:bg-gold-600 text-forest-900 font-sans font-bold uppercase tracking-widest rounded-none transition-all shadow-btn-primary hover:shadow-btn-primary-hover flex items-center justify-center gap-3 text-sm min-w-[280px]"
                             >
-                                {hasNft ? "Zobacz nasz projekt" : t("hero_cta")} <ArrowRight size={18} />
-                            </button>
+                                zarezerwuj swoje miejsce - 2000 PLN
+                                <ArrowRight size={18} />
+                            </a>
+
+                            {/* Pod przyciskiem - wyjaśnienie */}
+                            <p className="text-[#8A9E8A] text-xs text-center">
+                                Rezerwacja 2000 PLN (zwrotna).
+                                Kolejne etapy płatne wraz z postępem budowy.
+                            </p>
+
+                            {/* Dodatkowy - paszport darmowy */}
+                            {!hasNft && (
+                                <button
+                                    onClick={() => {
+                                        if (onNavigate) {
+                                            onNavigate("mint");
+                                        } else {
+                                            onConnect();
+                                        }
+                                    }}
+                                    className="border border-[#2D5A3D] text-[#8A9E8A] px-6 py-3 rounded-md text-sm mt-3 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-colors"
+                                >
+                                    Odbierz darmowy Paszport →
+                                </button>
+                            )}
+                        </div>
+
+                        <div className="mt-16 w-full">
+                            <MembershipProgress passportCount={189} reservedCount={47} activeCount={25} />
                         </div>
                     </motion.div>
                 </div>
@@ -216,17 +245,33 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                         </p>
                     </div>
 
-                    {/* Process Steps */}
-                    <div className="grid md:grid-cols-3 gap-8 md:gap-10">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[
-                            { step: "01", title: t("step_1_title"), desc: t("step_1_desc") },
-                            { step: "02", title: t("step_2_title"), desc: t("step_2_desc") },
-                            { step: "03", title: t("step_3_title"), desc: t("step_3_desc") }
-                        ].map((item, i) => (
-                            <div key={i} className="bg-forest-900 border border-border-default/50 p-10 rounded-xl relative overflow-hidden group hover:border-gold-500/30 transition-all flex flex-col justify-start shadow-sm">
-                                <div className="text-7xl font-sans font-light text-text-muted/10 absolute -top-4 -right-2 transition-transform group-hover:scale-105 select-none">{item.step}</div>
-                                <h3 className="text-2xl font-playfair font-medium mb-4 text-text-primary relative z-10">{item.title}</h3>
-                                <p className="text-text-secondary font-light leading-relaxed relative z-10">{item.desc}</p>
+                            {
+                                icon: Home,
+                                title: "Prywatne jacuzzi",
+                                desc: "Każdy domek ma własne jacuzzi na tarasie. Tylko Twoja rodzina."
+                            },
+                            {
+                                icon: TrendingDown,
+                                title: "Po kosztach operacyjnych",
+                                desc: "~692 PLN za tydzień zamiast 5 600 PLN w hotelu premium."
+                            },
+                            {
+                                icon: Vote,
+                                title: "Głosujesz nad resortem",
+                                desc: "Każdy Token = 1 głos. Ty i 149 innych memberów decydujecie."
+                            },
+                            {
+                                icon: Infinity,
+                                title: "Dożywotnio",
+                                desc: "Płacisz raz etapami budowy. Zero opłat rocznych. Na zawsze."
+                            }
+                        ].map((stat, i) => (
+                            <div key={i} className="bg-[#1C2614] border border-[#2D5A3D] rounded-xl p-5 flex flex-col items-start text-left shadow-sm hover:border-[#C9A84C]/50 transition-all">
+                                <stat.icon className="text-[#C9A84C] mb-3" size={24} />
+                                <h3 className="text-[#F5F0E8] font-semibold text-base mb-2">{stat.title}</h3>
+                                <p className="text-[#8A9E8A] text-sm leading-relaxed">{stat.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -259,13 +304,13 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                             </span>
                             <div className="flex items-center gap-2 text-text-secondary bg-forest-900/60 px-4 py-1.5 rounded-full backdrop-blur-md border border-border-subtle">
                                 <span className="text-xs">📍</span>
-                                <span className="text-xs font-sans font-semibold uppercase tracking-wide">Silna, Polska</span>
+                                <span className="text-xs font-sans font-semibold uppercase tracking-wide">Pszczew, Polska</span>
                             </div>
                         </div>
 
                         {/* Title */}
                         <h2 className="text-4xl md:text-6xl font-playfair font-semibold leading-tight text-white mb-2 drop-shadow-md">
-                            DAOResorts — Silna, Lubuskie.
+                            DAOResorts - Silna, Lubuskie.
                         </h2>
                     </div>
                 </div>
@@ -416,6 +461,142 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
             </section>
 
 
+            {/* NEW: PHASED PAYMENTS SECTION */}
+            <section id="phased-payments" className="py-24 px-4 bg-[#0E1208] text-white overflow-hidden">
+                <div className="max-w-4xl mx-auto">
+                    <div className="text-center mb-16">
+                        <span className="text-[#C9A84C] text-xs font-sans font-semibold uppercase tracking-[0.2em] mb-3 block">
+                            Model płatności
+                        </span>
+                        <h2 className="text-4xl md:text-6xl font-playfair font-semibold mb-8 tracking-tight">
+                            Płacisz razem z budową
+                        </h2>
+                        <p className="text-lg md:text-xl text-[#8A9E8A] font-light leading-relaxed max-w-2xl mx-auto">
+                            Nie płacisz 19 990 PLN z góry. Każda wpłata
+                            jest powiązana z konkretnym etapem budowy -
+                            widzisz za co płacisz.
+                        </p>
+                    </div>
+
+                    <div className="space-y-4">
+                        {/* Etap 0 */}
+                        <div className="bg-[#1C2614] border border-[#C9A84C] rounded-2xl p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all hover:bg-[#1C2614]/80">
+                            <div className="flex items-center gap-5">
+                                <div className="w-12 h-12 rounded-full bg-[#C9A84C] text-[#0E1208] flex items-center justify-center font-bold shrink-0 text-lg shadow-lg shadow-[#C9A84C]/20">
+                                    0
+                                </div>
+                                <div className="space-y-1">
+                                    <div className="flex items-center gap-3 flex-wrap">
+                                        <h3 className="font-bold text-xl text-white">Rezerwacja miejsca</h3>
+                                        <span className="bg-green-500/10 text-green-400 text-[10px] px-2.5 py-1 rounded-full uppercase font-bold tracking-wider border border-green-500/20">
+                                            zwrotne
+                                        </span>
+                                        <span className="bg-[#C9A84C]/10 text-[#C9A84C] text-[10px] px-2.5 py-1 rounded-full uppercase font-bold tracking-wider border border-[#C9A84C]/20">
+                                            dostępne teraz
+                                        </span>
+                                    </div>
+                                    <p className="text-sm text-[#8A9E8A] font-light tracking-wide italic">Dostępne teraz</p>
+                                </div>
+                            </div>
+                            <div className="text-[#C9A84C] font-bold text-2xl md:text-right font-sans">
+                                2 000 PLN
+                            </div>
+                        </div>
+
+                        {/* Etap 1 */}
+                        <div className="bg-[#1C2614] border border-[#2D5A3D]/40 opacity-70 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                            <div className="flex items-center gap-5">
+                                <div className="w-12 h-12 rounded-full bg-gray-700/50 text-gray-400 flex items-center justify-center font-bold shrink-0 text-lg border border-gray-600/30">
+                                    1
+                                </div>
+                                <div className="space-y-1">
+                                    <h3 className="font-bold text-xl text-white/90">Fundament</h3>
+                                    <p className="text-sm text-[#8A9E8A] font-light italic">Po wylaniu fund.</p>
+                                </div>
+                            </div>
+                            <div className="text-[#C9A84C]/60 font-bold text-2xl md:text-right font-sans">
+                                5 000 PLN
+                            </div>
+                        </div>
+
+                        {/* Etap 2 */}
+                        <div className="bg-[#1C2614] border border-[#2D5A3D]/40 opacity-70 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                            <div className="flex items-center gap-5">
+                                <div className="w-12 h-12 rounded-full bg-gray-700/50 text-gray-400 flex items-center justify-center font-bold shrink-0 text-lg border border-gray-600/30">
+                                    2
+                                </div>
+                                <div className="space-y-1">
+                                    <h3 className="font-bold text-xl text-white/90">Stan surowy otwarty</h3>
+                                    <p className="text-sm text-[#8A9E8A] font-light italic">Po stanie surowym</p>
+                                </div>
+                            </div>
+                            <div className="text-[#C9A84C]/60 font-bold text-2xl md:text-right font-sans">
+                                5 000 PLN
+                            </div>
+                        </div>
+
+                        {/* Etap 3 */}
+                        <div className="bg-[#1C2614] border border-[#2D5A3D]/40 opacity-70 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                            <div className="flex items-center gap-5">
+                                <div className="w-12 h-12 rounded-full bg-gray-700/50 text-gray-400 flex items-center justify-center font-bold shrink-0 text-lg border border-gray-600/30">
+                                    3
+                                </div>
+                                <div className="space-y-1">
+                                    <h3 className="font-bold text-xl text-white/90">Wykończenie</h3>
+                                    <p className="text-sm text-[#8A9E8A] font-light italic">Po wykończeniu</p>
+                                </div>
+                            </div>
+                            <div className="text-[#C9A84C]/60 font-bold text-2xl md:text-right font-sans">
+                                3 000 PLN
+                            </div>
+                        </div>
+
+                        {/* Etap 4 */}
+                        <div className="bg-[#1C2614] border border-[#2D5A3D]/40 opacity-70 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                            <div className="flex items-center gap-5">
+                                <div className="w-12 h-12 rounded-full bg-gray-700/50 text-gray-400 flex items-center justify-center font-bold shrink-0 text-lg border border-gray-600/30">
+                                    4
+                                </div>
+                                <div className="space-y-1">
+                                    <h3 className="font-bold text-xl text-white/90">Aktywacja członkostwa</h3>
+                                    <p className="text-sm text-[#8A9E8A] font-light italic">Po otwarciu</p>
+                                </div>
+                            </div>
+                            <div className="text-[#C9A84C]/60 font-bold text-2xl md:text-right font-sans">
+                                4 990 PLN
+                            </div>
+                        </div>
+
+                        {/* Sum Line */}
+                        <div className="border-t border-[#C9A84C]/50 mt-12 pt-6 flex justify-between items-center px-6">
+                            <span className="text-sm font-sans font-bold uppercase tracking-[0.3em] text-[#8A9E8A]">ŁĄCZNIE</span>
+                            <span className="text-3xl md:text-4xl font-bold font-sans text-white tracking-tight">19 990 PLN</span>
+                        </div>
+                    </div>
+
+                    <div className="mt-20 text-center">
+                        <p className="text-[#8A9E8A] text-base mb-10 max-w-lg mx-auto leading-relaxed font-light">
+                            Nie możesz kontynuować? Token jest transferowalny -
+                            możesz sprzedać swoje miejsce innemu memberowi.
+                        </p>
+
+                        <div className="flex flex-col items-center gap-5">
+                            <a
+                                href="/checkout/stage/0"
+                                className="px-12 py-5 bg-[#C9A84C] hover:bg-[#D4B96A] text-[#0E1208] font-sans font-bold uppercase tracking-[0.2em] rounded-none transition-all shadow-xl hover:shadow-[#C9A84C]/10 flex items-center justify-center gap-4 text-sm min-w-[320px] group"
+                            >
+                                Zarezerwuj miejsce - 2 000 PLN
+                                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                            </a>
+                            <p className="text-[#8A9E8A] text-[10px] uppercase font-bold tracking-[0.15em] opacity-80">
+                                Zwrotne przed startem budowy · Blokuje 1 z 150 miejsc
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
             {/* 6. FUND ALLOCATION */}
             <section className="py-24 px-4 bg-forest-900 border-t border-border-subtle film-grain">
                 <div className="max-w-6xl mx-auto">
@@ -432,7 +613,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-8 mb-16">
-                        {/* 80% Construction */}
+                        {/* 70% Construction */}
                         <div className="bg-forest-800 p-8 rounded-2xl border border-border-default/30 relative overflow-hidden group hover:border-gold-500/30 transition-all shadow-sm">
                             <motion.div
                                 className="absolute bottom-0 left-0 h-1 bg-gold-500"
@@ -453,20 +634,20 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                             </p>
                         </div>
 
-                        {/* 15% Maintenance */}
-                        <div className="bg-forest-800 p-8 rounded-2xl border border-border-default/30 relative overflow-hidden group hover:border-forest-400/30 transition-all shadow-sm">
+                        {/* 10% Maintenance */}
+                        <div className="bg-forest-800 p-8 rounded-2xl border border-border-default/30 relative overflow-hidden group hover:border-gold-500/30 transition-all shadow-sm">
                             <motion.div
-                                className="absolute bottom-0 left-0 h-1 bg-forest-400"
+                                className="absolute bottom-0 left-0 h-1 bg-gold-500"
                                 initial={{ width: 0 }}
-                                whileInView={{ width: "15%" }}
+                                whileInView={{ width: "10%" }}
                                 transition={{ duration: 1.5, ease: "easeOut" }}
                                 viewport={{ once: true }}
                             />
                             <div className="flex justify-between items-start mb-6">
-                                <div className="p-4 bg-forest-500/10 rounded-xl text-forest-400">
+                                <div className="p-4 bg-forest-500/10 rounded-xl text-gold-500">
                                     <Wrench size={32} strokeWidth={1.5} />
                                 </div>
-                                <div className="text-5xl font-sans font-light text-text-primary">15<span className="text-2xl text-text-muted">%</span></div>
+                                <div className="text-5xl font-sans font-light text-text-primary">10<span className="text-2xl text-text-muted">%</span></div>
                             </div>
                             <h3 className="text-xl font-playfair font-medium text-text-primary mb-3">{t("alloc_2_title")}</h3>
                             <p className="text-text-secondary leading-relaxed text-sm font-light">
@@ -474,12 +655,12 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                             </p>
                         </div>
 
-                        {/* 15% Ops */}
+                        {/* 20% Ops */}
                         <div className="bg-forest-800 p-8 rounded-2xl border border-border-default/30 relative overflow-hidden group hover:border-text-secondary/30 transition-all shadow-sm">
                             <motion.div
                                 className="absolute bottom-0 left-0 h-1 bg-text-secondary"
                                 initial={{ width: 0 }}
-                                whileInView={{ width: "15%" }}
+                                whileInView={{ width: "20%" }}
                                 transition={{ duration: 1.5, ease: "easeOut" }}
                                 viewport={{ once: true }}
                             />
@@ -487,7 +668,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                                 <div className="p-4 bg-forest-500/10 rounded-xl text-text-secondary">
                                     <Settings size={32} strokeWidth={1.5} />
                                 </div>
-                                <div className="text-5xl font-sans font-light text-text-primary">15<span className="text-2xl text-text-muted">%</span></div>
+                                <div className="text-5xl font-sans font-light text-text-primary">20<span className="text-2xl text-text-muted">%</span></div>
                             </div>
                             <h3 className="text-xl font-playfair font-medium text-text-primary mb-3">{t("alloc_3_title")}</h3>
                             <p className="text-text-secondary leading-relaxed text-sm font-light">
@@ -500,15 +681,23 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
 
 
             {/* 7. HORIZONTAL ROADMAP */}
-            <section id="roadmap" ref={roadmapRef} className="relative h-[800vh]">
-                <div className="sticky top-0 flex h-screen items-center overflow-hidden bg-forest-900">
-                    <div className="absolute top-10 left-10 z-10">
-                        <h2 className="text-4xl md:text-6xl font-playfair font-semibold text-text-primary ml-4 md:ml-12 drop-shadow-md">{t("roadmap_title")}</h2>
-                        <p className="text-text-secondary ml-4 md:ml-12 mt-2 font-sans font-light uppercase tracking-widest">{t("roadmap_subtitle")}</p>
+            <section
+                id="roadmap"
+                ref={roadmapRef}
+                className={`relative ${isMobile ? "h-auto !block py-20" : "h-[800vh] !block"}`}
+            >
+                <div className={`${isMobile ? "relative" : "sticky top-[72px] h-[calc(100vh-72px)] overflow-hidden"} flex items-center bg-forest-900`}>
+                    <div className={`${isMobile ? "relative mb-10 px-6" : "absolute top-10 left-10 z-10"}`}>
+                        <h2 className="text-4xl md:text-6xl font-playfair font-semibold text-text-primary md:ml-12 drop-shadow-md">{t("roadmap_title")}</h2>
+                        <p className="text-text-secondary md:ml-12 mt-2 font-sans font-light uppercase tracking-widest">{t("roadmap_subtitle")}</p>
                     </div>
-                    <motion.div ref={contentRef} style={{ x }} className="flex gap-12 px-12 md:px-24 min-w-max">
+                    <motion.div
+                        ref={contentRef}
+                        style={{ x }}
+                        className={`flex gap-8 md:gap-12 px-6 md:px-24 min-w-max ${isMobile ? "overflow-x-auto pb-10 custom-scrollbar scroll-smooth" : ""}`}
+                    >
                         {roadmapSteps.map((step, i) => (
-                            <div key={i} className="relative min-w-[300px] md:min-w-[400px] bg-forest-800 border border-border-subtle p-8 rounded-2xl flex flex-col justify-between min-h-[400px] group hover:border-gold-500/50 transition-colors shadow-sm">
+                            <div key={i} className="relative min-w-[280px] md:min-w-[400px] bg-forest-800 border border-border-subtle p-8 rounded-2xl flex flex-col justify-between min-h-[380px] md:min-h-[400px] group hover:border-gold-500/50 transition-colors shadow-sm">
                                 <div>
                                     {step.image && (
                                         <div className="w-full h-48 mb-6 rounded-xl overflow-hidden border border-border-subtle">
@@ -528,7 +717,15 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                         ))}
                     </motion.div>
                 </div>
-            </section>
+            </section >
+
+            {/* FAQ */}
+            <div id="faq">
+                <FAQ />
+            </div>
+
+            {/* FOUNDER TEASER */}
+            <FounderTeaser />
         </div>
     );
 }

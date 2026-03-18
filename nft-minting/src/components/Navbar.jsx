@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useAppKit } from "@reown/appkit/react";
 import { useTranslation } from "react-i18next";
-import LoginModal from "./LoginModal";
+
 import toast from "react-hot-toast";
 
 const shortenAddress = (addr) =>
@@ -15,13 +15,13 @@ export default function Header() {
   const { user, isAuthenticated, logout } = useAuth();
   const { open } = useAppKit();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
   const handleAuthAction = () => {
     if (!isAuthenticated) {
-      setIsLoginModalOpen(true);
+      console.warn("Authentication required");
     } else {
       // If native wallet is used, open Account modal
       if (user.type === "wallet") {
@@ -46,8 +46,12 @@ export default function Header() {
 
   // The new simple menu
   const NAV = [
-    { label: "nav_mint", route: "/mint" },
-    { label: "nav_voting", route: "/voting" },
+    { label: "O PROJEKCIE", route: "/" },
+    { label: "SPOŁECZNOŚĆ", route: "/team" },
+    { label: "GŁOSOWANIA", route: "/voting" },
+    { label: "NASZ RESORT", route: "/projects" },
+    { label: "FAQ", route: "/#faq" },
+    { label: "ZAŁOŻYCIEL", route: "/founder" },
   ];
 
   const OWNER_ADDRESS = process.env.REACT_APP_OWNER_ADDRESS;
@@ -76,9 +80,9 @@ export default function Header() {
           {/* LOGO */}
           <div
             onClick={() => goTo("/")}
-            className="text-2xl font-bold bg-gradient-to-r from-neon-purple to-neon-cyan bg-clip-text text-transparent cursor-pointer hover:opacity-80 transition"
+            className="text-2xl font-bold text-white cursor-pointer hover:opacity-80 transition"
           >
-            BEAVER DAO
+            DAOResorts.club
           </div>
 
           {/* DESKTOP NAV */}
@@ -87,22 +91,14 @@ export default function Header() {
               <button
                 key={item.label}
                 onClick={() => goTo(item.route)}
-                className="text-sm font-medium text-gray-300 hover:text-white hover:shadow-[0_0_10px_rgba(6,244,195,0.5)] transition-all"
+                className="text-xs font-medium text-gray-300 hover:text-white transition-all uppercase tracking-widest"
               >
-                {t(item.label)}
+                {item.label}
               </button>
             ))}
 
             {/* Language Switchers (Icons) */}
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => setLang("en")}
-                className={`text-2xl transition-transform hover:scale-110 ${i18n.language === "en" ? "opacity-100 scale-110" : "opacity-40 grayscale"
-                  }`}
-                title="English"
-              >
-                🇬🇧
-              </button>
               <button
                 onClick={() => setLang("pl")}
                 className={`text-2xl transition-transform hover:scale-110 ${i18n.language === "pl" ? "opacity-100 scale-110" : "opacity-40 grayscale"
@@ -111,13 +107,21 @@ export default function Header() {
               >
                 🇵🇱
               </button>
+              <button
+                onClick={() => setLang("en")}
+                className={`text-2xl transition-transform hover:scale-110 ${i18n.language === "en" ? "opacity-100 scale-110" : "opacity-40 grayscale"
+                  }`}
+                title="English"
+              >
+                🇬🇧
+              </button>
             </div>
 
             <button
               onClick={handleAuthAction}
-              className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-semibold text-white transition-all hover:scale-105 active:scale-95"
+              className="px-5 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-600 text-forest-900 text-xs font-bold uppercase tracking-widest transition-all"
             >
-              {getDisplayAddress()}
+              MÓJ PASZPORT
             </button>
           </div>
 
@@ -163,9 +167,9 @@ export default function Header() {
               <button
                 key={item.label}
                 onClick={() => goTo(item.route)}
-                className="text-2xl font-bold text-gray-300 hover:text-neon-cyan transition-colors"
+                className="text-2xl font-bold text-gray-300 hover:text-white transition-colors uppercase tracking-widest"
               >
-                {t(item.label)}
+                {item.label}
               </button>
             ))}
 
@@ -195,7 +199,7 @@ export default function Header() {
                 handleAuthAction();
                 setMobileOpen(false);
               }}
-              className="px-8 py-3 rounded-full bg-gradient-to-r from-neon-purple to-neon-cyan text-white font-bold text-lg shadow-lg shadow-neon-cyan/20"
+              className="px-8 py-3 rounded-none bg-gold-500 hover:bg-gold-600 text-forest-900 font-bold text-lg shadow-lg shadow-gold-500/20"
             >
               {getDisplayAddress()}
             </button>
@@ -203,10 +207,7 @@ export default function Header() {
         )}
       </nav>
 
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
-      />
+
     </>
   );
 }

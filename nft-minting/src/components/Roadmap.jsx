@@ -41,7 +41,7 @@ export default function Roadmap() {
 
       {/* Title */}
       <h2 className="text-5xl font-semibold mb-12 tracking-tight text-center text-white">
-        DTX Exchange – Roadmap
+        DTX Exchange - Roadmap
       </h2>
 
       {/* Timeline Row */}
@@ -65,9 +65,8 @@ export default function Roadmap() {
             <div
               key={index}
               onClick={() => setSelected(index)}
-              className={`dtx-glass p-8 h-[595px] w-full cursor-pointer transition-all duration-300 ${
-                isActive ? "shadow-[0_0_20px_#57f50055]" : "opacity-80"
-              }`}
+              className={`dtx-glass p-8 h-[595px] w-full cursor-pointer transition-all duration-300 ${isActive ? "shadow-[0_0_20px_#57f50055]" : "opacity-80"
+                }`}
             >
               {/* Quarter */}
               <p className="text-center text-xl font-semibold opacity-80 mb-4">
@@ -84,9 +83,8 @@ export default function Roadmap() {
 
                     {/* Pointer */}
                     <span
-                      className={`pointer-base ${
-                        isActive ? "pointer-green" : "pointer-white"
-                      }`}
+                      className={`pointer-base ${isActive ? "pointer-green" : "pointer-white"
+                        }`}
                     >
                       ✓
                     </span>

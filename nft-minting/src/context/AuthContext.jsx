@@ -123,7 +123,7 @@ export const AuthProvider = ({ children }) => {
         user,
         isAuthenticated: !!user,
         isInitializing,
-        loginWithMagic,
+        loginWithMagicLink: loginWithMagic,
         logout,
     };
 

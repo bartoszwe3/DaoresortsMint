@@ -31,12 +31,13 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
     }, []);
 
     const navLinks = [
-        { id: "home", label: t("nav_home") || "Home" },
-        { id: "team", label: t("nav_team") || "Społeczność" },
-        { id: "voting", label: t("nav_voting") || "Głosowania" },
-        { id: "projects", label: t("nav_projects") || "Nasze Resorty" },
-        { id: "faq", label: t("nav_faq") || "FAQ" },
-        ...(isAdmin ? [{ id: "admin", label: t("nav_admin") || "Admin" }, { id: "stats", label: t("nav_stats") || "Statystyki" }] : []),
+        { id: "home", label: "O PROJEKCIE" },
+        { id: "team", label: "SPOŁECZNOŚĆ" },
+        { id: "voting", label: "GŁOSOWANIA" },
+        { id: "projects", label: "NASZ RESORT" },
+        { id: "faq", label: "FAQ" },
+        { id: "founder", label: "ZAŁOŻYCIEL", isRoute: true },
+        ...(isAdmin ? [{ id: "admin", label: "ADMIN" }, { id: "stats", label: "STATYSTYKI" }] : []),
     ];
 
     return (
@@ -47,9 +48,9 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
                 style={{ zIndex: 100 }}
             >
                 <div className="max-w-7xl mx-auto px-6 h-[72px] flex items-center justify-between">
-                    <div className="flex items-center gap-2 cursor-pointer" onClick={() => onNavigate("home")}>
+                    <div className="flex items-center gap-2 cursor-pointer" onClick={() => (window.location.href = "/")}>
                         <span className="font-playfair font-semibold text-2xl tracking-wide text-text-primary flex items-center">
-                            DAOResorts <span className="text-gold-500 ml-[1px]">.</span>club
+                            DAOResorts<span className="text-gold-500 ml-[1px]">.</span>club
                         </span>
                     </div>
 
@@ -58,8 +59,8 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
                         {navLinks.map((link) => (
                             <button
                                 key={link.id}
-                                onClick={() => onNavigate(link.id)}
-                                className={`text-xs font-sans uppercase font-medium tracking-widest transition-colors relative group focus:outline-none ${activeTab === link.id ? "text-gold-500" : "text-text-secondary hover:text-gold-500"}`}
+                                onClick={() => link.isRoute ? (window.location.href = `/${link.id}`) : onNavigate(link.id)}
+                                className={`text-[10px] lg:text-xs font-sans uppercase font-medium tracking-widest transition-colors relative group focus:outline-none ${activeTab === link.id ? "text-gold-500" : "text-text-secondary hover:text-gold-500"}`}
                             >
                                 {link.label}
                                 <span className={`absolute -bottom-1 left-0 h-[1px] bg-gold-500 transition-all duration-300 ${activeTab === link.id ? "w-full" : "w-0 group-hover:w-full"}`}></span>
@@ -70,8 +71,8 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
                     <div className="hidden md:flex items-center gap-4">
                         {/* Language */}
                         <div className="flex items-center gap-2 mr-2">
-                            <button onClick={() => i18n.changeLanguage("en")} className={`text-sm opacity-${i18n.language === 'en' ? '100' : '40'}`}>🇬🇧</button>
                             <button onClick={() => i18n.changeLanguage("pl")} className={`text-sm opacity-${i18n.language === 'pl' ? '100' : '40'}`}>🇵🇱</button>
+                            <button onClick={() => i18n.changeLanguage("en")} className={`text-sm opacity-${i18n.language === 'en' ? '100' : '40'}`}>🇬🇧</button>
                         </div>
 
                         {isRegistered ? (
@@ -81,17 +82,15 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
                         ) : (
                             <button
                                 onClick={handleConnect}
-                                className="px-6 py-2.5 bg-gold-500 text-forest-900 font-sans text-sm font-bold uppercase tracking-wider rounded-md hover:bg-gold-600 transition-all shadow-btn-primary hover:shadow-btn-primary-hover focus:outline-none focus:ring-2 focus:ring-gold-500/50 flex items-center justify-center min-w-[120px]"
+                                className="px-6 py-2.5 bg-gold-500 text-forest-900 font-sans text-sm font-bold uppercase tracking-wider rounded-md hover:bg-gold-600 transition-all shadow-btn-primary hover:shadow-btn-primary-hover focus:outline-none focus:ring-2 focus:ring-gold-500/50 flex items-center justify-center min-w-[150px]"
                             >
                                 {isAuthenticated ? (
-                                    <div className="relative group flex items-center justify-center">
-                                        <Wallet size={18} />
-                                        <div className="absolute top-8 right-0 bg-forest-900 border border-gold-500/20 text-gold-500 text-xs px-3 py-1.5 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
-                                            {shortenAddr(address)}
-                                        </div>
+                                    <div className="flex items-center gap-2">
+                                        <span>MÓJ PASZPORT</span>
+                                        <Wallet size={16} />
                                     </div>
                                 ) : (
-                                    t("hero_cta") || "Dołącz do klubu \u2192"
+                                    "MÓJ PASZPORT"
                                 )}
                             </button>
                         )}
@@ -126,7 +125,11 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
                             {navLinks.map((link) => (
                                 <button
                                     key={link.id}
-                                    onClick={() => { onNavigate(link.id); setMobileMenuOpen(false); }}
+                                    onClick={() => {
+                                        if (link.isRoute) window.location.href = `/${link.id}`;
+                                        else onNavigate(link.id);
+                                        setMobileMenuOpen(false);
+                                    }}
                                     className="text-xl font-playfair font-medium text-text-primary"
                                 >
                                     {link.label}
@@ -136,12 +139,12 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
 
                         <div className="flex flex-col gap-4 mt-auto">
                             <div className="flex items-center justify-center gap-6 mb-4">
-                                <button onClick={() => i18n.changeLanguage("en")} className={`text-2xl opacity-${i18n.language === 'en' ? '100' : '40'}`}>🇬🇧</button>
                                 <button onClick={() => i18n.changeLanguage("pl")} className={`text-2xl opacity-${i18n.language === 'pl' ? '100' : '40'}`}>🇵🇱</button>
+                                <button onClick={() => i18n.changeLanguage("en")} className={`text-2xl opacity-${i18n.language === 'en' ? '100' : '40'}`}>🇬🇧</button>
                             </div>
 
                             <button onClick={() => { handleConnect(); setMobileMenuOpen(false); }} className="w-full py-4 bg-gold-500 text-forest-900 font-sans text-sm font-bold uppercase tracking-wider rounded-md text-center">
-                                {isAuthenticated ? shortenAddr(address) : (t("hero_cta") || "Dołącz do klubu")}
+                                MÓJ PASZPORT
                             </button>
                         </div>
                     </motion.div>

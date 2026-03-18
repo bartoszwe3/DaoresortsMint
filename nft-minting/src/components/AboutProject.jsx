@@ -155,8 +155,8 @@ export default function AboutProject() {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-4xl md:text-5xl font-bold leading-tight text-white"
                     >
-                        Dożywotnie członkostwo. <br />
-                        <span className="text-gold-500">Wakacje po kosztach.</span>
+                        Nie jesteś gościem. <br />
+                        <span className="text-gold-500">Jesteś właścicielem.</span>
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
@@ -164,8 +164,7 @@ export default function AboutProject() {
                         transition={{ delay: 0.1 }}
                         className="text-lg text-white/90 leading-relaxed"
                     >
-                        Zamiast płacić hotelom marżę przez całe życie — współdzielisz dostęp do resortu i korzystasz po kosztach operacyjnych.
-                        Resort tworzony i zarządzany przez społeczność.
+                        Jedno Członkostwo. 14 nocy rocznie. Dożywotnio. Luksusowy domek z jacuzzi pośród natury - płacisz tylko koszty, zero marży hotelowej.
                     </motion.p>
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -173,9 +172,9 @@ export default function AboutProject() {
                         transition={{ delay: 0.2 }}
                         className="pt-4"
                     >
-                        <button className="px-8 py-3 bg-gold-500 hover:bg-gold-600 text-forest-900 font-bold rounded-full transition-all shadow-[0_0_20px_rgba(201,168,76,0.4)]">
-                            Dołącz do Waitlisty
-                        </button>
+                        <a href="/checkout/stage/0" className="px-8 py-3 bg-gold-500 hover:bg-gold-600 text-forest-900 font-bold rounded-full transition-all shadow-[0_0_20px_rgba(201,168,76,0.4)] inline-block">
+                            zarezerwuj swoje miejsce - 2000 PLN
+                        </a>
                     </motion.div>
                 </div>
 
@@ -225,7 +224,7 @@ export default function AboutProject() {
                 </div>
             </section>
 
-            {/* RESORT SILNA — active project card */}
+            {/* RESORT SILNA - active project card */}
             <section className="mb-24">
                 <div className="relative rounded-[2.5rem] overflow-hidden border border-gold-500/20 bg-[#0a0f1c] shadow-[0_0_80px_rgba(201,168,76,0.05)]">
                     {/* Top glow strip */}
@@ -248,7 +247,7 @@ export default function AboutProject() {
                                     Resort <span className="text-gold-500">Silna</span>
                                 </h2>
                                 <p className="text-white/70 text-base leading-relaxed mb-8">
-                                    Ekskluzywny resort wakacyjny w malowniczej wsi Silna. Luksus w naturze z prywatnym dostępem do jeziora i zapierającymi dech widokami.
+                                    Ekskluzywny resort wakacyjny w sercu Lubuskiego, we wsi Silna - miejscu z historią sięgającą 1828 roku, gdzie w drodze do Berlina zatrzymał się sam Fryderyk Chopin. Cisza lasu, jezioro Pszczewskie i natura w najlepszym wydaniu.
                                 </p>
 
                                 {/* Stat tiles */}
@@ -270,7 +269,7 @@ export default function AboutProject() {
                                 <ul className="space-y-2">
                                     {[
                                         "Prywatne jacuzzi i ogrzewanie podłogowe w każdym domku",
-                                        "Club House — wspólna restauracja i spotkania DAO",
+                                        "Przestrzeń Wspólna: Strefa Grillowa oraz sauna",
                                         "Gęste lasy i bezpośrednia bliskość jeziora",
                                         "Energia: PV + Pompy ciepła (standard Premium 5★)",
                                     ].map((feat, i) => (
@@ -289,7 +288,7 @@ export default function AboutProject() {
                                 <p className="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">Model Paszportów</p>
                                 <div className="bg-gradient-to-br from-gold-500/10 to-transparent border border-gold-500/20 rounded-2xl p-6">
                                     <div className="flex items-center justify-between mb-2">
-                                        <span className="text-gold-500 font-black text-base">Jeden standard — Member NFT</span>
+                                        <span className="text-gold-500 font-black text-base">Jeden standard - Member NFT</span>
                                         <span className="text-gold-500/70 text-xs font-bold bg-gold-500/10 px-2 py-1 rounded-full">150 szt.</span>
                                     </div>
                                     <p className="text-white/70 text-sm">Dożywotnie pobyty po kosztach, prawo głosu</p>
@@ -310,13 +309,13 @@ export default function AboutProject() {
                     <h2 className="text-3xl font-bold mb-6 text-white">Model Członkostwa</h2>
                     <ul className="space-y-4 text-white">
                         <li className="flex gap-3 items-start"><Users className="text-gold-500 shrink-0" size={20} /> 25 osób współdzieli jeden domek, co drastycznie obniża koszty wejścia.</li>
-                        <li className="flex gap-3 items-start"><Home className="text-gold-500 shrink-0" size={20} /> Nie jesteś przypisany do jednego domku — rezerwujesz dowolny dostępny w resorcie.</li>
+                        <li className="flex gap-3 items-start"><Home className="text-gold-500 shrink-0" size={20} /> Nie jesteś przypisany do jednego domku - rezerwujesz dowolny dostępny w resorcie.</li>
                         <li className="flex gap-3 items-start"><ArrowRight className="text-gold-500 shrink-0" size={20} /> Paszport możesz w każdej chwili sprzedać lub przekazać rodzinie.</li>
                     </ul>
 
                     <h2 className="text-3xl font-bold mt-12 mb-6 text-white">Logika Rezerwacji</h2>
                     <p className="text-base text-white/80 mb-4">
-                        System zaprojektowany pod uczciwość — nie „kto pierwszy, ten lepszy”.
+                        System zaprojektowany pod uczciwość - nie „kto pierwszy, ten lepszy”.
                     </p>
                     <ul className="space-y-3 text-white text-sm">
                         <li className="pl-4 border-l-2 border-gold-500">
@@ -336,7 +335,7 @@ export default function AboutProject() {
                         <ResortLayoutSVG />
                         <div className="flex justify-center gap-6 mt-4 text-xs text-gray-400">
                             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-gold-500"></span> 6 Domków</span>
-                            <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-gold-500/20 border border-gold-500"></span> Club House</span>
+                            <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-gold-500/20 border border-gold-500"></span> Strefa Grillowa</span>
                         </div>
                     </div>
                 </div>
@@ -371,16 +370,16 @@ export default function AboutProject() {
                             <span className="text-white font-mono">6</span>
                         </li>
                         <li className="flex items-center justify-between border-b border-white/5 pb-2">
-                            <span>Community House</span>
-                            <span className="text-white font-mono">1 (Bufet/Cowork)</span>
+                            <span>Strefa Grillowa</span>
+                            <span className="text-white font-mono">1 (Grill/Sauna)</span>
                         </li>
                         <li className="flex items-center justify-between border-b border-white/5 pb-2">
                             <span>Standard</span>
                             <span className="text-white font-mono">Premium + Jacuzzi</span>
                         </li>
                         <li className="flex items-center justify-between pb-2">
-                            <span>Śniadania</span>
-                            <span className="text-white font-mono">Po kosztach ("at cost")</span>
+                            <span>Wieczory</span>
+                            <span className="text-white font-mono">Przy ognisku i grillu</span>
                         </li>
                     </ul>
                 </div>
@@ -413,9 +412,9 @@ export default function AboutProject() {
             <div className="text-center space-y-8">
                 <h2 className="text-4xl font-bold text-white">Rozpocznij swoje wakacje.</h2>
                 <div className="flex justify-center gap-4">
-                    <button className="px-8 py-4 bg-gold-500 text-forest-900 font-bold rounded-xl transition-transform hover:scale-105 shadow-lg shadow-gold-500/20">
-                        Kup Paszport
-                    </button>
+                    <a href="/checkout/stage/0" className="px-8 py-4 bg-gold-500 text-forest-900 font-bold rounded-xl transition-transform hover:scale-105 shadow-lg shadow-gold-500/20 inline-block">
+                        zarezerwuj swoje miejsce - 2000 PLN
+                    </a>
                     <button className="px-8 py-4 bg-transparent border border-white/20 text-white font-bold rounded-xl hover:bg-white/5 transition-colors">
                         Join Discord
                     </button>

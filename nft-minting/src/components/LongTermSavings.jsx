@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { ArrowRight, Calculator, TrendingUp, Users, Coffee } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { MEMBERSHIP_TOTAL, MANAGEMENT_FEE_PERCENT, BASE_OPERATIONAL_COST } from "../constants/tokenomics";
 
 export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
     const { t } = useTranslation();
@@ -15,9 +16,8 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
     const [chartData, setChartData] = useState([]);
 
     const DAYS_PER_YEAR = 14;
-    const NFT_PRICE = 18900;
-    const MANAGEMENT_FEE_PERCENT = 0.20;
-    const HOUSING_INFLATION = 0.03;
+    const HOUSING_INFLATION = 0.05;
+    const DAO_HOUSING_INFLATION = 0.02;
     const HOTEL_BREAKFAST_RATE = 70;
     const DAO_BREAKFAST_HOUSE_RATE = 43;
     const SELF_BREAKFAST_RATE = 8;
@@ -29,7 +29,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
         const data = [];
         let cumulativeHotelHousing = 0;
         let cumulativeHotelBreakfast = 0;
-        let cumulativeDaoHousing = NFT_PRICE;
+        let cumulativeDaoHousing = MEMBERSHIP_TOTAL;
         let cumulativeDaoBreakfast = 0;
 
         let currentDailyRate = dailyRate;
@@ -37,7 +37,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
         for (let i = 1; i <= years; i++) {
             // Housing
             const yearHotelHousing = currentDailyRate * DAYS_PER_YEAR;
-            const yearDaoHousing = yearHotelHousing * MANAGEMENT_FEE_PERCENT;
+            const yearDaoHousing = BASE_OPERATIONAL_COST * (DAYS_PER_YEAR / 7) * (1 + MANAGEMENT_FEE_PERCENT) * Math.pow(1 + DAO_HOUSING_INFLATION, i - 1);
             cumulativeHotelHousing += yearHotelHousing;
             cumulativeDaoHousing += yearDaoHousing;
 
@@ -80,7 +80,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
 
     // First year metrics for the little boxes
     const firstYearHotelHousing = dailyRate * DAYS_PER_YEAR;
-    const firstYearDaoHousing = firstYearHotelHousing * MANAGEMENT_FEE_PERCENT;
+    const firstYearDaoHousing = BASE_OPERATIONAL_COST * (DAYS_PER_YEAR / 7) * (1 + MANAGEMENT_FEE_PERCENT);
     const firstYearHotelBF = includeBreakfast ? HOTEL_BREAKFAST_RATE * peopleCount * DAYS_PER_YEAR : 0;
 
     let firstYearDaoBF = 0;
@@ -94,7 +94,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
     }
 
     const firstYearSavings = (firstYearHotelHousing + firstYearHotelBF) - (firstYearDaoHousing + firstYearDaoBF);
-    const roiSeasons = (NFT_PRICE / firstYearSavings).toFixed(1);
+    const roiSeasons = (MEMBERSHIP_TOTAL / firstYearSavings).toFixed(1);
 
     return (
         <div className="w-full max-w-6xl mx-auto p-4 md:p-8">
@@ -218,8 +218,8 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                                     key={opt.id}
                                                     onClick={() => setBreakfastType(opt.id)}
                                                     className={`p-3 rounded-lg border text-center transition-all ${breakfastType === opt.id
-                                                            ? 'bg-gold-500/10 border-gold-500 text-gold-500 shadow-lg shadow-gold-500/5'
-                                                            : 'bg-white/5 border-white/5 text-gray-400 hover:border-white/10 hover:bg-white/10'
+                                                        ? 'bg-gold-500/10 border-gold-500 text-gold-500 shadow-lg shadow-gold-500/5'
+                                                        : 'bg-white/5 border-white/5 text-gray-400 hover:border-white/10 hover:bg-white/10'
                                                         }`}
                                                 >
                                                     <div className="text-[10px] uppercase tracking-wider mb-1 whitespace-nowrap overflow-hidden text-ellipsis">{opt.label}</div>

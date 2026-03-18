@@ -48,7 +48,7 @@ export default function BlackClub() {
 
       {/* Title */}
       <h2 className="text-5xl font-semibold tracking-tight text-center mb-4 text-white">
-        Exclusive Benefits For Large-Scale Traders – DTX Black Club
+        Exclusive Benefits For Large-Scale Traders - DTX Black Club
       </h2>
 
       <p className="text-center text-gray-300 max-w-2xl mb-16">

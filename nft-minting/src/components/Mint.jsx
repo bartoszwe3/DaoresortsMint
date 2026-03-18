@@ -7,13 +7,15 @@ import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, UserPlus } from "lucide-react";
 import { useTranslation, Trans } from "react-i18next";
-import RegisterUsers from "./RegisterUsers";
+
 
 import { NFT_CONTRACT_ADDRESS } from "../contracts/contracts";
+import MembershipBanner from "./MembershipBanner";
+
+import { TOTAL_PASSPORT_SUPPLY } from "../constants/tokenomics";
 
 const IPFS_BASE = "https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2pbbrpz6qsmbgeajptl3q/";
 const ITEMS_PER_PAGE = 20;
-const TOTAL_SUPPLY = 5000;
 
 export default function Mint({ onMintSuccess, onConnect }) {
   const { user, isAuthenticated } = useAuth();
@@ -87,7 +89,7 @@ export default function Mint({ onMintSuccess, onConnect }) {
     setLoading(true);
     try {
       const startId = (page - 1) * ITEMS_PER_PAGE + 1;
-      const endId = Math.min(startId + ITEMS_PER_PAGE - 1, TOTAL_SUPPLY);
+      const endId = Math.min(startId + ITEMS_PER_PAGE - 1, TOTAL_PASSPORT_SUPPLY);
       const data = await getBatchTokenStatus(startId, endId);
       const formatted = data
         .map((isMinted, index) => ({
@@ -234,7 +236,12 @@ export default function Mint({ onMintSuccess, onConnect }) {
           </h1>
           <p className="text-gray-400 text-lg">Zarejestruj się, aby uzyskać dostęp do galerii paszportów.</p>
         </div>
-        <RegisterUsers onRegisterSuccess={() => setIsRegistered(true)} />
+        <div className="text-center mt-10 p-8 border border-red-500/20 rounded-2xl bg-red-500/5">
+          <p className="text-red-400 mb-4 font-semibold">Twoje konto wymaga weryfikacji.</p>
+          <button onClick={onConnect} className="px-6 py-3 bg-gold-500 text-black rounded-xl font-bold">
+            Dokończ rejestrację
+          </button>
+        </div>
       </div>
     );
   }
@@ -247,12 +254,18 @@ export default function Mint({ onMintSuccess, onConnect }) {
         animate={{ opacity: 1, y: 0 }}
         className="mb-12 text-center"
       >
-        <h1 className="text-4xl md:text-6xl font-black font-sans text-white tracking-tight mb-4">
-          <Trans i18nKey="mint_title" components={[<span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent" />]} />
-        </h1>
-        <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-          {t("mint_subtitle")}
+        <h2 className="font-playfair text-3xl text-[#F5F0E8] text-center mb-2">
+          Wybierz swojego Bobra
+        </h2>
+        <p className="text-[#8A9E8A] text-center mb-2">
+          Każdy zarejestrowany użytkownik odbiera darmowy Paszport.
         </p>
+        <p className="text-[#C9A84C] text-center text-sm mb-8">
+          Paszport to Twój profil w społeczności DAOResorts.
+          Nie jest to jeszcze Członkostwo.
+        </p>
+
+        {hasNft && <MembershipBanner activeMembers={0} />}
 
         {/* Nick input */}
         {!hasNft && (
@@ -311,25 +324,30 @@ export default function Mint({ onMintSuccess, onConnect }) {
 
                     <div className="p-5 flex flex-col gap-4">
                       <button
-                        disabled={nft.isMinted || !!mintingId}
+                        disabled={nft.isMinted || !!mintingId || hasNft}
                         onClick={() => handleMint(nft.id)}
-                        className={`w-full py-4 rounded-2xl font-black text-sm transition-all duration-300 transform active:scale-95 flex items-center justify-center gap-2 ${nft.isMinted
+                        className={`w-full font-semibold py-3 rounded-md transition ${nft.isMinted
                           ? "bg-white/5 text-gray-500 cursor-not-allowed"
                           : mintingId === nft.id
                             ? "bg-white/10 text-white cursor-wait"
-                            : "bg-white text-black hover:bg-gold-500 hover:shadow-[0_0_20px_rgba(201,168,76,0.4)]"
+                            : hasNft
+                              ? "bg-[#2D5A3D]/50 text-[#8A9E8A] cursor-not-allowed border border-[#2D5A3D]"
+                              : "bg-[#2D5A3D] border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0E1208]"
                           }`}
                       >
                         {nft.isMinted ? (
-                          t("mint_btn_unavailable")
+                          "Niedostępny"
                         ) : mintingId === nft.id ? (
-                          <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                          <div className="flex items-center justify-center gap-2"><div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div> Aktywacja...</div>
                         ) : hasNft ? (
-                          <>{t("mint_btn_owned")} <Sparkles size={16} /></>
+                          "Masz już paszport"
                         ) : (
-                          <>{t("mint_btn_mint")} <Sparkles size={16} /></>
+                          "Odbierz Paszport - bezpłatnie"
                         )}
                       </button>
+                      <p className="text-[#8A9E8A] text-[10px] text-center mt-1">
+                        Paszport jest darmowy. Pokrywamy koszty aktywacji.
+                      </p>
                     </div>
                   </motion.div>
                 ))}
@@ -347,7 +365,7 @@ export default function Mint({ onMintSuccess, onConnect }) {
             </button>
             <span className="text-white font-bold px-4">{t("pagination_page")} {page}</span>
             <button
-              disabled={page * ITEMS_PER_PAGE >= TOTAL_SUPPLY}
+              disabled={page * ITEMS_PER_PAGE >= TOTAL_PASSPORT_SUPPLY}
               onClick={() => setPage((p) => p + 1)}
               className="p-4 rounded-2xl bg-white/5 border border-white/10 text-white disabled:opacity-20 hover:bg-white/10 transition-all"
             >

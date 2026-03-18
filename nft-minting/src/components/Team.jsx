@@ -7,10 +7,10 @@ const IPFS_BASE = "https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2p
 const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
 function formatDate(ts) {
-    if (!ts) return "—";
+    if (!ts) return "-";
     try {
         return new Date(Number(ts)).toLocaleDateString("pl-PL", { month: "short", year: "numeric" });
-    } catch { return "—"; }
+    } catch { return "-"; }
 }
 
 function MemberCard({ member, offset, onClick, isCenter }) {
@@ -21,7 +21,11 @@ function MemberCard({ member, offset, onClick, isCenter }) {
     const translateX = offset * 58; // % shift
     const zIndex = 10 - absOff;
     const opacity = absOff > 2 ? 0 : Math.max(0.3, 1 - absOff * 0.28);
-    const isFounder = member.tokenId <= 10;
+
+    // 3-tier logic
+    const isActive = member.status === 'active' || member.tokenId <= 10; // Fallback or explicit
+    const isReserved = member.status === 'reserved';
+    const isPassport = !isActive && !isReserved;
 
     return (
         <div
@@ -37,26 +41,33 @@ function MemberCard({ member, offset, onClick, isCenter }) {
                 width: "220px",
             }}
         >
-            <div className={`relative rounded-3xl overflow-hidden border-2 shadow-2xl
-        ${isFounder
-                    ? "border-yellow-400/70 shadow-yellow-400/20"
-                    : isCenter
-                        ? "border-neon-cyan/60 shadow-neon-cyan/20"
+            <div className={`relative rounded-3xl overflow-hidden border-2 shadow-2xl transition-all duration-500
+        ${isActive
+                    ? "border-gold-500 shadow-gold-500/30"
+                    : isReserved
+                        ? "border-gold-500/40 shadow-gold-500/10"
                         : "border-white/10 shadow-black/40"
                 }
         bg-[#0d1117]`}
             >
-                {/* Founder crown */}
-                {isFounder && (
-                    <div className="absolute top-3 left-3 z-20 bg-yellow-500/90 backdrop-blur-md px-2 py-1 rounded-full flex items-center gap-1">
-                        <Crown size={10} className="text-black" />
-                        <span className="text-black text-[10px] font-black">Founder</span>
+                {/* Active Member Badge (Crown/Diamond) */}
+                {isActive && (
+                    <div className="absolute top-3 left-3 z-20 bg-gold-500 shadow-lg shadow-gold-500/20 backdrop-blur-md px-2 py-1 rounded-full flex items-center gap-1">
+                        <Crown size={10} className="text-forest-900" />
+                        <span className="text-forest-900 text-[10px] font-black uppercase tracking-tighter">Member</span>
+                    </div>
+                )}
+
+                {/* Reserved Badge */}
+                {isReserved && (
+                    <div className="absolute top-3 left-3 z-20 bg-gold-500/20 backdrop-blur-md border border-gold-500/30 px-2 py-1 rounded-full flex items-center gap-1">
+                        <span className="text-gold-500 text-[9px] font-black uppercase tracking-tighter">Reserved</span>
                     </div>
                 )}
 
                 {/* Token badge */}
                 <div className="absolute top-3 right-3 z-20 bg-black/60 backdrop-blur-md px-2 py-1 rounded-full border border-white/10">
-                    <span className="text-neon-cyan font-mono font-bold text-xs">#{member.tokenId}</span>
+                    <span className={`${isActive ? "text-gold-500" : "text-neon-cyan"} font-mono font-bold text-xs`}>#{member.tokenId}</span>
                 </div>
 
                 {/* NFT Image */}
@@ -64,19 +75,19 @@ function MemberCard({ member, offset, onClick, isCenter }) {
                     <img
                         src={`${IPFS_BASE}${member.photoId}.webp`}
                         alt={member.memberName}
-                        className="w-full h-full object-cover"
+                        className={`w-full h-full object-cover ${isPassport ? "grayscale-[0.4] opacity-80" : ""}`}
                         loading="lazy"
                     />
                 </div>
 
                 {/* Info */}
-                <div className={`p-4 ${isCenter ? "bg-gradient-to-t from-neon-cyan/10 to-transparent" : ""}`}>
-                    <h3 className="text-white font-black text-lg truncate">{member.memberName}</h3>
+                <div className={`p-4 ${isCenter ? "bg-gradient-to-t from-gold-500/5 to-transparent" : ""}`}>
+                    <h3 className="text-white font-black text-lg truncate">{member.memberName || "Member"}</h3>
                     <div className="flex items-center justify-between mt-1">
-                        <span className="text-gray-400 text-xs">
-                            {member.registeredAt ? formatDate(member.registeredAt) : ""}
+                        <span className="text-gray-400 text-[10px] uppercase tracking-widest font-bold">
+                            {isActive ? "Founder" : isReserved ? "Reserved" : "Passport"}
                         </span>
-                        {isFounder && <Star size={12} className="text-yellow-400" />}
+                        {isActive && <Star size={12} className="text-gold-500" />}
                     </div>
                 </div>
             </div>
@@ -129,11 +140,11 @@ export default function Team({ hasNft, onNavigate }) {
                     {loading ? "Ładowanie..." : `${members.length} Członków Klubu`}
                 </div>
                 <h1 className="text-4xl md:text-6xl font-black text-white mb-4">
-                    Nasza <span className="text-neon-cyan">Brygada</span>
+                    Nasi <span className="text-neon-cyan">Klubowicze</span>
                 </h1>
                 <p className="text-gray-400 max-w-xl mx-auto text-sm leading-relaxed">
-                    Pierwsi członkowie pierwszego w Europie Web3 resortu wakacyjnego.
-                    Każdy NFT to unikalny paszport do ekskluzywnego klubu DAOResorts.
+                    Pierwsi członkowie naszego nowoczesnego resortu wakacyjnego.
+                    Każdy paszport to unikalny dostęp do ekskluzywnego klubu DAOResorts.
                 </p>
             </motion.div>
 
@@ -254,33 +265,45 @@ export default function Team({ hasNft, onNavigate }) {
                             Wszyscy Członkowie <span className="text-gray-500 font-normal text-lg">({members.length})</span>
                         </h2>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-w-5xl mx-auto">
-                            {members.map((member, i) => (
-                                <motion.div
-                                    key={member.tokenId}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: i * 0.04 }}
-                                    onClick={() => setActive(i)}
-                                    className={`bg-[#0d1117] border rounded-2xl overflow-hidden cursor-pointer group transition-all hover:-translate-y-1 hover:shadow-lg
-                    ${member.tokenId <= 10
-                                            ? "border-yellow-400/30 hover:border-yellow-400/60 hover:shadow-yellow-400/10"
-                                            : "border-white/10 hover:border-neon-cyan/40 hover:shadow-neon-cyan/10"
-                                        }`}
-                                >
-                                    <div className="aspect-square overflow-hidden">
-                                        <img
-                                            src={`${IPFS_BASE}${member.photoId}.webp`}
-                                            alt={member.memberName}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                            loading="lazy"
-                                        />
-                                    </div>
-                                    <div className="p-3">
-                                        <p className="text-white font-bold text-sm truncate">{member.memberName}</p>
-                                        <p className="text-neon-cyan font-mono text-xs">#{member.tokenId}</p>
-                                    </div>
-                                </motion.div>
-                            ))}
+                            {members.map((member, i) => {
+                                const isActive = member.status === 'active' || member.tokenId <= 10;
+                                const isReserved = member.status === 'reserved';
+
+                                return (
+                                    <motion.div
+                                        key={member.tokenId}
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ delay: i * 0.04 }}
+                                        onClick={() => setActive(i)}
+                                        className={`bg-[#0d1117] border rounded-2xl overflow-hidden cursor-pointer group transition-all hover:-translate-y-1 hover:shadow-lg
+                        ${isActive
+                                                ? "border-gold-500 shadow-gold-500/10 hover:border-gold-500/80"
+                                                : isReserved
+                                                    ? "border-gold-500/30 hover:border-gold-500/60"
+                                                    : "border-white/10 hover:border-white/20"
+                                            }`}
+                                    >
+                                        <div className="aspect-square overflow-hidden relative">
+                                            <img
+                                                src={`${IPFS_BASE}${member.photoId}.webp`}
+                                                alt={member.memberName}
+                                                className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${!isActive && !isReserved ? "grayscale-0 opacity-90" : ""}`}
+                                                loading="lazy"
+                                            />
+                                            {isActive && (
+                                                <div className="absolute top-2 left-2 bg-gold-500 rounded-full p-1 shadow-lg">
+                                                    <Crown size={8} className="text-forest-900" />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="p-3">
+                                            <p className="text-white font-bold text-sm truncate">{member.memberName || "Member"}</p>
+                                            <p className={`${isActive ? "text-gold-500" : "text-gray-500"} font-mono text-[10px]`}>#{member.tokenId}</p>
+                                        </div>
+                                    </motion.div>
+                                );
+                            })}
                         </div>
                     </div>
                 </>

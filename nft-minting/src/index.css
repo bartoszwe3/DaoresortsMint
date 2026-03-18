@@ -136,6 +136,12 @@ section:not(#hero) {
   }
 }
 
+#roadmap {
+  display: block;
+  max-width: none;
+  margin: 0;
+}
+
 .wallet-adapter-button {
   background-color: transparent !important;
   border: 1px solid rgb(36, 26, 26) !important;
