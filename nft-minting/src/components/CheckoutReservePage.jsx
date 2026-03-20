@@ -241,6 +241,10 @@ Tytuł przelewu: DAOResorts Rezerwacja #${assignedTokenNumber} ${userEmail}`;
                     </div>
                 </div>
 
+                <p className="text-[#8A9E8A] text-xs text-center leading-relaxed mt-4">
+                    Kupiłem tę ziemię za własne pieniądze zanim sprzedałem pierwszy token. Nie możesz mi zaufać bardziej niż ja zaufałem tej idei.
+                </p>
+
                 <div className="bg-[#0E1208] border border-[#2D5A3D] rounded-xl p-6 mb-6">
                     <div className="flex justify-between items-center mb-4">
                         <p className="text-[#F5F0E8] font-semibold">Dane do przelewu</p>

@@ -40,6 +40,9 @@ export default function FounderPage() {
                         <p className="text-[#8A9E8A] text-sm mb-6">
                             WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.
                         </p>
+                        <p className="text-[#F5F0E8] text-base font-medium border-l-4 border-[#C9A84C] pl-4 mb-4">
+                            Kupiłem tę ziemię za własne pieniądze zanim sprzedałem pierwszy token. Nie możesz mi zaufać bardziej niż ja zaufałem tej idei.
+                        </p>
                         <blockquote className="border-l-4 border-[#C9A84C] pl-4 mb-6">
                             <p className="font-playfair text-xl text-[#F5F0E8] italic">
                                 "Szukałem miejsca gdzie mógłbym wypoczywać bez przepłacania hotelom. Bez wydawania 500 tys pln na dom wakacyjny, Nie znalazłem, więc postanowiłem je zbudować"

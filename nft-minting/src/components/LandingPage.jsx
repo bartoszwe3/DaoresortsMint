@@ -383,6 +383,9 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                                 </li>
                             ))}
                         </ul>
+                        <p className="text-[#8A9E8A] text-sm italic mt-6">
+                            "Działka kupiona z własnych środków foundera przed uruchomieniem sprzedaży tokenów."
+                        </p>
                     </div>
 
                     {/* MVP Spec */}
