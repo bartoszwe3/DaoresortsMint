@@ -235,22 +235,7 @@ export default function NftVoting({ isState3Member }) {
         </div>
       ) : (
         <div className="relative">
-          {(!isState3Member && !isAdmin) && (
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-forest-900/40 backdrop-blur-md rounded-3xl border border-border-default/20 p-6 text-center">
-              <div className="w-16 h-16 bg-gold-500/20 rounded-full flex items-center justify-center mb-4 border border-gold-500/30">
-                <Lock size={32} className="text-gold-500" />
-              </div>
-              <h2 className="text-2xl font-playfair font-bold text-text-primary mb-2">Głosowania Zablokowane</h2>
-              <p className="text-text-secondary mb-6 max-w-sm">Kup token członkowski, aby uzyskać pełny dostęp do zarządzania resortem i decydowania o jego przyszłości.</p>
-              <button
-                onClick={() => document.getElementById('voting').scrollIntoView()}
-                className="px-8 py-3 bg-gold-500 text-forest-900 font-bold rounded-xl hover:bg-gold-600 transition-colors shadow-btn-primary hover:shadow-btn-primary-hover"
-              >
-                Kup token żeby głosować
-              </button>
-            </div>
-          )}
-          <div className={`space-y-4 ${(!isState3Member && !isAdmin) ? 'opacity-30 pointer-events-none' : ''}`}>
+          <div className="space-y-4">
             {proposals.map((p, i) => {
               const isActive = p.status === "active";
               const timeLeft = p.endTime ? formatTimeLeft(p.endTime) : null;
@@ -281,6 +266,11 @@ export default function NftVoting({ isState3Member }) {
                         }`}>
                         {p.status === "passed" ? "✅ Przyjęte" : p.status === "active" ? "🟢 Aktywne" : "🔴 Zakończone"}
                       </span>
+                      {(!isState3Member && !isAdmin) && (
+                        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-gold-500/10 text-gold-500 border border-gold-500/20 flex items-center gap-1">
+                          <Lock size={10} /> {t("voting_view_only")}
+                        </span>
+                      )}
                       {p.snapshotId && (
                         <span className="text-xs text-gray-600 border border-white/5 px-2 py-0.5 rounded-full">
                           Snapshot #{p.snapshotId.slice(0, 8)}
@@ -398,6 +388,34 @@ export default function NftVoting({ isState3Member }) {
               );
             })}
           </div>
+
+          {!isState3Member && !isAdmin && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-12 p-8 rounded-3xl bg-gradient-to-br from-gold-500/10 to-gold-600/5 border border-gold-500/20 text-center shadow-xl backdrop-blur-sm"
+            >
+              <div className="w-16 h-16 bg-gold-500/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-gold-500/30">
+                <Lock size={32} className="text-gold-500" />
+              </div>
+              <h3 className="text-2xl font-playfair font-bold text-text-primary mb-3">
+                {t("voting_cta_text")}
+              </h3>
+              <p className="text-text-secondary mb-8 text-sm max-w-sm mx-auto">
+                Tylko Członkowie posiadający Paszport NFT mogą brać czynny udział w zarządzaniu klubem i decydować o kluczowych etapach rozwoju.
+              </p>
+              <button
+                onClick={() => {
+                  const registerSection = document.getElementById('register');
+                  if (registerSection) registerSection.scrollIntoView({ behavior: 'smooth' });
+                  else window.location.href = '/?tab=register';
+                }}
+                className="px-10 py-4 bg-gold-500 text-forest-900 font-black rounded-xl hover:bg-gold-400 transition-all shadow-btn-primary hover:shadow-[0_0_20px_rgba(201,168,76,0.6)] transform hover:scale-105"
+              >
+                {t("voting_cta_btn")}
+              </button>
+            </motion.div>
+          )}
         </div>
       )}
     </div>
