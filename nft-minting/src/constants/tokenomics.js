@@ -11,7 +11,7 @@ export const STAGE_4_ACTIVATION = 4990;
 
 export const PAYMENT_STAGES = [
     { id: 0, amount: STAGE_0_RESERVATION, label_pl: "Rezerwacja", desc_pl: "Wpisowe rezerwacyjne (zwrotne)" },
-    { id: 1, amount: STAGE_1_FOUNDATION, label_pl: "Fundamenty", desc_pl: "Rozpoczęcie budowy (po PNB)" },
+    { id: 1, amount: STAGE_1_FOUNDATION, label_pl: "Fundamenty", desc_pl: "Po uzyskaniu PNB" },
     { id: 2, amount: STAGE_2_STRUCTURE, label_pl: "Konstrukcja", desc_pl: "Stan surowy otwarty" },
     { id: 3, amount: STAGE_3_FINISHING, label_pl: "Wykończenie", desc_pl: "Instalacje i stolarka" },
     { id: 4, amount: STAGE_4_ACTIVATION, label_pl: "Aktywacja", desc_pl: "Odbiór i aktywacja NFT" }

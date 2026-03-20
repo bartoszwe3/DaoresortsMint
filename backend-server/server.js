@@ -39,6 +39,47 @@ const saveJSON = (file, data) =>
   fs.writeFileSync(file, JSON.stringify(data, null, 2));
 
 // -------------------------------
+// MIGRATION HELPER
+// -------------------------------
+const migrateUserData = () => {
+  dbMutex.runExclusive(() => {
+    try {
+      const users = loadJSON(FILE_USERS);
+      let migrated = false;
+
+      const updatedUsers = users.map(user => {
+        // If user doesn't have paymentStages but has legacy paymentStatus
+        if (!user.paymentStages && user.paymentStatus) {
+          migrated = true;
+          const stages = {};
+
+          if (user.paymentStatus === 'confirmed') {
+            stages["0"] = { status: 'confirmed', amount: 2000, confirmedAt: user.paymentConfirmedAt || new Date().toISOString() };
+          } else if (user.paymentStatus === 'verification') {
+            stages["0"] = { status: 'verification', amount: 2000, generatedAt: user.paymentGeneratedAt };
+          } else if (user.paymentStatus === 'awaiting') {
+            stages["0"] = { status: 'awaiting', amount: 2000, generatedAt: user.paymentGeneratedAt };
+          }
+
+          user.paymentStages = stages;
+          // We keep paymentStatus for backward compatibility during Phase 1 if needed
+        }
+        return user;
+      });
+
+      if (migrated) {
+        console.log("🔄 Migrated user data to paymentStages format.");
+        saveJSON(FILE_USERS, updatedUsers);
+      }
+    } catch (err) {
+      console.error("❌ Migration error:", err);
+    }
+  });
+};
+
+migrateUserData();
+
+// -------------------------------
 // MIDDLEWARE
 // -------------------------------
 // Capture raw body for webhook signature verification BEFORE json parsing

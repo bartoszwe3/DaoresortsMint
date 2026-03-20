@@ -511,7 +511,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                                 </div>
                                 <div className="space-y-1">
                                     <h3 className="font-bold text-xl text-white/90">Fundament</h3>
-                                    <p className="text-sm text-[#8A9E8A] font-light italic">Po wylaniu fund.</p>
+                                    <p className="text-sm text-[#8A9E8A] font-light italic">Po uzyskaniu PNB</p>
                                 </div>
                             </div>
                             <div className="text-[#C9A84C]/60 font-bold text-2xl md:text-right font-sans">
@@ -543,7 +543,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                                 </div>
                                 <div className="space-y-1">
                                     <h3 className="font-bold text-xl text-white/90">Wykończenie</h3>
-                                    <p className="text-sm text-[#8A9E8A] font-light italic">Po wykończeniu</p>
+                                    <p className="text-sm text-[#8A9E8A] font-light italic">Instalacje i stolarka</p>
                                 </div>
                             </div>
                             <div className="text-[#C9A84C]/60 font-bold text-2xl md:text-right font-sans">

@@ -58,7 +58,14 @@
     "paymentGenerated": true,
     "paymentOrderId": "DAOR-1772021688625-7353",
     "paymentGeneratedAt": "2026-02-25T12:14:48.625Z",
-    "paymentStatus": "awaiting"
+    "paymentStatus": "awaiting",
+    "paymentStages": {
+      "0": {
+        "status": "awaiting",
+        "amount": 2000,
+        "generatedAt": "2026-02-25T12:14:48.625Z"
+      }
+    }
   },
   {
     "email": "hjuren01hh@gmail.com",
@@ -150,10 +157,11 @@
     "registeredAt": 1772549262176,
     "whitelisted": false,
     "minted": true,
-    "membershipTokenId": 3,
-    "membershipTxHash": "0x9bd852cfe055b73e1422d30f2dbe1759b086f9f7d3389872077f45d57bfb9bd5",
-    "photoId": 3,
-    "memberName": "Maciekkk2k"
+    "membershipTokenId": 13,
+    "membershipTxHash": "0xb555a248553d568788fb918bdc68e145a2e90d49794617f3e149ce4684cbdaf1",
+    "photoId": 12,
+    "memberName": "karo",
+    "mintDate": "3/17/2026, 2:01:55 AM"
   },
   {
     "email": "hjuren01@gmail.com",

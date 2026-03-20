@@ -100,17 +100,24 @@ router.get('/my/:walletAddress', (req, res) => {
     try {
         const { walletAddress } = req.params;
 
-        const payments = loadJSON(FILE_PAYMENTS);
-        const payment = payments.find(p => p.userId.toLowerCase() === walletAddress.toLowerCase());
+        const allPayments = loadJSON(FILE_PAYMENTS);
+        const users = loadJSON(FILE_USERS);
 
-        if (!payment) {
-            return res.status(404).json({ error: 'Płatność nie znaleziona' });
+        const userPayments = allPayments.filter(p => p.userId.toLowerCase() === walletAddress.toLowerCase());
+        const user = users.find(u => u.wallet && u.wallet.toLowerCase() === walletAddress.toLowerCase());
+
+        if (userPayments.length === 0 && !user) {
+            return res.status(404).json({ error: 'Dane nie odnalezione' });
         }
 
-        res.json(payment);
+        res.json({
+            payments: userPayments,
+            paymentStages: user ? user.paymentStages : {},
+            kycStatus: user ? user.kycStatus : 'none'
+        });
 
     } catch (error) {
-        console.error('Get my payment error:', error);
+        console.error('Get my payments error:', error);
         res.status(500).json({ error: error.message });
     }
 });

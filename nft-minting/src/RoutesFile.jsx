@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import MainPage from "./components/MainPage";
 import MyNfts from "./components/MyNfts";
@@ -28,7 +28,7 @@ function RoutesFile() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/members" element={<ProjectsShowcase />} />
-          <Route path="/faq" element={<MainPage />} />
+          <Route path="/faq" element={<Navigate to="/?tab=faq" replace />} />
           <Route path="/passport" element={<MyNfts />} />
           <Route path="/my-nfts" element={<MyNfts />} />
           <Route path="/projects" element={<ProjectsShowcase />} />

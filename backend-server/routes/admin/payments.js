@@ -67,7 +67,7 @@ router.get('/', (req, res) => {
 // -------------------------------------------------------------
 router.post('/generate', async (req, res) => {
     try {
-        const { userId } = req.body; // In this JSON version, we'll use wallet address as the unique user ID
+        const { userId, stage = 0 } = req.body;
 
         let users = loadJSON(FILE_USERS);
         let userIndex = users.findIndex(u => u.wallet && u.wallet.toLowerCase() === userId.toLowerCase());
@@ -82,29 +82,46 @@ router.post('/generate', async (req, res) => {
             return res.status(400).json({ error: 'Użytkownik musi mieć zatwierdzony KYC' });
         }
 
-        if (user.paymentGenerated) {
-            return res.status(400).json({ error: 'Płatność już została wygenerowana dla tego użytkownika' });
+        // Initialize paymentStages if missing
+        if (!user.paymentStages) user.paymentStages = {};
+
+        if (user.paymentStages[stage] && user.paymentStages[stage].status === 'confirmed') {
+            return res.status(400).json({ error: `Płatność dla etapu ${stage} jest już potwierdzona` });
+        }
+
+        const stageAmounts = {
+            0: 2000,
+            1: 5000,
+            2: 5000,
+            3: 3000,
+            4: 4990
+        };
+
+        const amount = stageAmounts[stage] || 0;
+        if (amount === 0) {
+            return res.status(400).json({ error: 'Nieprawidłowy etap płatności' });
         }
 
         const timestamp = Date.now();
         const random = Math.floor(1000 + Math.random() * 9000);
-        const orderId = `DAOR-${timestamp}-${random}`;
+        const orderId = `DAOR-S${stage}-${timestamp}-${random}`;
 
         const now = new Date();
         const expires = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
         const newPayment = {
-            id: orderId, // internal generic id matching orderId for simplicity
+            id: orderId,
             userId: user.wallet,
             orderId: orderId,
-            amount: 20000,
+            stage: stage,
+            amount: amount,
             status: 'awaiting',
             paymentMethod: 'bank_transfer',
             bankDetails: {
                 accountNumber: process.env.MBANK_ACCOUNT_NUMBER || '00 1140 2004 0000 3002 0123 4567',
                 recipientName: process.env.MBANK_RECIPIENT_NAME || 'DAOResorts Sp. z o.o.',
                 transferTitle: orderId,
-                amount: '20,000.00 PLN'
+                amount: `${amount.toLocaleString('pl-PL')}.00 PLN`
             },
             generatedAt: now.toISOString(),
             expiresAt: expires.toISOString()
@@ -116,16 +133,26 @@ router.post('/generate', async (req, res) => {
         saveJSON(FILE_PAYMENTS, payments);
 
         // Update user
+        users[userIndex].paymentStages[stage] = {
+            status: 'awaiting',
+            orderId: orderId,
+            amount: amount,
+            generatedAt: now.toISOString()
+        };
+
+        // Backward compatibility for Phase 1 UI
         users[userIndex].paymentGenerated = true;
         users[userIndex].paymentOrderId = orderId;
-        users[userIndex].paymentGeneratedAt = now.toISOString();
         users[userIndex].paymentStatus = 'awaiting';
+
         saveJSON(FILE_USERS, users);
 
         // Send email
         await sendEmail(user.email, 'payment-instructions', {
             name: user.email.split('@')[0],
             orderId: orderId,
+            stage: stage,
+            amount: newPayment.bankDetails.amount,
             accountNumber: newPayment.bankDetails.accountNumber,
             expiryDate: expires.toLocaleDateString('pl-PL'),
             dashboardUrl: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard/moje-konto`
@@ -134,7 +161,7 @@ router.post('/generate', async (req, res) => {
         res.json({
             success: true,
             payment: newPayment,
-            message: 'Płatność wygenerowana i email wysłany do użytkownika'
+            message: `Płatność dla Etapu ${stage} wygenerowana i email wysłany`
         });
 
     } catch (error) {
@@ -160,6 +187,7 @@ router.patch('/:paymentId/verify', async (req, res) => {
         }
 
         const payment = payments[paymentIndex];
+        const stage = payment.stage !== undefined ? payment.stage : 0;
 
         if (!payment.proofOfPayment || !payment.proofOfPayment.fileUrl) {
             return res.status(400).json({ error: 'Użytkownik nie przesłał potwierdzenia płatności' });
@@ -169,41 +197,56 @@ router.patch('/:paymentId/verify', async (req, res) => {
         const userIndex = users.findIndex(u => u.wallet && u.wallet.toLowerCase() === payment.userId.toLowerCase());
         const user = users[userIndex];
 
-        // Check for duplicate NFT before minting
-        await checkDuplicateNFT(user.email, user.wallet, user.wallet);
-
         // Update payment
         payments[paymentIndex].status = 'confirmed';
         payments[paymentIndex].verifiedAt = new Date().toISOString();
-        payments[paymentIndex].verifiedBy = "admin"; // Mock admin email
+        payments[paymentIndex].verifiedBy = "admin";
         saveJSON(FILE_PAYMENTS, payments);
 
-        // Update user
+        // Update user stages
+        if (!users[userIndex].paymentStages) users[userIndex].paymentStages = {};
+        users[userIndex].paymentStages[stage] = {
+            ...users[userIndex].paymentStages[stage],
+            status: 'confirmed',
+            confirmedAt: new Date().toISOString()
+        };
+
+        // Backward compatibility
         users[userIndex].paymentStatus = 'confirmed';
         users[userIndex].paymentConfirmedAt = new Date().toISOString();
 
-        // Mint NFT
-        const nftResult = await mintMembershipNFT(user.wallet);
+        let nftMsg = "";
+        // Only trigger NFT minting on Stage 4 (Activation)
+        if (stage === 4 || stage === "4") {
+            // Check for duplicate NFT before minting
+            try {
+                await checkDuplicateNFT(user.email, user.wallet, user.wallet);
+                const nftResult = await mintMembershipNFT(user.wallet);
 
-        if (nftResult.success) {
-            users[userIndex].membershipTokenId = nftResult.tokenId;
-            users[userIndex].membershipTxHash = nftResult.txHash;
-            users[userIndex].isMember = true;
+                if (nftResult.success) {
+                    users[userIndex].membershipTokenId = nftResult.tokenId;
+                    users[userIndex].membershipTxHash = nftResult.txHash;
+                    users[userIndex].isMember = true;
 
-            saveJSON(FILE_USERS, users);
-
-            await sendEmail(user.email, 'membership-activated', {
-                name: user.email.split('@')[0],
-                tokenId: nftResult.tokenId,
-                txHash: nftResult.txHash,
-                dashboardUrl: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard`
-            });
+                    await sendEmail(user.email, 'membership-activated', {
+                        name: user.email.split('@')[0],
+                        tokenId: nftResult.tokenId,
+                        txHash: nftResult.txHash,
+                        dashboardUrl: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard`
+                    });
+                    nftMsg = " oraz NFT został utworzony";
+                }
+            } catch (dupErr) {
+                console.error("NFT Minting skipped or failed:", dupErr.message);
+                nftMsg = " (NFT nie został utworzony: " + dupErr.message + ")";
+            }
         }
+
+        saveJSON(FILE_USERS, users);
 
         res.json({
             success: true,
-            nftResult,
-            message: 'Płatność potwierdzona i NFT utworzony'
+            message: `Płatność dla Etapu ${stage} potwierdzona${nftMsg}`
         });
 
     } catch (error) {
