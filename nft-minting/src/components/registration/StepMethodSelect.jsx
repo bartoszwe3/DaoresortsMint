@@ -10,7 +10,7 @@ export default function StepMethodSelect({ setAuthMethod, goNext }) {
                     Dołącz do DAOResorts
                 </h1>
                 <p className="font-sans text-sm text-[#8A9E8A]">
-                    Wybierz jak chcesz się zalogować. Nie potrzebujesz kryptowalut.
+                    Wybierz jak chcesz się zalogować. Nie potrzebujesz portfela kryptowalut.
                 </p>
             </div>
 
