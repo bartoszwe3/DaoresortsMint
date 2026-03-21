@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Users, ChevronLeft, ChevronRight, Crown, Star, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useUserStatus } from "../hooks/useUserStatus";
 
 const IPFS_BASE = "https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2pbbrpz6qsmbgeajptl3q/";
 const API_BASE = process.env.REACT_APP_API_BASE ?? "";
@@ -95,12 +97,25 @@ function MemberCard({ member, offset, onClick, isCenter }) {
     );
 }
 
-export default function Team({ hasNft, onNavigate }) {
+export default function Team({ hasNft: propHasNft, onNavigate }) {
+    const navigate = useNavigate();
+    const { isState3Member } = useUserStatus();
+    const hasNft = propHasNft ?? isState3Member;
+
     const [members, setMembers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [active, setActive] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
     const intervalRef = useRef(null);
+
+    const handleNavigate = (tab) => {
+        if (onNavigate) {
+            onNavigate(tab);
+        } else {
+            // If on standalone /team page, go to main page with tab parameter
+            navigate(`/?tab=${tab}`);
+        }
+    };
 
     useEffect(() => {
         fetch(`${API_BASE}/api/members/public`)
@@ -246,14 +261,14 @@ export default function Team({ hasNft, onNavigate }) {
                         <div className="flex justify-center mb-12">
                             {hasNft ? (
                                 <button
-                                    onClick={() => onNavigate && onNavigate("projects")}
+                                    onClick={() => handleNavigate("projects")}
                                     className="bg-neon-cyan/10 hover:bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30 font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-[0_0_15px_rgba(0,255,255,0.15)] flex items-center gap-2"
                                 >
                                     Zobacz nasz projekt <ArrowRight size={18} />
                                 </button>
                             ) : (
                                 <button
-                                    onClick={() => onNavigate && onNavigate("mint")}
+                                    onClick={() => handleNavigate("mint")}
                                     className="bg-neon-cyan/10 hover:bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30 font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-[0_0_15px_rgba(0,255,255,0.15)] flex items-center gap-2"
                                 >
                                     Zdobądź paszport <ArrowRight size={18} />
