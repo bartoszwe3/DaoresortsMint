@@ -320,7 +320,7 @@ export default function Mint({ onMintSuccess, onConnect }) {
                     </div>
                   </div>
 
-                  <div className="p-5 flex flex-col gap-4">
+                  <div className="px-5 py-3 flex flex-col gap-2">
                     <button
                       disabled={nft.isMinted || !!mintingId || hasNft}
                       onClick={() => handleMint(nft.id)}
@@ -330,7 +330,7 @@ export default function Mint({ onMintSuccess, onConnect }) {
                           ? "bg-white/10 text-white cursor-wait"
                           : hasNft
                             ? "bg-[#2D5A3D]/50 text-[#8A9E8A] cursor-not-allowed border border-[#2D5A3D]"
-                            : "bg-[#2D5A3D] border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0E1208]"
+                            : "text-sm tracking-wide border border-[#C9A84C] text-[#C9A84C] bg-transparent hover:bg-[#C9A84C] hover:text-[#0E1208] transition-all duration-300 py-2.5"
                         }`}
                     >
                       {nft.isMinted ? (
@@ -340,11 +340,11 @@ export default function Mint({ onMintSuccess, onConnect }) {
                       ) : hasNft ? (
                         "Masz już paszport"
                       ) : (
-                        "Odbierz Paszport - bezpłatnie"
+                        "Zajmij to miejsce - Bezpłatnie"
                       )}
                     </button>
-                    <p className="text-[#8A9E8A] text-[10px] text-center mt-1">
-                      Paszport jest darmowy. Pokrywamy koszty aktywacji.
+                    <p className="text-[#8A9E8A] text-[10px] text-center leading-tight opacity-80">
+                      Miejsce jest darmowe. Pokrywamy koszty aktywacji.
                     </p>
                   </div>
                 </motion.div>

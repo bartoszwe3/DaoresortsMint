@@ -156,14 +156,14 @@ export default function FounderPage() {
                     Dołącz do projektu
                 </h2>
                 <p className="text-[#8A9E8A] mb-4">
-                    Odbierz darmowy Paszport i zostań częścią społeczności.
+                    Zajmij darmowe miejsce i zostań częścią społeczności.
                     Jeśli chcesz korzystać z resortu - zarezerwuj członkostwo.
                 </p>
 
                 {/* Dwa CTA - rozróżnienie paszport vs członkostwo */}
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                     <a href="/" className="bg-[#C9A84C] text-[#0E1208] font-semibold px-6 py-4 rounded-md hover:bg-[#C9A84C]/90 transition-colors">
-                        Odbierz Paszport - bezpłatnie
+                        Zajmij to miejsce - Bezpłatnie
                     </a>
                     <a href="/checkout/stage/0" className="border border-[#C9A84C] text-[#C9A84C] font-semibold px-6 py-4 rounded-md hover:bg-[#C9A84C] hover:text-[#0E1208] transition-colors">
                         Zarezerwuj członkostwo - 2000 PLN

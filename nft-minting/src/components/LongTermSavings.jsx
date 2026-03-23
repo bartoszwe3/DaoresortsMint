@@ -262,17 +262,9 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                         iconType="circle"
                                         formatter={(value) => <span className="text-xs text-gray-400 uppercase tracking-widest ml-1">{value}</span>}
                                     />
-                                    <Bar dataKey="DAO" fill="#C9A84C" name="DAOResorts" radius={[4, 4, 0, 0]} barSize={isMobile ? 15 : 30} />
-                                    <Bar dataKey="Hotel" fill="#2D5A3D" name="Hotel" radius={[4, 4, 0, 0]} barSize={isMobile ? 15 : 30} />
-                                    <Line
-                                        type="monotone"
-                                        dataKey="Own"
-                                        stroke="#E74C3C"
-                                        name="Własny domek"
-                                        strokeWidth={3}
-                                        dot={{ fill: '#E74C3C', r: 4 }}
-                                        activeDot={{ r: 6, stroke: '#fff', strokeWidth: 2 }}
-                                    />
+                                    <Bar dataKey="DAO" fill="#C9A84C" name="DAOResorts" radius={[4, 4, 0, 0]} barSize={isMobile ? 10 : 20} />
+                                    <Bar dataKey="Hotel" fill="#2D5A3D" name="Hotel" radius={[4, 4, 0, 0]} barSize={isMobile ? 10 : 20} />
+                                    <Bar dataKey="Own" fill="#E74C3C" name="Własny domek" radius={[4, 4, 0, 0]} barSize={isMobile ? 10 : 20} />
                                 </ComposedChart>
                             </ResponsiveContainer>
                         </div>
