@@ -1,18 +1,17 @@
 // src/components/LongTermSavings.jsx
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { ArrowRight, Calculator, TrendingUp, Users, Coffee } from "lucide-react";
+import { ComposedChart, Bar, Line, XAxis, Tooltip, ResponsiveContainer, Cell, Legend } from "recharts";
+import { ArrowRight, Calculator, TrendingUp, Users, Coffee, Check, X, Home } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { MEMBERSHIP_TOTAL, MANAGEMENT_FEE_PERCENT, BASE_OPERATIONAL_COST } from "../constants/tokenomics";
 
 export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
     const { t } = useTranslation();
     const [dailyRate, setDailyRate] = useState(800);
+    const [purchasePrice, setPurchasePrice] = useState(500000);
     const [years, setYears] = useState(10);
     const [peopleCount, setPeopleCount] = useState(6);
-    const [includeBreakfast, setIncludeBreakfast] = useState(true);
-    const [breakfastType, setBreakfastType] = useState('dao'); // 'self', 'dao', 'hotel'
     const [chartData, setChartData] = useState([]);
     const [isMobile, setIsMobile] = useState(false);
 
@@ -26,82 +25,55 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
     const DAYS_PER_YEAR = 14;
     const HOUSING_INFLATION = 0.05;
     const DAO_HOUSING_INFLATION = 0.02;
-    const HOTEL_BREAKFAST_RATE = 70;
-    const DAO_BREAKFAST_HOUSE_RATE = 43;
-    const SELF_BREAKFAST_RATE = 8;
-    const HOTEL_BREAKFAST_INFLATION = 0.05;
-    const DAO_BREAKFAST_INFLATION = 0.02;
+    const WEEKLY_DAO_COST = 667;
+    const ANNUAL_FIXED_OWN = 7150;
+    const WEEKLY_VAR_OWN_AVG = 280;
+    const OWN_VAR_INFLATION = 0.05;
 
     // Calculation Logic
     useEffect(() => {
         const data = [];
-        let cumulativeHotelHousing = 0;
-        let cumulativeHotelBreakfast = 0;
-        let cumulativeDaoHousing = MEMBERSHIP_TOTAL;
-        let cumulativeDaoBreakfast = 0;
+        let cumulativeHotel = 0;
+        let cumulativeDao = MEMBERSHIP_TOTAL;
+        let cumulativeOwn = purchasePrice;
 
         let currentDailyRate = dailyRate;
 
         for (let i = 1; i <= years; i++) {
-            // Housing
-            const yearHotelHousing = currentDailyRate * DAYS_PER_YEAR;
-            const yearDaoHousing = BASE_OPERATIONAL_COST * (DAYS_PER_YEAR / 7) * (1 + MANAGEMENT_FEE_PERCENT) * Math.pow(1 + DAO_HOUSING_INFLATION, i - 1);
-            cumulativeHotelHousing += yearHotelHousing;
-            cumulativeDaoHousing += yearDaoHousing;
+            // Hotel
+            const yearHotel = currentDailyRate * DAYS_PER_YEAR;
+            cumulativeHotel += yearHotel;
 
-            // Breakfast
-            if (includeBreakfast) {
-                // Hotel baseline is always 70 PLN with 5% inflation
-                const yearHotelBF = HOTEL_BREAKFAST_RATE * peopleCount * DAYS_PER_YEAR * Math.pow(1 + HOTEL_BREAKFAST_INFLATION, i - 1);
+            // DAO
+            const yearDao = WEEKLY_DAO_COST * 2 * Math.pow(1 + DAO_HOUSING_INFLATION, i - 1);
+            cumulativeDao += yearDao;
 
-                // DAO cost depends on type
-                let yearDaoBF;
-                if (breakfastType === 'dao') {
-                    // Fixed per house
-                    yearDaoBF = DAO_BREAKFAST_HOUSE_RATE * DAYS_PER_YEAR * Math.pow(1 + DAO_BREAKFAST_INFLATION, i - 1);
-                } else {
-                    // Per person
-                    const bfRate = breakfastType === 'self' ? SELF_BREAKFAST_RATE : HOTEL_BREAKFAST_RATE;
-                    const bfInflation = breakfastType === 'hotel' ? HOTEL_BREAKFAST_INFLATION : 0;
-                    yearDaoBF = bfRate * peopleCount * DAYS_PER_YEAR * Math.pow(1 + bfInflation, i - 1);
-                }
-
-                cumulativeHotelBreakfast += yearHotelBF;
-                cumulativeDaoBreakfast += yearDaoBF;
-            }
+            // Own Cottage
+            const yearOwnFixed = ANNUAL_FIXED_OWN;
+            const yearOwnVar = (WEEKLY_VAR_OWN_AVG * 2) * Math.pow(1 + OWN_VAR_INFLATION, i - 1);
+            cumulativeOwn += (yearOwnFixed + yearOwnVar);
 
             data.push({
                 year: `${t("calculator_chart_year")} ${i}`,
-                Hotel: Math.round(cumulativeHotelHousing + cumulativeHotelBreakfast),
-                DAO: Math.round(cumulativeDaoHousing + cumulativeDaoBreakfast),
-                Savings: Math.round((cumulativeHotelHousing + cumulativeHotelBreakfast) - (cumulativeDaoHousing + cumulativeDaoBreakfast)),
-                BreakfastSavings: includeBreakfast ? Math.round(cumulativeHotelBreakfast - cumulativeDaoBreakfast) : 0
+                Hotel: Math.round(cumulativeHotel),
+                DAO: Math.round(cumulativeDao),
+                Own: Math.round(cumulativeOwn),
+                Savings: Math.round(cumulativeHotel - cumulativeDao),
+                BreakfastSavings: 0
             });
 
             currentDailyRate *= (1 + HOUSING_INFLATION);
         }
         setChartData(data);
-    }, [dailyRate, years, peopleCount, includeBreakfast, breakfastType, t]);
+    }, [dailyRate, purchasePrice, years, peopleCount, t]);
 
     const totalSavings = chartData.length > 0 ? chartData[chartData.length - 1].Savings : 0;
-    const bfSavings = chartData.length > 0 ? chartData[chartData.length - 1].BreakfastSavings : 0;
 
     // First year metrics for the little boxes
     const firstYearHotelHousing = dailyRate * DAYS_PER_YEAR;
     const firstYearDaoHousing = BASE_OPERATIONAL_COST * (DAYS_PER_YEAR / 7) * (1 + MANAGEMENT_FEE_PERCENT);
-    const firstYearHotelBF = includeBreakfast ? HOTEL_BREAKFAST_RATE * peopleCount * DAYS_PER_YEAR : 0;
 
-    let firstYearDaoBF = 0;
-    if (includeBreakfast) {
-        if (breakfastType === 'dao') {
-            firstYearDaoBF = DAO_BREAKFAST_HOUSE_RATE * DAYS_PER_YEAR;
-        } else {
-            const bfRate = breakfastType === 'self' ? SELF_BREAKFAST_RATE : HOTEL_BREAKFAST_RATE;
-            firstYearDaoBF = bfRate * peopleCount * DAYS_PER_YEAR;
-        }
-    }
-
-    const firstYearSavings = (firstYearHotelHousing + firstYearHotelBF) - (firstYearDaoHousing + firstYearDaoBF);
+    const firstYearSavings = firstYearHotelHousing - firstYearDaoHousing;
     const roiSeasons = (MEMBERSHIP_TOTAL / firstYearSavings).toFixed(1);
 
     return (
@@ -138,6 +110,27 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                 <div className="flex justify-between text-xs text-gray-500 mt-2">
                                     <span>600 PLN</span>
                                     <span>2500 PLN</span>
+                                </div>
+                            </div>
+
+                            {/* Purchase Price Slider (Own Cottage) */}
+                            <div className="bg-white/5 p-5 md:p-6 rounded-2xl border border-white/5">
+                                <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-4">
+                                    <label className="text-white font-medium">Cena zakupu własnego domku</label>
+                                    <span className="text-[#E74C3C] font-bold text-xl">{purchasePrice.toLocaleString()} PLN</span>
+                                </div>
+                                <input
+                                    type="range"
+                                    min="300000"
+                                    max="500000"
+                                    step="10000"
+                                    value={purchasePrice}
+                                    onChange={(e) => setPurchasePrice(Number(e.target.value))}
+                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#E74C3C]"
+                                />
+                                <div className="flex justify-between text-xs text-gray-500 mt-2">
+                                    <span>300 000 PLN</span>
+                                    <span>500 000 PLN</span>
                                 </div>
                             </div>
 
@@ -184,60 +177,6 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                     <span>6</span>
                                 </div>
                             </div>
-
-                            {/* Breakfast Section */}
-                            <div className="space-y-4">
-                                <div className="flex items-center justify-between bg-white/5 p-4 rounded-xl border border-white/5 cursor-pointer" onClick={() => setIncludeBreakfast(!includeBreakfast)}>
-                                    <label className="text-white font-medium flex items-center gap-2 cursor-pointer">
-                                        <Coffee size={18} className="text-gold-500/70" /> {t("calculator_breakfast_toggle")}
-                                    </label>
-                                    <div className={`w-12 h-6 rounded-full transition-all relative ${includeBreakfast ? 'bg-gold-500' : 'bg-gray-700'}`}>
-                                        <motion.div
-                                            animate={{ x: includeBreakfast ? 24 : 4 }}
-                                            className="absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm"
-                                        />
-                                    </div>
-                                </div>
-
-                                {includeBreakfast && (
-                                    <motion.div
-                                        initial={{ opacity: 0, height: 0 }}
-                                        animate={{ opacity: 1, height: 'auto' }}
-                                        className="space-y-4 overflow-hidden"
-                                    >
-                                        {/* Komfort Premium Card */}
-                                        <div className="bg-[#1C2614] border border-gold-500/25 p-5 rounded-xl flex gap-4 items-start shadow-xl">
-                                            <div className="bg-gold-500/10 p-2 rounded-lg shrink-0">
-                                                <Coffee size={20} className="text-gold-500" />
-                                            </div>
-                                            <p className="text-sm text-gold-500/90 leading-relaxed italic">
-                                                {t("calculator_breakfast_card_text")}
-                                            </p>
-                                        </div>
-
-                                        {/* Breakfast Comparison Columns */}
-                                        <div className="grid grid-cols-3 gap-2">
-                                            {[
-                                                { id: 'self', label: t("calculator_breakfast_self"), price: '8 PLN' },
-                                                { id: 'dao', label: t("calculator_breakfast_dao"), price: '43 PLN' },
-                                                { id: 'hotel', label: t("calculator_breakfast_hotel"), price: '70 PLN' }
-                                            ].map((opt) => (
-                                                <button
-                                                    key={opt.id}
-                                                    onClick={() => setBreakfastType(opt.id)}
-                                                    className={`p-3 rounded-lg border text-center transition-all ${breakfastType === opt.id
-                                                        ? 'bg-gold-500/10 border-gold-500 text-gold-500 shadow-lg shadow-gold-500/5'
-                                                        : 'bg-white/5 border-white/5 text-gray-400 hover:border-white/10 hover:bg-white/10'
-                                                        }`}
-                                                >
-                                                    <div className="text-[10px] uppercase tracking-wider mb-1 whitespace-nowrap overflow-hidden text-ellipsis">{opt.label}</div>
-                                                    <div className="text-xs font-bold">{opt.price}{opt.id === 'dao' ? ' / domek' : ''}</div>
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </div>
                         </div>
 
                         {/* Key Metrics Grid */}
@@ -275,9 +214,9 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                     </div>
 
                     {/* RIGHT COLUMN: Visualization */}
-                    <div className="relative bg-black/40 rounded-3xl p-6 md:p-8 flex flex-col justify-between border border-white/5 min-h-[500px]">
+                    <div className="relative bg-black/40 rounded-3xl p-6 md:p-8 flex flex-col border border-white/5 min-h-[500px]">
                         {/* Header Result */}
-                        <div className="mb-8 text-center">
+                        <div className="mb-8 text-center text-left">
                             <p className="text-gray-400 mb-2 font-medium">
                                 {t("calculator_total_savings_p1")} {years} {t("calculator_total_savings_p2")}
                                 <span className="block text-xs text-gray-500">{t("calculator_inflation_note")}</span>
@@ -291,21 +230,15 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                 {totalSavings.toLocaleString()} PLN
                             </motion.div>
 
-                            {includeBreakfast && (
-                                <p className="text-[#8A9E8A] font-sans text-sm mt-2 font-medium italic">
-                                    {t("calculator_breakfast_savings")}: {Math.round(bfSavings).toLocaleString()} PLN
-                                </p>
-                            )}
-
                             <p className="text-sm text-green-400 mt-4 flex items-center justify-center gap-1 font-medium">
                                 <TrendingUp size={14} /> {t("calculator_investment_return")} {roiSeasons} {t("calculator_roi_unit")}
                             </p>
                         </div>
 
                         {/* Chart */}
-                        <div className="h-[300px] w-full mt-auto">
+                        <div className="h-[350px] w-full mt-auto">
                             <ResponsiveContainer width="100%" height="100%">
-                                <BarChart
+                                <ComposedChart
                                     data={chartData}
                                     margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                                 >
@@ -320,32 +253,169 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                     <Tooltip
                                         contentStyle={{ backgroundColor: '#1f2937', border: '1px solid #374151', borderRadius: '12px', color: '#fff' }}
                                         cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-                                        formatter={(value) => `${value.toLocaleString()} PLN`}
+                                        formatter={(value, name) => [`${value.toLocaleString()} PLN`, name]}
+                                        labelStyle={{ color: '#9ca3af', marginBottom: '8px' }}
                                     />
-                                    <Bar dataKey="Hotel" stackId="a" fill="#374151" name={t("calculator_chart_hotel")} radius={[4, 4, 0, 0]} />
-                                    <Bar dataKey="DAO" stackId="b" fill="url(#colorDao)" name={t("calculator_chart_dao")} radius={[4, 4, 0, 0]} >
-                                        {chartData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={index === chartData.length - 1 ? '#C9A84C' : '#4A6741'} />
-                                        ))}
-                                    </Bar>
-                                    <defs>
-                                        <linearGradient id="colorDao" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#C9A84C" stopOpacity={0.8} />
-                                            <stop offset="95%" stopColor="#4A6741" stopOpacity={0.8} />
-                                        </linearGradient>
-                                    </defs>
-                                </BarChart>
+                                    <Legend
+                                        verticalAlign="bottom"
+                                        height={36}
+                                        iconType="circle"
+                                        formatter={(value) => <span className="text-xs text-gray-400 uppercase tracking-widest ml-1">{value}</span>}
+                                    />
+                                    <Bar dataKey="DAO" fill="#C9A84C" name="DAOResorts" radius={[4, 4, 0, 0]} barSize={isMobile ? 15 : 30} />
+                                    <Bar dataKey="Hotel" fill="#2D5A3D" name="Hotel" radius={[4, 4, 0, 0]} barSize={isMobile ? 15 : 30} />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="Own"
+                                        stroke="#E74C3C"
+                                        name="Własny domek"
+                                        strokeWidth={3}
+                                        dot={{ fill: '#E74C3C', r: 4 }}
+                                        activeDot={{ r: 6, stroke: '#fff', strokeWidth: 2 }}
+                                    />
+                                </ComposedChart>
                             </ResponsiveContainer>
                         </div>
+                    </div>
+                </div>
+            </div>
 
-                        <div className="flex justify-center gap-6 mt-6 text-xs text-gray-500 font-medium">
-                            <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 bg-gray-700 rounded-sm"></div> {t("calculator_chart_hotel")}
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 bg-gradient-to-r from-gold-500 to-forest-600 rounded-sm"></div> {t("calculator_chart_dao_invest")}
+            {/* BREAKDOWN SECTION: "Skąd te liczby?" */}
+            <div className="mt-16 space-y-8">
+                <h3 className="text-2xl font-bold text-white text-center font-playfair uppercase tracking-widest">
+                    Skąd te liczby?
+                </h3>
+
+                <div className="grid md:grid-cols-3 gap-6 text-left">
+                    {/* CARD 1: DAOResorts */}
+                    <div className="border border-[#C9A84C]/40 bg-[#1C2614] rounded-2xl p-6 shadow-xl flex flex-col">
+                        <div className="mb-4">
+                            <h4 className="text-[#C9A84C] font-bold text-xl uppercase tracking-tighter">DAOResorts</h4>
+                            <p className="text-[#8A9E8A] text-sm">667 PLN / tydzień — wszystko wliczone</p>
+                        </div>
+                        <ul className="space-y-3 mb-6 flex-1">
+                            {[
+                                { text: "Energia elektryczna", price: "~208 PLN" },
+                                { text: "Woda (4 osoby)", price: "~42 PLN" },
+                                { text: "Jacuzzi prywatne (napełnienie, chemia)", price: "~131 PLN" },
+                                { text: "Sprzątanie końcowe", price: "~175 PLN" },
+                                { text: "Zarządzanie i serwis", price: "~111 PLN" }
+                            ].map((item, idx) => (
+                                <li key={idx} className="flex items-start gap-2 text-sm text-gray-300">
+                                    <Check size={16} className="text-[#C9A84C] shrink-0 mt-0.5" />
+                                    <span className="flex-1">{item.text}</span>
+                                    <span className="text-gray-400 font-mono text-xs">{item.price}</span>
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="border-t border-[#C9A84C]/30 pt-4">
+                            <div className="text-[#C9A84C] font-bold text-2xl mb-1">667 PLN łącznie</div>
+                            <p className="text-[#8A9E8A] text-[10px] leading-relaxed">
+                                Płacisz tylko gdy przyjeżdżasz. Zero kosztów stałych.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* CARD 2: Hotel */}
+                    <div className="border border-[#2D5A3D]/40 bg-[#1C2614] rounded-2xl p-6 shadow-xl flex flex-col">
+                        <div className="mb-4">
+                            <h4 className="text-green-500 font-bold text-xl uppercase tracking-tighter">Hotel premium</h4>
+                            <p className="text-[#8A9E8A] text-sm">{dailyRate} PLN / dobę</p>
+                        </div>
+                        <ul className="space-y-3 mb-6 flex-1">
+                            <li className="flex justify-between text-sm text-gray-300">
+                                <span>Cena doby:</span>
+                                <span>{dailyRate} PLN</span>
+                            </li>
+                            <li className="flex justify-between text-sm text-gray-300">
+                                <span>Tydzień dla 4 osób:</span>
+                                <span>{(dailyRate * 7).toLocaleString()} PLN</span>
+                            </li>
+                            <li className="text-xs text-gray-500 italic pt-2">
+                                - Śniadania: często dodatkowe<br />
+                                - Parking: 30-80 PLN/dobę<br />
+                                - Brak prywatności<br />
+                                - Inna cena każdego roku<br />
+                                - Zero prawa głosu nad obiektem
+                            </li>
+                        </ul>
+                        <div className="border-t border-[#2D5A3D]/30 pt-4">
+                            <p className="text-[#8A9E8A] text-xs leading-relaxed">
+                                Przez {years} lat z inflacją 5%:<br />
+                                <span className="text-green-500 font-bold text-lg">
+                                    {chartData.length > 0 ? chartData[chartData.length - 1].Hotel.toLocaleString() : "-"} PLN
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* CARD 3: Own Cottage */}
+                    <div className="border border-[#E74C3C]/40 bg-[#1C2614] rounded-2xl p-6 shadow-xl flex flex-col">
+                        <div className="mb-4">
+                            <h4 className="text-[#E74C3C] font-bold text-xl uppercase tracking-tighter">Własny domek</h4>
+                            <p className="text-[#8A9E8A] text-sm">Prawdziwy koszt posiadania</p>
+                        </div>
+
+                        <div className="mb-4">
+                            <p className="text-[#8A9E8A] text-[10px] uppercase font-bold mb-2">Płacisz zawsze — nawet gdy nie przyjeżdżasz:</p>
+                            <ul className="space-y-1">
+                                {[
+                                    { t: "Podatek od nieruchom.", p: "~500 PLN" },
+                                    { t: "Wywóz nieczystości", p: "~400 PLN" },
+                                    { t: "Prąd — opłaty stałe", p: "~540 PLN" },
+                                    { t: "Woda — abonament", p: "~180 PLN" },
+                                    { t: "Ubezpieczenie", p: "~550 PLN" },
+                                    { t: "Ogrzewanie dyżurne", p: "~1 600 PLN" },
+                                    { t: "Remonty i utrzymanie", p: "~3 000 PLN" }
+                                ].map((item, i) => (
+                                    <li key={i} className="flex justify-between text-[11px] text-gray-400">
+                                        <span className="flex items-center gap-1"><X size={10} className="text-[#E74C3C]" /> {item.t}</span>
+                                        <span>{item.p}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="border-t border-[#E74C3C]/30 mt-2 pt-1 text-[#E74C3C] font-bold text-xs uppercase text-right">
+                                ~7 150 PLN/rok stałych kosztów
                             </div>
                         </div>
+
+                        <div className="mt-auto">
+                            <p className="text-[#8A9E8A] text-[10px] uppercase font-bold mb-1">Koszt tygodnia pobytu:</p>
+                            <div className="text-xs text-gray-300 space-y-1">
+                                <div className="flex justify-between"><span>Lato / Zima (średnia):</span> <span>~280 PLN</span></div>
+                                <div className="border-t border-white/5 pt-1 flex justify-between font-bold text-[#E74C3C]">
+                                    <span>+ zakup:</span>
+                                    <span>~{purchasePrice.toLocaleString()} PLN</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* SUMMARY BANNER */}
+                <div className="bg-[#1C2614] border border-[#C9A84C]/40 rounded-2xl p-8 shadow-2xl relative overflow-hidden text-center">
+                    {/* Background Decorative Element */}
+                    <div className="absolute -top-24 -right-24 w-64 h-64 bg-gold-500/5 blur-[100px] rounded-full pointer-events-none" />
+
+                    <div className="relative z-10">
+                        <h4 className="font-playfair text-xl md:text-2xl text-[#F5F0E8] mb-6 leading-relaxed">
+                            Własny domek kosztuje <span className="text-gold-500 font-bold">
+                                {chartData.length > 0 ? (chartData[chartData.length - 1].Own / chartData[chartData.length - 1].DAO).toFixed(1) : "-"} razy
+                            </span> więcej niż Członkostwo DAOResorts przez {years} lat.
+                            <br />
+                            <span className="text-sm text-gray-400 italic">I stoi pusty przez 50 tygodni w roku.</span>
+                        </h4>
+
+                        <button
+                            onClick={() => (window.location.href = "/#register")}
+                            className="bg-gold-500 text-[#0E1208] font-bold px-10 py-4 rounded-xl hover:bg-gold-400 transition-all flex items-center justify-center gap-2 mx-auto shadow-lg shadow-gold-500/20"
+                        >
+                            Zarezerwuj miejsce — 2 000 PLN <ArrowRight size={20} />
+                        </button>
+
+                        <p className="text-[#8A9E8A] text-xs mt-4">
+                            Zwrotne · Blokuje 1 z 150 miejsc
+                        </p>
                     </div>
                 </div>
             </div>
