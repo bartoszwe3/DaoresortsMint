@@ -16,12 +16,14 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
     const { open } = useAppKit();
 
     const handleConnect = () => {
-        if (!isAuthenticated) {
-            if (onConnect) onConnect();
-            else open();
+        if (isRegistered) {
+            onNavigate("mynfts");
+        } else if (onConnect) {
+            onConnect();
+        } else {
+            if (!isAuthenticated) open();
+            else open({ view: "Account" });
         }
-        else if (user?.type === "wallet") open({ view: "Account" });
-        else logout();
     };
 
     useEffect(() => {

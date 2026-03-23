@@ -1,7 +1,8 @@
 // src/components/LandingPage.jsx
-import React, { useState, useRef, useLayoutEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Shield, MapPin, Check, ArrowRight, Zap, BadgeCheck, Vote, Users, FileText, Pickaxe, Key, Home, Calendar, Wrench, Settings, ShieldCheck, TrendingDown, Infinity } from "lucide-react";
+import React, { useState, useRef, useLayoutEffect, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { Shield, MapPin, Check, ArrowRight, Zap, BadgeCheck, Vote, Users, FileText, Pickaxe, Key, Home, Calendar, Wrench, Settings, ShieldCheck, TrendingDown, Infinity, ChevronDown, ChevronUp } from "lucide-react";
 import { useTranslation, Trans } from "react-i18next";
 import LongTermSavings from "./LongTermSavings";
 import MembershipProgress from "./MembershipProgress";
@@ -84,7 +85,35 @@ function MemberCarousel() {
 
 export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavigate }) {
     const { t } = useTranslation();
+    const [activeRoadmapIndex, setActiveRoadmapIndex] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
+    const [showSticky, setShowSticky] = useState(false);
+    const { scrollY } = useScroll();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.hash) {
+            setTimeout(() => {
+                const id = location.hash.replace("#", "");
+                const element = document.getElementById(id);
+                if (element) {
+                    const yOffset = -80; // Account for fixed TopNavbar height
+                    const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+                    window.scrollTo({ top: y, behavior: "smooth" });
+                }
+            }, 100); // 100ms prevents race conditions rendering the DOM
+        }
+    }, [location.hash]);
+
+    useEffect(() => {
+        return scrollY.on("change", (latest) => {
+            if (latest > window.innerHeight * 0.8) {
+                setShowSticky(true);
+            } else {
+                setShowSticky(false);
+            }
+        });
+    }, [scrollY]);
 
     // NFT_PRICE is replaced by MEMBERSHIP_TOTAL below
     const roadmapRef = useRef(null);
@@ -107,35 +136,13 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
         { date: "2026 Q3", title: t("roadmap_step_7_title"), desc: t("roadmap_step_7_desc"), icon: Key }
     ];
 
-    useLayoutEffect(() => {
-        const calculateScroll = () => {
-            const mobile = window.innerWidth < 768;
-            setIsMobile(mobile);
 
-            if (contentRef.current && roadmapRef.current && !mobile) {
-                const scrollWidth = contentRef.current.scrollWidth;
-                const clientWidth = window.innerWidth;
-                setScrollRange(scrollWidth - clientWidth + 100); // +100 padding for safety
-            }
-        };
-
-        calculateScroll();
-        window.addEventListener("resize", calculateScroll);
-        return () => window.removeEventListener("resize", calculateScroll);
-    }, [t]); // Re-calculate on translation change
-
-    const { scrollYProgress } = useScroll({
-        target: roadmapRef,
-        offset: ["start 72px", "end end"]
-    });
-    const xTransform = useTransform(scrollYProgress, [0, 1], ["0px", `-${scrollRange}px`]);
-    const x = isMobile ? "0px" : xTransform;
 
     return (
-        <div id="landing-page" className="w-full pb-24 text-white font-sans animate-in fade-in duration-700">
+        <div id="landing-page" className="w-full max-w-[100vw] overflow-x-hidden pb-24 text-white font-sans animate-in fade-in duration-700">
 
             {/* 1. HERO SECTION */}
-            <section id="hero" className="relative flex flex-col items-center justify-center text-center px-4 min-h-screen overflow-hidden pt-[72px]">
+            <section id="hero" className="relative flex flex-col justify-center text-left md:text-center px-4 sm:px-6 w-full max-w-full min-h-screen overflow-hidden pt-[72px]">
                 {/* Background Video */}
                 <div className="absolute inset-0 z-0">
                     <video
@@ -158,8 +165,8 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                 {/* Optional subtle glow for depth, not neon */}
                 <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-gold-500/5 blur-[120px] rounded-full pointer-events-none z-10" />
 
-                <div className="z-20 w-full max-w-6xl mx-auto space-y-8 px-4">
-                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="flex flex-col items-center">
+                <div className="z-20 w-full max-w-full md:max-w-6xl mx-auto space-y-8 px-4 sm:px-6">
+                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="flex flex-col items-center text-center w-full">
 
                         {/* Elegant Tag */}
                         <motion.div
@@ -170,28 +177,28 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                         </motion.div>
 
                         {/* Quiet Luxury Headline */}
-                        <h1 className="text-5xl md:text-7xl font-playfair font-semibold leading-[1.1] text-text-primary mb-8 tracking-tight drop-shadow-lg">
+                        <h1 className="text-5xl md:text-7xl lg:text-8xl text-center font-playfair font-semibold leading-[1.1] text-text-primary mb-8 tracking-tight drop-shadow-lg break-words w-full">
                             {t("hero_title_1")}
-                            <br className="hidden md:block" />
-                            <span className="text-gold-500 italic font-medium ml-2">{t("hero_title_2")}</span>
+                            <br className="block md:hidden mb-2" />
+                            <span className="text-gold-500 italic font-medium md:ml-2 block md:inline">{t("hero_title_2")}</span>
                         </h1>
 
-                        <p className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed mb-10 font-sans font-light">
+                        <p className="text-base md:text-xl text-text-secondary max-w-2xl leading-relaxed mb-10 font-sans font-light break-words w-full px-4 md:px-0 text-center">
                             <Trans i18nKey="hero_desc" components={[<span className="text-text-primary font-medium" />, <span className="text-text-primary font-medium" />]} />
                         </p>
 
-                        <div className="flex flex-col items-center justify-center gap-4">
+                        <div className="flex flex-col items-center gap-2 w-full px-4 md:px-0">
                             {/* Główny - rezerwacja */}
                             <a
                                 href="/checkout/stage/0"
-                                className="px-10 py-4 bg-gold-500 hover:bg-gold-600 text-forest-900 font-sans font-bold uppercase tracking-widest rounded-none transition-all shadow-btn-primary hover:shadow-btn-primary-hover flex items-center justify-center gap-3 text-sm min-w-[280px]"
+                                className="px-6 py-3 w-full sm:w-[300px] bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-sans font-bold rounded-none transition-all shadow-btn-primary hover:shadow-btn-primary-hover flex items-center justify-center gap-3 text-sm min-w-[280px]"
                             >
-                                zarezerwuj swoje miejsce - 2000 PLN
+                                Zarezerwuj miejsce — 2 000 PLN
                                 <ArrowRight size={18} />
                             </a>
 
                             {/* Pod przyciskiem - wyjaśnienie */}
-                            <p className="text-[#8A9E8A] text-xs text-center">
+                            <p className="text-[#8A9E8A] text-xs text-center w-full mt-1">
                                 Rezerwacja 2000 PLN (zwrotna).
                                 Kolejne etapy płatne wraz z postępem budowy.
                             </p>
@@ -206,14 +213,14 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                                             onConnect();
                                         }
                                     }}
-                                    className="border border-[#2D5A3D] text-[#8A9E8A] px-6 py-3 rounded-md text-sm mt-3 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-colors"
+                                    className="w-full sm:w-[300px] mt-2 border border-[#2D5A3D] text-[#8A9E8A] px-6 py-3 rounded-md text-sm hover:border-[#C9A84C] hover:text-[#C9A84C] transition-colors"
                                 >
                                     Odbierz darmowy Paszport →
                                 </button>
                             )}
                         </div>
 
-                        <div className="mt-16 w-full">
+                        <div className="mt-12 w-full max-w-full overflow-hidden">
                             <MembershipProgress passportCount={189} reservedCount={47} activeCount={25} />
                         </div>
                     </motion.div>
@@ -482,98 +489,46 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                     </div>
 
                     <div className="space-y-4">
-                        {/* Etap 0 */}
-                        <div className="bg-[#1C2614] border border-[#C9A84C] rounded-2xl p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all hover:bg-[#1C2614]/80">
-                            <div className="flex items-center gap-5">
-                                <div className="w-12 h-12 rounded-full bg-[#C9A84C] text-[#0E1208] flex items-center justify-center font-bold shrink-0 text-lg shadow-lg shadow-[#C9A84C]/20">
-                                    0
-                                </div>
-                                <div className="space-y-1">
-                                    <div className="flex items-center gap-3 flex-wrap">
-                                        <h3 className="font-bold text-xl text-white">Rezerwacja miejsca</h3>
-                                        <span className="bg-green-500/10 text-green-400 text-[10px] px-2.5 py-1 rounded-full uppercase font-bold tracking-wider border border-green-500/20">
-                                            zwrotne
-                                        </span>
-                                        <span className="bg-[#C9A84C]/10 text-[#C9A84C] text-[10px] px-2.5 py-1 rounded-full uppercase font-bold tracking-wider border border-[#C9A84C]/20">
-                                            dostępne teraz
-                                        </span>
+                        {/* Payment Stages mapped for mobile-friendly compact stack */}
+                        {[
+                            { id: 0, name: 'Rezerwacja miejsca', trigger: 'Dostępne teraz', amount: 2000, refundable: true, active: true },
+                            { id: 1, name: 'Fundament', trigger: 'Po uzyskaniu PNB', amount: 5000, refundable: false, active: false },
+                            { id: 2, name: 'Stan surowy otwarty', trigger: 'Po stanie surowym', amount: 5000, refundable: false, active: false },
+                            { id: 3, name: 'Wykończenie', trigger: 'Instalacje i stolarka', amount: 3000, refundable: false, active: false },
+                            { id: 4, name: 'Aktywacja członkostwa', trigger: 'Po otwarciu', amount: 4990, refundable: false, active: false }
+                        ].map(stage => (
+                            <div key={stage.id}
+                                className={`flex items-center justify-between bg-[#1C2614] border ${stage.active ? 'border-[#C9A84C]' : 'border-[#2D5A3D]/40 opacity-70'} rounded-xl p-4 mb-3 hover:bg-[#1C2614]/80 transition-all`}>
+                                <div className="flex items-center gap-3">
+                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold ${stage.active ? 'bg-[#C9A84C] text-[#0E1208] shadow-lg shadow-[#C9A84C]/20' : 'bg-gray-700/50 text-gray-400 border border-gray-600/30'}`}>
+                                        {stage.id}
                                     </div>
-                                    <p className="text-sm text-[#8A9E8A] font-light tracking-wide italic">Dostępne teraz</p>
+                                    <div>
+                                        <p className={`font-medium text-sm ${stage.active ? 'text-white font-bold' : 'text-white/90'}`}>
+                                            {stage.name}
+                                        </p>
+                                        <p className="text-[#8A9E8A] text-xs flex items-center gap-2">
+                                            <span>{stage.trigger}</span>
+                                            {stage.refundable && (
+                                                <span className="bg-green-500/10 text-green-400 text-[9px] px-1.5 py-0.5 rounded-sm uppercase tracking-wider border border-green-500/20">
+                                                    zwrotne
+                                                </span>
+                                            )}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="text-right flex-shrink-0 ml-2">
+                                    <p className={`${stage.active ? 'text-[#C9A84C]' : 'text-[#C9A84C]/60'} font-bold text-base font-sans`}>
+                                        {stage.amount.toLocaleString('pl-PL')} PLN
+                                    </p>
                                 </div>
                             </div>
-                            <div className="text-[#C9A84C] font-bold text-2xl md:text-right font-sans">
-                                2 000 PLN
-                            </div>
-                        </div>
-
-                        {/* Etap 1 */}
-                        <div className="bg-[#1C2614] border border-[#2D5A3D]/40 opacity-70 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                            <div className="flex items-center gap-5">
-                                <div className="w-12 h-12 rounded-full bg-gray-700/50 text-gray-400 flex items-center justify-center font-bold shrink-0 text-lg border border-gray-600/30">
-                                    1
-                                </div>
-                                <div className="space-y-1">
-                                    <h3 className="font-bold text-xl text-white/90">Fundament</h3>
-                                    <p className="text-sm text-[#8A9E8A] font-light italic">Po uzyskaniu PNB</p>
-                                </div>
-                            </div>
-                            <div className="text-[#C9A84C]/60 font-bold text-2xl md:text-right font-sans">
-                                5 000 PLN
-                            </div>
-                        </div>
-
-                        {/* Etap 2 */}
-                        <div className="bg-[#1C2614] border border-[#2D5A3D]/40 opacity-70 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                            <div className="flex items-center gap-5">
-                                <div className="w-12 h-12 rounded-full bg-gray-700/50 text-gray-400 flex items-center justify-center font-bold shrink-0 text-lg border border-gray-600/30">
-                                    2
-                                </div>
-                                <div className="space-y-1">
-                                    <h3 className="font-bold text-xl text-white/90">Stan surowy otwarty</h3>
-                                    <p className="text-sm text-[#8A9E8A] font-light italic">Po stanie surowym</p>
-                                </div>
-                            </div>
-                            <div className="text-[#C9A84C]/60 font-bold text-2xl md:text-right font-sans">
-                                5 000 PLN
-                            </div>
-                        </div>
-
-                        {/* Etap 3 */}
-                        <div className="bg-[#1C2614] border border-[#2D5A3D]/40 opacity-70 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                            <div className="flex items-center gap-5">
-                                <div className="w-12 h-12 rounded-full bg-gray-700/50 text-gray-400 flex items-center justify-center font-bold shrink-0 text-lg border border-gray-600/30">
-                                    3
-                                </div>
-                                <div className="space-y-1">
-                                    <h3 className="font-bold text-xl text-white/90">Wykończenie</h3>
-                                    <p className="text-sm text-[#8A9E8A] font-light italic">Instalacje i stolarka</p>
-                                </div>
-                            </div>
-                            <div className="text-[#C9A84C]/60 font-bold text-2xl md:text-right font-sans">
-                                3 000 PLN
-                            </div>
-                        </div>
-
-                        {/* Etap 4 */}
-                        <div className="bg-[#1C2614] border border-[#2D5A3D]/40 opacity-70 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                            <div className="flex items-center gap-5">
-                                <div className="w-12 h-12 rounded-full bg-gray-700/50 text-gray-400 flex items-center justify-center font-bold shrink-0 text-lg border border-gray-600/30">
-                                    4
-                                </div>
-                                <div className="space-y-1">
-                                    <h3 className="font-bold text-xl text-white/90">Aktywacja członkostwa</h3>
-                                    <p className="text-sm text-[#8A9E8A] font-light italic">Po otwarciu</p>
-                                </div>
-                            </div>
-                            <div className="text-[#C9A84C]/60 font-bold text-2xl md:text-right font-sans">
-                                4 990 PLN
-                            </div>
-                        </div>
+                        ))}
 
                         {/* Sum Line */}
-                        <div className="border-t border-[#C9A84C]/50 mt-12 pt-6 flex justify-between items-center px-6">
+                        <div className="border-t border-[#C9A84C]/50 mt-8 pt-6 flex justify-between items-center px-2">
                             <span className="text-sm font-sans font-bold uppercase tracking-[0.3em] text-[#8A9E8A]">ŁĄCZNIE</span>
-                            <span className="text-3xl md:text-4xl font-bold font-sans text-white tracking-tight">19 990 PLN</span>
+                            <span className="text-2xl md:text-3xl font-bold font-sans text-white tracking-tight">19 990 PLN</span>
                         </div>
                     </div>
 
@@ -637,12 +592,12 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                             </p>
                         </div>
 
-                        {/* 10% Maintenance */}
+                        {/* 15% Maintenance */}
                         <div className="bg-forest-800 p-8 rounded-2xl border border-border-default/30 relative overflow-hidden group hover:border-gold-500/30 transition-all shadow-sm">
                             <motion.div
                                 className="absolute bottom-0 left-0 h-1 bg-gold-500"
                                 initial={{ width: 0 }}
-                                whileInView={{ width: "10%" }}
+                                whileInView={{ width: "15%" }}
                                 transition={{ duration: 1.5, ease: "easeOut" }}
                                 viewport={{ once: true }}
                             />
@@ -650,7 +605,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                                 <div className="p-4 bg-forest-500/10 rounded-xl text-gold-500">
                                     <Wrench size={32} strokeWidth={1.5} />
                                 </div>
-                                <div className="text-5xl font-sans font-light text-text-primary">10<span className="text-2xl text-text-muted">%</span></div>
+                                <div className="text-5xl font-sans font-light text-text-primary">15<span className="text-2xl text-text-muted">%</span></div>
                             </div>
                             <h3 className="text-xl font-playfair font-medium text-text-primary mb-3">{t("alloc_2_title")}</h3>
                             <p className="text-text-secondary leading-relaxed text-sm font-light">
@@ -658,12 +613,12 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                             </p>
                         </div>
 
-                        {/* 20% Ops */}
+                        {/* 15% Ops */}
                         <div className="bg-forest-800 p-8 rounded-2xl border border-border-default/30 relative overflow-hidden group hover:border-text-secondary/30 transition-all shadow-sm">
                             <motion.div
                                 className="absolute bottom-0 left-0 h-1 bg-text-secondary"
                                 initial={{ width: 0 }}
-                                whileInView={{ width: "20%" }}
+                                whileInView={{ width: "15%" }}
                                 transition={{ duration: 1.5, ease: "easeOut" }}
                                 viewport={{ once: true }}
                             />
@@ -671,7 +626,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                                 <div className="p-4 bg-forest-500/10 rounded-xl text-text-secondary">
                                     <Settings size={32} strokeWidth={1.5} />
                                 </div>
-                                <div className="text-5xl font-sans font-light text-text-primary">20<span className="text-2xl text-text-muted">%</span></div>
+                                <div className="text-5xl font-sans font-light text-text-primary">15<span className="text-2xl text-text-muted">%</span></div>
                             </div>
                             <h3 className="text-xl font-playfair font-medium text-text-primary mb-3">{t("alloc_3_title")}</h3>
                             <p className="text-text-secondary leading-relaxed text-sm font-light">
@@ -684,43 +639,39 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
 
 
             {/* 7. HORIZONTAL ROADMAP */}
+            {/* 7. HORIZONTAL ROADMAP */}
             <section
                 id="roadmap"
                 ref={roadmapRef}
-                className={`relative ${isMobile ? "h-auto !block py-20" : "h-[800vh] !block"}`}
+                className="relative py-20 bg-forest-900 overflow-hidden"
             >
-                <div className={`${isMobile ? "relative" : "sticky top-[72px] h-[calc(100vh-72px)] overflow-hidden"} flex items-center bg-forest-900`}>
-                    <div className={`${isMobile ? "relative mb-10 px-6" : "absolute top-10 left-10 z-10"}`}>
-                        <h2 className="text-4xl md:text-6xl font-playfair font-semibold text-text-primary md:ml-12 drop-shadow-md">{t("roadmap_title")}</h2>
-                        <p className="text-text-secondary md:ml-12 mt-2 font-sans font-light uppercase tracking-widest">{t("roadmap_subtitle")}</p>
+                <div className="w-full overflow-x-auto flex items-stretch gap-6 px-6 md:px-12 lg:px-24 pb-10 pt-4 snap-x snap-mandatory" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                    <style>{`
+                        #roadmap ::-webkit-scrollbar { display: none; }
+                    `}</style>
+                    <div className="min-w-[85vw] sm:min-w-[400px] flex-shrink-0 snap-center pr-8 flex flex-col justify-center">
+                        <h2 className="text-4xl md:text-6xl font-playfair font-semibold text-text-primary drop-shadow-md">{t("roadmap_title")}</h2>
+                        <p className="text-text-secondary mt-4 font-sans font-light uppercase tracking-widest leading-relaxed text-xs md:text-sm">{t("roadmap_subtitle")}</p>
                     </div>
-                    <motion.div
-                        ref={contentRef}
-                        style={{ x }}
-                        className={`flex gap-8 md:gap-12 px-6 md:px-24 min-w-max ${isMobile ? "overflow-x-auto pb-10 custom-scrollbar scroll-smooth" : ""}`}
-                    >
-                        {roadmapSteps.map((step, i) => (
-                            <div key={i} className="relative min-w-[280px] md:min-w-[400px] bg-forest-800 border border-border-subtle p-8 rounded-2xl flex flex-col justify-between min-h-[380px] md:min-h-[400px] group hover:border-gold-500/50 transition-colors shadow-sm">
-                                <div>
-                                    {step.image && (
-                                        <div className="w-full h-48 mb-6 rounded-xl overflow-hidden border border-border-subtle">
-                                            <img src={step.image} alt={step.title} className={`w-full h-full object-cover ${step.position || "object-center"} transition-transform duration-[1.5s] group-hover:scale-110`} />
-                                        </div>
-                                    )}
-                                    <div className="text-gold-500 font-sans font-semibold text-xs tracking-widest uppercase mb-3">{step.date}</div>
-                                    <h3 className="text-2xl font-playfair font-medium text-text-primary mb-4">{step.title}</h3>
-                                    <p className="text-text-secondary font-light leading-relaxed">{step.desc}</p>
-                                </div>
-                                <div className="p-4 bg-forest-500/10 rounded-xl w-fit group-hover:bg-gold-500/10 transition-colors border border-transparent group-hover:border-gold-500/20">
-                                    <step.icon size={28} strokeWidth={1.5} className="text-text-primary group-hover:text-gold-500 transition-colors" />
-                                </div>
-                                {/* Connector Line Visualization */}
-                                <div className="absolute -right-12 top-1/2 w-12 h-[1px] bg-border-subtle hidden md:block"></div>
+                    {roadmapSteps.map((step, i) => (
+                        <div key={i} className="min-w-[85vw] sm:min-w-[400px] snap-center bg-forest-800 border border-border-subtle p-8 rounded-2xl flex flex-col justify-between group flex-shrink-0 shadow-sm transition-colors hover:border-gold-500/50">
+                            <div>
+                                {step.image && (
+                                    <div className="w-full h-48 mb-6 rounded-xl overflow-hidden border border-border-subtle relative group-hover:border-gold-500/30 transition-colors">
+                                        <img src={step.image} alt={step.title} className={`w-full h-full object-cover ${step.position || "object-center"} transition-transform duration-[1.5s] group-hover:scale-110`} />
+                                    </div>
+                                )}
+                                <div className="text-gold-500 font-sans font-semibold text-xs tracking-widest uppercase mb-3">{step.date}</div>
+                                <h3 className="text-2xl font-playfair font-medium text-text-primary mb-4">{step.title}</h3>
+                                <p className="text-text-secondary font-light leading-relaxed">{step.desc}</p>
                             </div>
-                        ))}
-                    </motion.div>
+                            <div className="p-4 bg-forest-500/10 rounded-xl w-fit group-hover:bg-gold-500/10 transition-colors border border-transparent group-hover:border-gold-500/20 mt-6 md:mt-10">
+                                <step.icon size={28} strokeWidth={1.5} className="text-text-primary group-hover:text-gold-500 transition-colors" />
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            </section >
+            </section>
 
             {/* FAQ */}
             <div id="faq">
@@ -729,6 +680,25 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
 
             {/* FOUNDER TEASER */}
             <FounderTeaser />
+
+            {/* STICKY CTA na Mobile */}
+            <AnimatePresence>
+                {isMobile && showSticky && (
+                    <motion.div
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 100, opacity: 0 }}
+                        className="fixed bottom-0 left-0 w-full z-[100] bg-forest-900/95 backdrop-blur-lg border-t border-gold-500/20 p-4"
+                    >
+                        <a
+                            href="/checkout/stage/0"
+                            className="w-full px-6 py-4 bg-gold-500 hover:bg-gold-600 text-forest-900 font-sans font-bold rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(201,168,76,0.2)] transition-colors"
+                        >
+                            Zarezerwuj miejsce — 2 000 PLN
+                        </a>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

@@ -11,7 +11,7 @@ export default function PolitykaPrywatnosci() {
                     <p>
                         WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.<br />
                         ul. Kazimierza Wielkiego 7/5, 65-047 Zielona Góra<br />
-                        kontakt@daoresorts.club
+                        bartosz@daoresorts.club
                     </p>
                 </section>
 
@@ -48,7 +48,7 @@ export default function PolitykaPrywatnosci() {
                     <h2 className="text-xl text-gold-500 font-playfair">5. Prawa użytkownika</h2>
                     <p>
                         Dostęp, sprostowanie, usunięcie, przenoszenie<br />
-                        Kontakt: kontakt@daoresorts.club
+                        Kontakt: bartosz@daoresorts.club
                     </p>
                 </section>
 

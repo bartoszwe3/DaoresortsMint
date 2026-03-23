@@ -68,7 +68,7 @@ module.exports = {
         "float": "float 6s ease-in-out infinite",
         "pulse-glow": "pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         shimmer: "shimmer 2s linear infinite",
-        "marquee": "marquee 12s linear infinite",
+        "marquee": "marquee 35s linear infinite",
       },
     },
   },

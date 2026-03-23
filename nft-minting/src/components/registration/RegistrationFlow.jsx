@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
@@ -9,7 +10,6 @@ import StepMethodSelect from "./StepMethodSelect";
 import StepEmailVerify from "./StepEmailVerify";
 import StepWalletConnect from "./StepWalletConnect";
 import StepProfile from "./StepProfile";
-import StepPassportGallery from "./StepPassportGallery";
 
 const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
@@ -23,6 +23,7 @@ const pageTransition = { type: "tween", ease: "anticipate", duration: 0.3 };
 
 export default function RegistrationFlow({ onCancel }) {
     const { user, isAuthenticated, loginWithMagicLink } = useAuth();
+    const navigate = useNavigate();
 
     const [currentStep, setCurrentStep] = useState(1);
     const [authMethod, setAuthMethod] = useState(null); // 'email' | 'wallet'
@@ -52,7 +53,7 @@ export default function RegistrationFlow({ onCancel }) {
 
             if (data.registered) {
                 setFirstName(data.memberName || "");
-                setCurrentStep(4); // Existing user, go to gallery
+                navigate("/mint"); // Existing user, go to gallery
             } else {
                 setCurrentStep(3); // New user, go to profile
             }
@@ -97,9 +98,10 @@ export default function RegistrationFlow({ onCancel }) {
         setLoading(true);
         try {
             const address = user?.address || user?.publicAddress;
-            const userEmail = email || user?.email || "";
+            const userEmail = profileData.email || email || user?.email || "";
 
             if (!address) throw new Error("Brak adresu portfela");
+            if (!userEmail) throw new Error("Brak adresu email. Wprowadź email.");
 
             const payload = {
                 email: userEmail,
@@ -120,7 +122,7 @@ export default function RegistrationFlow({ onCancel }) {
 
             setFirstName(profileData.firstName);
             toast.success("Profil utworzony pomyślnie! 🎉");
-            goNext();
+            navigate("/mint");
         } catch (err) {
             setError(err.message || "Wystąpił błąd podczas zakładania profilu.");
         } finally {
@@ -177,18 +179,13 @@ export default function RegistrationFlow({ onCancel }) {
                         {currentStep === 3 && (
                             <motion.div key="step3" variants={pageVariants} initial="initial" animate="in" exit="out" transition={pageTransition}>
                                 <StepProfile
+                                    initialEmail={email || user?.email || ""}
                                     goNext={goNext}
                                     onRegister={handleRegisterProfile}
                                     loading={loading}
                                     error={error}
                                     setError={setError}
                                 />
-                            </motion.div>
-                        )}
-
-                        {currentStep === 4 && (
-                            <motion.div key="step4" variants={pageVariants} initial="initial" animate="in" exit="out" transition={pageTransition}>
-                                <StepPassportGallery firstName={firstName} />
                             </motion.div>
                         )}
                     </AnimatePresence>

@@ -42,7 +42,7 @@ export default function Disclaimer() {
                     <h2 className="text-xl text-gold-500 font-playfair">4. Kontakt</h2>
                     <p>
                         WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.<br />
-                        kontakt@daoresorts.club
+                        bartosz@daoresorts.club
                     </p>
                 </section>
             </div>

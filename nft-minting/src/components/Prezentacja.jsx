@@ -657,9 +657,9 @@ export default function Prezentacja() {
                                 className="border border-[#2D5A3D] text-[#8A9E8A] px-4 py-2 rounded-md text-xs hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all">
                                 X / Twitter
                             </a>
-                            <a href="mailto:kontakt@daoresorts.club"
+                            <a href="mailto:bartosz@daoresorts.club"
                                 className="border border-[#2D5A3D] text-[#8A9E8A] px-4 py-2 rounded-md text-xs hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all">
-                                kontakt@daoresorts.club
+                                bartosz@daoresorts.club
                             </a>
                         </div>
                     </div>
@@ -878,8 +878,8 @@ export default function Prezentacja() {
 
                 <p className="text-[#8A9E8A] text-xs">
                     Masz pytania?{" "}
-                    <a href="mailto:kontakt@daoresorts.club" className="text-[#C9A84C] hover:underline">
-                        kontakt@daoresorts.club
+                    <a href="mailto:bartosz@daoresorts.club" className="text-[#C9A84C] hover:underline">
+                        bartosz@daoresorts.club
                     </a>
                 </p>
             </div>

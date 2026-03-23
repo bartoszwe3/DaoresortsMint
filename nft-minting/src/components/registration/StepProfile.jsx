@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { User, Check } from "lucide-react";
+import { User, Check, Mail } from "lucide-react";
 
-export default function StepProfile({ goNext, onRegister, loading, error, setError }) {
+export default function StepProfile({ initialEmail, goNext, onRegister, loading, error, setError }) {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState(initialEmail || "");
     const [source, setSource] = useState("");
     const [newsletter, setNewsletter] = useState(true);
 
@@ -13,8 +14,12 @@ export default function StepProfile({ goNext, onRegister, loading, error, setErr
             setError("Imię jest wymagane");
             return;
         }
+        if (!email.trim() || !email.includes('@')) {
+            setError("Poprawny adres e-mail jest wymagany");
+            return;
+        }
 
-        onRegister({ firstName, lastName, source, newsletter });
+        onRegister({ firstName, lastName, email, source, newsletter });
     };
 
     return (
@@ -53,6 +58,19 @@ export default function StepProfile({ goNext, onRegister, loading, error, setErr
                             disabled={loading}
                         />
                     </div>
+                </div>
+
+                <div className="w-full relative">
+                    <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gold-500/50" />
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => { setEmail(e.target.value); setError(""); }}
+                        placeholder="Adres E-mail *"
+                        className="w-full bg-[#0E1208] border border-[#2D5A3D]/50 text-white rounded-xl py-4 pl-12 pr-4 focus:outline-none focus:border-gold-500 transition-colors"
+                        required
+                        disabled={loading || !!initialEmail}
+                    />
                 </div>
 
                 <div className="w-full">

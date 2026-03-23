@@ -299,58 +299,56 @@ export default function Mint({ onMintSuccess, onConnect }) {
         <>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             <AnimatePresence mode="popLayout">
-              {nfts
-                .filter(nft => !nft.isMinted) // Pokaż tylko NIE-wymintowane
-                .map((nft) => (
-                  <motion.div
-                    layout
-                    key={nft.id}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    whileHover={{ y: -8 }}
-                    className="bg-[#0d1117] border border-white/5 rounded-[2rem] overflow-hidden group hover:border-neon-cyan/30 transition-all duration-500 relative"
-                  >
-                    <div className="relative aspect-square">
-                      <img
-                        src={`${IPFS_BASE}${nft.id}.webp`}
-                        alt={`Beaver #${nft.id}`}
-                        className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${nft.isMinted ? "grayscale opacity-40" : ""}`}
-                      />
-                      <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full text-[10px] font-bold text-white tracking-widest uppercase">
-                        #{nft.id.toString().padStart(4, "0")}
-                      </div>
+              {nfts.map((nft) => (
+                <motion.div
+                  layout
+                  key={nft.id}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  whileHover={{ y: -8 }}
+                  className="bg-[#0d1117] border border-white/5 rounded-[2rem] overflow-hidden group hover:border-neon-cyan/30 transition-all duration-500 relative"
+                >
+                  <div className="relative aspect-square">
+                    <img
+                      src={`${IPFS_BASE}${nft.id}.webp`}
+                      alt={`Beaver #${nft.id}`}
+                      className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${nft.isMinted ? "grayscale opacity-40" : ""}`}
+                    />
+                    <div className={`absolute top-4 left-4 bg-black/60 backdrop-blur-md border px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase ${nft.isMinted ? "border-red-500/30 text-red-400/80 line-through" : "border-white/10 text-white"}`}>
+                      #{nft.id.toString().padStart(4, "0")}
                     </div>
+                  </div>
 
-                    <div className="p-5 flex flex-col gap-4">
-                      <button
-                        disabled={nft.isMinted || !!mintingId || hasNft}
-                        onClick={() => handleMint(nft.id)}
-                        className={`w-full font-semibold py-3 rounded-md transition ${nft.isMinted
-                          ? "bg-white/5 text-gray-500 cursor-not-allowed"
-                          : mintingId === nft.id
-                            ? "bg-white/10 text-white cursor-wait"
-                            : hasNft
-                              ? "bg-[#2D5A3D]/50 text-[#8A9E8A] cursor-not-allowed border border-[#2D5A3D]"
-                              : "bg-[#2D5A3D] border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0E1208]"
-                          }`}
-                      >
-                        {nft.isMinted ? (
-                          "Niedostępny"
-                        ) : mintingId === nft.id ? (
-                          <div className="flex items-center justify-center gap-2"><div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div> Aktywacja...</div>
-                        ) : hasNft ? (
-                          "Masz już paszport"
-                        ) : (
-                          "Odbierz Paszport - bezpłatnie"
-                        )}
-                      </button>
-                      <p className="text-[#8A9E8A] text-[10px] text-center mt-1">
-                        Paszport jest darmowy. Pokrywamy koszty aktywacji.
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
+                  <div className="p-5 flex flex-col gap-4">
+                    <button
+                      disabled={nft.isMinted || !!mintingId || hasNft}
+                      onClick={() => handleMint(nft.id)}
+                      className={`w-full font-semibold py-3 rounded-md transition ${nft.isMinted
+                        ? "bg-[#1C2614] border border-red-900/40 text-red-500/50 cursor-not-allowed line-through"
+                        : mintingId === nft.id
+                          ? "bg-white/10 text-white cursor-wait"
+                          : hasNft
+                            ? "bg-[#2D5A3D]/50 text-[#8A9E8A] cursor-not-allowed border border-[#2D5A3D]"
+                            : "bg-[#2D5A3D] border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0E1208]"
+                        }`}
+                    >
+                      {nft.isMinted ? (
+                        "Niedostępny"
+                      ) : mintingId === nft.id ? (
+                        <div className="flex items-center justify-center gap-2"><div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div> Aktywacja...</div>
+                      ) : hasNft ? (
+                        "Masz już paszport"
+                      ) : (
+                        "Odbierz Paszport - bezpłatnie"
+                      )}
+                    </button>
+                    <p className="text-[#8A9E8A] text-[10px] text-center mt-1">
+                      Paszport jest darmowy. Pokrywamy koszty aktywacji.
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
             </AnimatePresence>
           </div>
 
@@ -373,7 +371,8 @@ export default function Mint({ onMintSuccess, onConnect }) {
             </button>
           </div>
         </>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 }

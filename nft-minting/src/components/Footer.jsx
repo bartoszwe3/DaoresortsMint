@@ -15,7 +15,7 @@ export default function Footer() {
                         <p className="text-[#8A9E8A] text-xs leading-relaxed">
                             KRS: 0001188626 | NIP: 9731114421 | REGON: 542448933<br />
                             ul. Kazimierza Wielkiego 7/5, 65-047 Zielona Góra<br />
-                            kontakt@daoresorts.club
+                            bartosz@daoresorts.club
                         </p>
                     </div>
 
@@ -29,7 +29,7 @@ export default function Footer() {
                             { label: 'Polityka Prywatności', href: '/polityka-prywatnosci' },
                             { label: 'Disclaimer', href: '/disclaimer' },
                         ].map(link => (
-                            <a key={link.href} href={link.href} className="text-[#8A9E8A] text-xs hover:text-[#C9A84C] transition-colors">
+                            <a key={link.href} href={link.href} className="text-[#8A9E8A] text-xs hover:text-[#C9A84C] transition-colors py-2 md:py-0 inline-block">
                                 {link.label}
                             </a>
                         ))}
@@ -46,7 +46,7 @@ export default function Footer() {
                             { label: 'FAQ', href: '/#faq' },
                             { label: 'O Założycielu', href: '/founder' },
                         ].map(link => (
-                            <a key={link.href} href={link.href} className="text-[#8A9E8A] text-xs hover:text-[#C9A84C] transition-colors">
+                            <a key={link.href} href={link.href} className="text-[#8A9E8A] text-xs hover:text-[#C9A84C] transition-colors py-2 md:py-0 inline-block">
                                 {link.label}
                             </a>
                         ))}

@@ -26,7 +26,7 @@ export default function FAQ() {
                 },
                 {
                     q: t("faq_q_1_3", "Czy są jakieś ukryte opłaty roczne?"),
-                    a: t("faq_a_1_3", "Nie ma abonamentu ani opłat członkowskich. Jedyna cykliczna opłata to fundusz remontowy - niewielka kwota ustalana corocznie przez DAO, przeznaczona na utrzymanie domków w standardzie premium. Szacunkowo 50-100 PLN miesięcznie od członka.")
+                    a: t("faq_a_1_3", "Nie ma abonamentu ani opłat członkowskich, jedynie płacisz za to, co zużyjesz podczas wyjazdu.")
                 },
                 {
                     q: t("faq_q_1_4", "Czy ceny pobytów mogą wzrosnąć?"),

@@ -372,7 +372,7 @@ export default function MyNfts() {
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-[#0d1117] border border-white/10 rounded-3xl p-6 md:p-8 mb-8 flex flex-col md:flex-row items-center md:items-start gap-6 shadow-xl shadow-black/30"
+            className="bg-[#0d1117] border border-[#2D5A3D] rounded-xl p-6 md:p-8 mb-8 flex flex-col md:flex-row items-center md:items-start gap-6 shadow-xl shadow-black/30"
           >
             {/* Avatar */}
             <div className="relative shrink-0">
@@ -487,9 +487,8 @@ export default function MyNfts() {
                   <table className="w-full text-left">
                     <thead>
                       <tr className="border-b border-white/10 bg-black/40 text-gray-400 text-xs uppercase tracking-widest">
-                        <th className="p-4 md:p-5 font-medium">Numer Seryjny NFT</th>
+                        <th className="p-4 md:p-5 font-medium">Numer Miejsca</th>
                         <th className="p-4 md:p-5 font-medium">Data Dołączenia</th>
-                        <th className="p-4 md:p-5 font-medium text-right">Status KYC</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
@@ -499,13 +498,10 @@ export default function MyNfts() {
                             <span className="text-neon-cyan font-mono font-bold text-lg">#{nft.tokenId?.toString()}</span>
                           </td>
                           <td className="p-4 md:p-5 text-gray-300 text-sm">{formatDate(nft.mintTimestamp)}</td>
-                          <td className="p-4 md:p-5 text-right">
-                            <KycBadge status={kycStatus} />
-                          </td>
                         </tr>
                       )) : (
                         <tr>
-                          <td colSpan={3} className="p-8 text-center text-gray-500">
+                          <td colSpan={2} className="p-8 text-center text-gray-500">
                             <ImageIcon size={32} className="mx-auto mb-2 opacity-30" />
                             Brak aktywnych paszportów
                           </td>
@@ -585,12 +581,15 @@ export default function MyNfts() {
                     </div>
                     <div className="flex-1 text-center md:text-left">
                       <h3 className="text-xl font-black text-white mb-2">
-                        ✅ Członkostwo Aktywne
+                        Witaj w społeczności DAOResorts.
                       </h3>
-                      <p className="text-green-300/80 text-sm leading-relaxed">
-                        Gratulacje! Jesteś pełnoprawnym Członkiem Założycielem DAOResorts.
-                        Twoje 14 nocy rocznie jest gotowe do rezerwacji (system rezerwacji wkrótce).
-                      </p>
+                      <div className="text-green-300/80 text-sm leading-relaxed space-y-3">
+                        <p>Twój darmowy Paszport jest aktywny.</p>
+                        <p>
+                          Obserwujesz budowę resortu w czasie rzeczywistym.<br />
+                          Gdy będziesz gotowy - Twoje miejsce czeka.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -625,16 +624,16 @@ export default function MyNfts() {
                     <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center z-10 rounded-2xl">
                       <div className="text-center">
                         <Lock size={40} className="text-gray-500 mx-auto mb-3" />
-                        <p className="text-gray-300 font-bold">Zweryfikuj KYC aby dołączyć do Private Club</p>
+                        <p className="text-gray-300 font-bold">Dostępne po rezerwacji miejsca</p>
                         <button
-                          onClick={handleStartVerification}
+                          onClick={() => navigate('/checkout/reserve')}
                           className="mt-4 bg-transparent hover:bg-gold-500/10 border border-gold-500 text-gold-500 font-bold px-5 py-2 rounded-full text-sm transition-colors shadow-sm"
                         >
-                          Zweryfikuj teraz
+                          Zarezerwuj miejsce — 2 000 PLN
                         </button>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4 blur-sm pointer-events-none select-none">
+                    <div className="flex items-center gap-4 opacity-30 pointer-events-none select-none">
                       <div className="w-16 h-16 bg-yellow-500/20 rounded-2xl flex items-center justify-center">
                         <Crown size={32} className="text-yellow-400" />
                       </div>

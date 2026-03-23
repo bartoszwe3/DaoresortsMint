@@ -79,6 +79,27 @@ export const AuthProvider = ({ children }) => {
 
     const loginWithMagic = async (email, onEmailSent) => {
         try {
+            // DEVELOPER MOCK FOR LOCALHOST TO BYPASS 400 ERRORS
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                console.warn("🔐 MAGIC LINK MOCK MODE ACTIVATED 🔐");
+                if (isConnected) disconnectWallet();
+                if (onEmailSent) onEmailSent();
+
+                // Simulate network delay
+                await new Promise(r => setTimeout(r, 1500));
+
+                // Mock user data
+                const mockUserData = {
+                    email: email,
+                    publicAddress: "0x1234567890ABCDEF1234567890ABCDEF12345678",
+                    isMfaEnabled: false
+                };
+
+                console.log("MAGIC USER DATA (MOCKED):", mockUserData);
+                setMagicUser(mockUserData);
+                return;
+            }
+
             if (!magic) throw new Error('Magic SDK not initialized');
             // If a wallet is connected, disconnect it first to keep auth simple
             if (isConnected) {

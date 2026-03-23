@@ -24,11 +24,17 @@
   --foreground: var(--color-text-primary);
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
   font-family: 'DM Sans', sans-serif;
   background-color: var(--background);
   color: var(--foreground);
   overflow-x: hidden;
+  max-width: 100vw;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -279,5 +285,5 @@ section:not(#hero) {
 }
 
 .animate-marquee {
-  animation: marquee 12s linear infinite;
+  animation: marquee 35s linear infinite;
 }

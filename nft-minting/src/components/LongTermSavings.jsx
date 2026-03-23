@@ -14,6 +14,14 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
     const [includeBreakfast, setIncludeBreakfast] = useState(true);
     const [breakfastType, setBreakfastType] = useState('dao'); // 'self', 'dao', 'hotel'
     const [chartData, setChartData] = useState([]);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const DAYS_PER_YEAR = 14;
     const HOUSING_INFLATION = 0.05;
@@ -113,8 +121,8 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                         {/* Sliders Area */}
                         <div className="space-y-6">
                             {/* Daily Rate Slider */}
-                            <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                                <div className="flex justify-between items-center mb-4">
+                            <div className="bg-white/5 p-5 md:p-6 rounded-2xl border border-white/5">
+                                <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-4">
                                     <label className="text-white font-medium">{t("calculator_daily_rate")}</label>
                                     <span className="text-gold-500 font-bold text-xl">{dailyRate} PLN</span>
                                 </div>
@@ -134,8 +142,8 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                             </div>
 
                             {/* Years Slider */}
-                            <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                                <div className="flex justify-between items-center mb-4">
+                            <div className="bg-white/5 p-5 md:p-6 rounded-2xl border border-white/5">
+                                <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-4">
                                     <label className="text-white font-medium">{t("calculator_years")}</label>
                                     <span className="text-gold-500 font-bold text-xl">{years} {t("calculator_chart_year").toLowerCase().startsWith("r") ? "lat" : "years"}</span>
                                 </div>
@@ -155,8 +163,8 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                             </div>
 
                             {/* People Count Slider */}
-                            <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                                <div className="flex justify-between items-center mb-4">
+                            <div className="bg-white/5 p-5 md:p-6 rounded-2xl border border-white/5">
+                                <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-4">
                                     <label className="text-white font-medium flex items-center gap-2">
                                         <Users size={18} className="text-gold-500/70" /> {t("calculator_people_count")}
                                     </label>
@@ -304,10 +312,10 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                     <XAxis
                                         dataKey="year"
                                         stroke="#6b7280"
-                                        fontSize={12}
+                                        fontSize={10}
                                         tickLine={false}
                                         axisLine={false}
-                                        interval={years > 15 ? 4 : years > 8 ? 2 : 0}
+                                        interval={isMobile ? Math.ceil(years / 5) : (years > 15 ? 4 : years > 8 ? 2 : 0)}
                                     />
                                     <Tooltip
                                         contentStyle={{ backgroundColor: '#1f2937', border: '1px solid #374151', borderRadius: '12px', color: '#fff' }}

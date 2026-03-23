@@ -135,7 +135,7 @@ export default function MainPage() {
   ];
 
   return (
-    <div className="w-full h-auto flex bg-deep-black text-white relative selection:bg-gold-500 selection:text-forest-900">
+    <div className="w-full min-h-screen max-w-[100vw] overflow-x-hidden flex bg-deep-black text-white relative selection:bg-gold-500 selection:text-forest-900">
 
       {/* Background Glows */}
       {/* Background Glows */}

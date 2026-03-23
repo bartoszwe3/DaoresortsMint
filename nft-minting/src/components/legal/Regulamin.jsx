@@ -46,7 +46,7 @@ export default function Regulamin() {
                                     <span className="block text-[10px] md:text-xs uppercase tracking-widest mb-1 text-[#C9A84C]/80">Kontakt & Rejestracja</span>
                                     <span className="text-[#F5F0E8] font-medium block">Data rejestracji: 13 sierpnia 2025 r.</span>
                                     <span className="text-[#F5F0E8] font-medium block mt-1">
-                                        Email: <a href="mailto:kontakt@daoresorts.club" className="text-[#C9A84C] hover:text-[#C9A84C]/80 transition-colors">kontakt@daoresorts.club</a>
+                                        Email: <a href="mailto:bartosz@daoresorts.club" className="text-[#C9A84C] hover:text-[#C9A84C]/80 transition-colors">bartosz@daoresorts.club</a>
                                     </span>
                                     <span className="text-[#F5F0E8] font-medium block mt-1">
                                         Strona: <a href="https://daoresorts.club" className="text-[#C9A84C] hover:text-[#C9A84C]/80 transition-colors">daoresorts.club</a>
@@ -622,9 +622,9 @@ export default function Regulamin() {
                         <div className="bg-[#0E1208] border border-[#2D5A3D]/50 rounded-xl p-6 md:p-8 space-y-4 shadow-xl shadow-[#C9A84C]/5 mt-4">
                             <p className="font-playfair text-xl text-[#F5F0E8] border-b border-[#2D5A3D]/30 pb-3">WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.</p>
                             <div className="space-y-3 text-sm">
-                                <p className="flex justify-between md:justify-start md:gap-4"><span className="text-[#8A9E8A] inline-block min-w-[70px]">Adres:</span> <span className="text-[#F5F0E8] font-medium">ul. Kazimierza Wielkiego 7/5, 65-047 Zielona Góra</span></p>
-                                <p className="flex justify-between md:justify-start md:gap-4"><span className="text-[#8A9E8A] inline-block min-w-[70px]">Email:</span> <a href="mailto:kontakt@daoresorts.club" className="text-[#C9A84C] hover:text-[#C9A84C]/80 font-medium">kontakt@daoresorts.club</a></p>
-                                <p className="flex justify-between md:justify-start md:gap-4"><span className="text-[#8A9E8A] inline-block min-w-[70px]">NIP:</span> <span className="text-[#F5F0E8]">9731114421</span></p>
+                                <p className="flex flex-col md:flex-row md:justify-start md:gap-4"><span className="text-[#8A9E8A] inline-block min-w-[70px] mb-1 md:mb-0">Adres:</span> <span className="text-[#F5F0E8] font-medium">ul. Kazimierza Wielkiego 7/5, 65-047 Zielona Góra</span></p>
+                                <p className="flex flex-col md:flex-row md:justify-start md:gap-4"><span className="text-[#8A9E8A] inline-block min-w-[70px] mb-1 md:mb-0">Email:</span> <a href="mailto:bartosz@daoresorts.club" className="text-[#C9A84C] hover:text-[#C9A84C]/80 font-medium break-all">bartosz@daoresorts.club</a></p>
+                                <p className="flex flex-col md:flex-row md:justify-start md:gap-4"><span className="text-[#8A9E8A] inline-block min-w-[70px] mb-1 md:mb-0">NIP:</span> <span className="text-[#F5F0E8]">9731114421</span></p>
                             </div>
                         </div>
                     </div>

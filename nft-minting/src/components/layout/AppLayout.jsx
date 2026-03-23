@@ -65,16 +65,11 @@ export default function AppLayout({ children }) {
 
     // Simplified handleConnect for the layout level
     const onConnect = () => {
-        if (!isAuthenticated) {
-            navigate("/?tab=register");
-        } else {
-            // This is actually handled inside handleConnect if we pass it, 
-            // but TopNavbar handles its own clicks too.
-        }
+        navigate("/?tab=register");
     };
 
     return (
-        <div className="min-h-screen bg-[#0E1208] text-white flex flex-col">
+        <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-[#0E1208] text-white flex flex-col">
             <TopNavbar
                 onNavigate={handleNavigate}
                 activeTab={selected}
@@ -85,7 +80,7 @@ export default function AppLayout({ children }) {
                 onConnect={onConnect}
             />
 
-            <main className="flex-1 pt-[72px]">
+            <main className="flex-1 pt-[72px] w-full max-w-[100vw] overflow-x-hidden">
                 {children}
             </main>
 

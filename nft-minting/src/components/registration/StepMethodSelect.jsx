@@ -1,8 +1,11 @@
 import React from "react";
 import { Mail, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAppKit } from "@reown/appkit/react";
 
 export default function StepMethodSelect({ setAuthMethod, goNext }) {
+    const { open } = useAppKit();
+
     return (
         <div className="w-full flex flex-col gap-6 animate-fade-in-right">
             <div className="text-center md:text-left mb-2">
@@ -36,7 +39,7 @@ export default function StepMethodSelect({ setAuthMethod, goNext }) {
 
             {/* Wallet Button (Secondary) */}
             <button
-                onClick={() => { setAuthMethod('wallet'); goNext(); }}
+                onClick={() => { setAuthMethod('wallet'); open(); }}
                 className="w-full bg-[#1C2614] border border-gold-500/50 text-gold-500 py-3.5 px-6 rounded-xl text-base hover:bg-gold-500/10 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
             >
                 <Wallet size={18} /> Mam portfel krypto

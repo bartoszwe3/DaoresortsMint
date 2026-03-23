@@ -171,7 +171,7 @@ Bank: mBank S.A.`;
 
             setState("pending");
         } catch (err) {
-            setError("Wystąpił błąd. Spróbuj ponownie lub napisz na kontakt@daoresorts.club");
+            setError("Wystąpił błąd. Spróbuj ponownie lub napisz na bartosz@daoresorts.club");
         } finally {
             setLoadingAction(false);
         }
@@ -321,7 +321,7 @@ Bank: mBank S.A.`;
                     </p>
 
                     <p className="text-[#8A9E8A] text-xs text-center mt-2">
-                        Masz pytania? <a href="mailto:kontakt@daoresorts.club" className="text-[#C9A84C] hover:underline">kontakt@daoresorts.club</a>
+                        Masz pytania? <a href="mailto:bartosz@daoresorts.club" className="text-[#C9A84C] hover:underline">bartosz@daoresorts.club</a>
                     </p>
                 </div>
             </div>

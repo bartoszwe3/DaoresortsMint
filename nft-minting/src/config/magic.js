@@ -11,6 +11,6 @@ console.log("Loaded Magic Key:", apiKey.substring(0, 15) + "...");
 // Initialize Magic only on the client side
 export const magic = typeof window !== 'undefined'
     ? new Magic(apiKey, {
-        network: customNodeOptions,
+        network: 'polygon'
     })
     : null;

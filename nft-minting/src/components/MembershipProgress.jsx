@@ -2,7 +2,7 @@ import React from "react";
 
 export default function MembershipProgress({ passportCount = 189, reservedCount = 47, activeCount = 25 }) {
     return (
-        <div className="max-w-xl mx-auto space-y-4">
+        <div className="w-full md:max-w-xl md:mx-auto space-y-4">
             {/* Paszporty darmowe */}
             <div>
                 <div className="flex justify-between text-xs mb-1">
