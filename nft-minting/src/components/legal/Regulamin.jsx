@@ -18,75 +18,76 @@ export default function Regulamin() {
                         <span>Data wejścia w życie: <span className="text-[#F5F0E8]">[DO UZUPEŁNIENIA — data przed launchem]</span></span>
                     </div>
                 </div>
+                             <div className="space-y-6">
+                    <div className="flex flex-col space-y-6">
+                        <h2 className="text-2xl md:text-3xl text-[#C9A84C] font-playfair border-b border-[#2D5A3D]/30 pb-2">
+                            § 1. POSTANOWIENIA OGÓLNE
+                        </h2>
 
-                {/* § 1 */}
-                <section className="space-y-6">
-                    <h2 className="text-2xl md:text-3xl text-[#C9A84C] font-playfair border-b border-[#2D5A3D]/30 pb-2">
-                        § 1. POSTANOWIENIA OGÓLNE
-                    </h2>
+                        <div className="space-y-4">
+                            <h3 className="text-lg text-[#F5F0E8] font-semibold">1.1. Strony Regulaminu</h3>
+                            <p className="leading-relaxed">
+                                Niniejszy Regulamin określa zasady funkcjonowania projektu DAOResorts, prowadzonego przez:
+                            </p>
+                            <div className="bg-[#0E1208] border border-[#2D5A3D]/50 rounded-xl p-6 md:p-8 shadow-sm shadow-[#C9A84C]/5">
+                                <p className="font-playfair text-xl md:text-2xl text-[#F5F0E8] border-b border-[#2D5A3D]/30 pb-4 mb-5 uppercase tracking-wide">WE3.CLUB RESORT DEVELOPMENT SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ</p>
 
-                    <div className="space-y-4">
-                        <h3 className="text-lg text-[#F5F0E8] font-semibold">1.1. Strony Regulaminu</h3>
-                        <p className="leading-relaxed">
-                            Niniejszy Regulamin określa zasady funkcjonowania projektu DAOResorts, prowadzonego przez:
-                        </p>
-                        <div className="bg-[#0E1208] border border-[#2D5A3D]/50 rounded-xl p-6 md:p-8 shadow-sm shadow-[#C9A84C]/5">
-                            <p className="font-playfair text-xl md:text-2xl text-[#F5F0E8] border-b border-[#2D5A3D]/30 pb-4 mb-5 uppercase tracking-wide">WE3.CLUB RESORT DEVELOPMENT SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ</p>
-
-                            <div className="space-y-5 text-sm md:text-base text-[#8A9E8A]">
-                                <div>
-                                    <span className="block text-[10px] md:text-xs uppercase tracking-widest mb-1 text-[#C9A84C]/80">Identyfikatory Spółki</span>
-                                    <span className="text-[#F5F0E8] font-medium">KRS: 0001188626 • NIP: 9731114421 • REGON: 542448933</span>
-                                </div>
-                                <div>
-                                    <span className="block text-[10px] md:text-xs uppercase tracking-widest mb-1 text-[#C9A84C]/80">Adres Siedziby</span>
-                                    <span className="text-[#F5F0E8] font-medium">ul. Kazimierza Wielkiego 7/5, 65-047 Zielona Góra</span>
-                                </div>
-                                <div>
-                                    <span className="block text-[10px] md:text-xs uppercase tracking-widest mb-1 text-[#C9A84C]/80">Kontakt & Rejestracja</span>
-                                    <span className="text-[#F5F0E8] font-medium block">Data rejestracji: 13 sierpnia 2025 r.</span>
-                                    <span className="text-[#F5F0E8] font-medium block mt-1">
-                                        Email: <a href="mailto:bartosz@daoresorts.club" className="text-[#C9A84C] hover:text-[#C9A84C]/80 transition-colors">bartosz@daoresorts.club</a>
-                                    </span>
-                                    <span className="text-[#F5F0E8] font-medium block mt-1">
-                                        Strona: <a href="https://daoresorts.club" className="text-[#C9A84C] hover:text-[#C9A84C]/80 transition-colors">daoresorts.club</a>
-                                    </span>
+                                <div className="space-y-5 text-sm md:text-base text-[#8A9E8A]">
+                                    <div>
+                                        <span className="block text-[10px] md:text-xs uppercase tracking-widest mb-1 text-[#C9A84C]/80">Identyfikatory Spółki</span>
+                                        <span className="text-[#F5F0E8] font-medium">KRS: 0001188626 • NIP: 9731114421 • REGON: 542448933</span>
+                                    </div>
+                                    <div>
+                                        <span className="block text-[10px] md:text-xs uppercase tracking-widest mb-1 text-[#C9A84C]/80">Adres Siedziby</span>
+                                        <span className="text-[#F5F0E8] font-medium">ul. Kazimierza Wielkiego 7/5, 65-047 Zielona Góra</span>
+                                    </div>
+                                    <div>
+                                        <span className="block text-[10px] md:text-xs uppercase tracking-widest mb-1 text-[#C9A84C]/80">Kontakt & Rejestracja</span>
+                                        <span className="text-[#F5F0E8] font-medium block">Data rejestracji: 13 sierpnia 2025 r.</span>
+                                        <span className="text-[#F5F0E8] font-medium block mt-1">
+                                            Email: <a href="mailto:bartosz@daoresorts.club" className="text-[#C9A84C] hover:text-[#C9A84C]/80 transition-colors">bartosz@daoresorts.club</a>
+                                        </span>
+                                        <span className="text-[#F5F0E8] font-medium block mt-1">
+                                            Strona: <a href="https://daoresorts.club" className="text-[#C9A84C] hover:text-[#C9A84C]/80 transition-colors">daoresorts.club</a>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+                            <p className="leading-relaxed">zwana dalej <strong>„Spółką"</strong> lub <strong>„Operatorem"</strong>.</p>
                         </div>
-                        <p className="leading-relaxed">zwana dalej <strong>„Spółką"</strong> lub <strong>„Operatorem"</strong>.</p>
-                    </div>
 
-                    <div className="space-y-4">
-                        <h3 className="text-lg text-[#F5F0E8] font-semibold">1.2. Definicje</h3>
-                        <p className="leading-relaxed">Na potrzeby niniejszego Regulaminu przyjmuje się następujące definicje:</p>
-                        <ul className="space-y-3">
-                            {[
-                                { term: "„DAOResorts”", desc: "projekt polegający na budowie i eksploatacji prywatnego resortu wakacyjnego w Silna, Lubuskie, prowadzony przez Spółkę na podstawie modelu zdecentralizowanego zarządzania." },
-                                { term: "„Resort”", desc: "obiekt rekreacyjny zlokalizowany w Silna, Lubuskie, składający się z 6 (sześciu) drewnianych domków mieszkalnych o powierzchni użytkowej 70 m² każdy, wyposażonych w prywatne jacuzzi zewnętrzne, oraz infrastruktury towarzyszącej. Dokładny adres i numer działki: [DO UZUPEŁNIENIA — numer działki, obręb Pszczew, KW]." },
-                                { term: "„Paszport NFT” lub „Paszport”", desc: "darmowy token NFT (standard ERC-721) wydawany każdemu zarejestrowanemu użytkownikowi aplikacji DAOResorts, stanowiący profil członkowski w społeczności. Paszport nie jest Tokenem Członkowskim i nie uprawnia do pobytów w Resorcie." },
-                                { term: "„Token Członkowski” lub „Token RWA”", desc: "płatny token NFT (standard ERC-721) reprezentujący dożywotnie prawo do korzystania z Resortu na warunkach określonych w niniejszym Regulaminie. Token Członkowski jest Real World Asset (RWA) powiązanym z fizycznym obiektem nieruchomościowym." },
-                                { term: "„Member” lub „Członek”", desc: "osoba fizyczna lub prawna posiadająca ważny Token Członkowski oraz aktywną weryfikację KYC." },
-                                { term: "„Posiadacz Paszportu”", desc: "osoba posiadająca Paszport NFT, nieposiadająca Tokenu Członkowskiego." },
-                                { term: "„DAO” (Decentralized Autonomous Organization)", desc: "mechanizm zarządzania projektem DAOResorts, w ramach którego Członkowie głosują nad kluczowymi decyzjami dotyczącymi Resortu. Jeden Token Członkowski = jeden głos." },
-                                { term: "„Smart Contract”", desc: "umowa cyfrowa wdrożona na sieci blockchain Polygon, automatycznie egzekwująca warunki emisji i transferu Tokenów." },
-                                { term: "„KYC”", desc: "procedura weryfikacji tożsamości (Know Your Customer) przeprowadzana przez zewnętrznego dostawcę DidIt.me, wymagana do aktywacji Członkostwa." },
-                                { term: "„Koszty Operacyjne”", desc: "faktyczne koszty eksploatacji Resortu przypadające na jeden pobyt, obliczane zgodnie z § 5 niniejszego Regulaminu." },
-                                { term: "„Management Fee”", desc: "opłata za zarządzanie pobierana przez Spółkę zgodnie z § 5 niniejszego Regulaminu." },
-                                { term: "„Termin Premium”", desc: "okresy zwiększonego popytu podlegające systemowi losowania, określone w § 4 niniejszego Regulaminu." },
-                            ].map((item, idx) => (
-                                <li key={idx} className="pl-5 relative border-l border-[#2D5A3D]/40 ml-2">
-                                    <span className="absolute -left-[3px] top-2.5 w-[5px] h-[5px] bg-[#C9A84C] rounded-full"></span>
-                                    <strong className="text-[#F5F0E8] font-medium block mb-1">{item.term}</strong>
-                                    <span className="text-[#8A9E8A] text-sm leading-relaxed block">{item.desc}</span>
-                                </li>
-                            ))}
-                        </ul>
+                        <div className="space-y-4">
+                            <h3 className="text-lg text-[#F5F0E8] font-semibold">1.2. Definicje</h3>
+                            <p className="leading-relaxed">Na potrzeby niniejszego Regulaminu przyjmuje się następujące definicje:</p>
+                            <ul className="space-y-3">
+                                {[
+                                    { term: "„DAOResorts”", desc: "projekt polegający na budowie i eksploatacji prywatnego resortu wakacyjnego w Silna, Lubuskie, prowadzony przez Spółkę na podstawie modelu zdecentralizowanego zarządzania." },
+                                    { term: "„Resort”", desc: "obiekt rekreacyjny zlokalizowany w Silna, Lubuskie, składający się z 6 (sześciu) drewnianych domków mieszkalnych o powierzchni użytkowej 70 m² każdy, wyposażonych w prywatne jacuzzi zewnętrzne, oraz infrastruktury towarzyszącej. Dokładny adres i numer działki: 248/50, obręb Silna." },
+                                    { term: "„Paszport NFT” lub „Paszport”", desc: "darmowy token NFT (standard ERC-721) wydawany każdemu zarejestrowanemu użytkownikowi aplikacji DAOResorts, stanowiący profil członkowski w społeczności. Paszport nie jest Tokenem Członkowskim i nie uprawnia do pobytów w Resorcie." },
+                                    { term: "„Token Członkowski” lub „Token RWA”", desc: "płatny token NFT (standard ERC-721) reprezentujący dożywotnie prawo do korzystania z Resortu na warunkach określonych w niniejszym Regulaminie. Token Członkowski jest Real World Asset (RWA) powiązanym z fizycznym obiektem nieruchomościowym." },
+                                    { term: "„Member” lub „Członek”", desc: "osoba fizyczna lub prawna posiadająca ważny Token Członkowski oraz aktywną weryfikację KYC." },
+                                    { term: "„Posiadacz Paszportu”", desc: "osoba posiadająca Paszport NFT, nieposiadająca Tokenu Członkowskiego." },
+                                    { term: "„DAO” (Decentralized Autonomous Organization)", desc: "mechanizm zarządzania projektem DAOResorts, w ramach którego Członkowie głosują nad kluczowymi decyzjami dotyczącymi Resortu. Jeden Token Członkowski = jeden głos." },
+                                    { term: "„Smart Contract”", desc: "umowa cyfrowa wdrożona na sieci blockchain Polygon, automatycznie egzekwująca warunki emisji i transferu Tokenów." },
+                                    { term: "„KYC”", desc: "procedura weryfikacji tożsamości (Know Your Customer) przeprowadzana przez zewnętrznego dostawcę DidIt.me, wymagana do aktywacji Członkostwa." },
+                                    { term: "„Koszty Operacyjne”", desc: "faktyczne koszty eksploatacji Resortu przypadające na jeden pobyt, obliczane zgodnie z § 5 niniejszego Regulaminu." },
+                                    { term: "„Management Fee”", desc: "opłata za zarządzanie pobierana przez Spółkę zgodnie z § 5 niniejszego Regulaminu." },
+                                    { term: "„Termin Premium”", desc: "okresy zwiększonego popytu podlegające systemowi losowania, określone w § 4 niniejszego Regulaminu." },
+                                ].map((item, idx) => (
+                                    <li key={idx} className="pl-5 relative border-l border-[#2D5A3D]/40 ml-2">
+                                        <span className="absolute -left-[3px] top-2.5 w-[5px] h-[5px] bg-[#C9A84C] rounded-full"></span>
+                                        <strong className="text-[#F5F0E8] font-medium block mb-1">{item.term}</strong>
+                                        <span className="text-[#8A9E8A] text-sm leading-relaxed block">{item.desc}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
-                </section>
+                </div>
+
 
                 {/* § 2 */}
-                <section className="space-y-6">
+                <div className="space-y-6">
                     <h2 className="text-2xl md:text-3xl text-[#C9A84C] font-playfair border-b border-[#2D5A3D]/30 pb-2">
                         § 2. PASZPORT NFT — PROFIL CZŁONKOWSKI (BEZPŁATNY)
                     </h2>
@@ -129,10 +130,10 @@ export default function Regulamin() {
                             Paszport jest nieprzenoszalny — związany jest z zarejestrowanym adresem email i portfelem użytkownika. Transfer Paszportu na inny portfel jest technicznie zablokowany przez Smart Contract.
                         </p>
                     </div>
-                </section>
+                </div>
 
                 {/* § 3 */}
-                <section className="space-y-6">
+                <div className="space-y-6">
                     <h2 className="text-2xl md:text-3xl text-[#C9A84C] font-playfair border-b border-[#2D5A3D]/30 pb-2">
                         § 3. TOKEN CZŁONKOWSKI RWA — PEŁNE CZŁONKOSTWO (PŁATNE)
                     </h2>
@@ -250,10 +251,10 @@ export default function Regulamin() {
                             <li>Spółka nie ponosi odpowiedzialności za skutki nieaktualizowania KYC przez spadkobiercę</li>
                         </ul>
                     </div>
-                </section>
+                </div>
 
                 {/* § 4 */}
-                <section className="space-y-6">
+                <div className="space-y-6">
                     <h2 className="text-2xl md:text-3xl text-[#C9A84C] font-playfair border-b border-[#2D5A3D]/30 pb-2">
                         § 4. SYSTEM REZERWACJI
                     </h2>
@@ -377,10 +378,10 @@ export default function Regulamin() {
                             Każdy domek może pomieścić maksymalnie <strong className="text-[#F5F0E8]">6 (sześć) osób</strong>. Przekroczenie limitu jest niedozwolone ze względów bezpieczeństwa przeciwpożarowego i sanitarnego.
                         </p>
                     </div>
-                </section>
+                </div>
 
                 {/* § 5 */}
-                <section className="space-y-6">
+                <div className="space-y-6">
                     <h2 className="text-2xl md:text-3xl text-[#C9A84C] font-playfair border-b border-[#2D5A3D]/30 pb-2">
                         § 5. KOSZTY OPERACYJNE I ROZLICZENIA
                     </h2>
@@ -487,10 +488,10 @@ export default function Regulamin() {
                             10% wartości każdej wtórnej transakcji Tokenem Członkowskim dzielone jest: 5% → Fundusz DAO, 5% → Spółka.
                         </p>
                     </div>
-                </section>
+                </div>
 
                 {/* § 6 */}
-                <section className="space-y-6">
+                <div className="space-y-6">
                     <h2 className="text-2xl md:text-3xl text-[#C9A84C] font-playfair border-b border-[#2D5A3D]/30 pb-2">
                         § 6. ZASADY POBYTU W RESORCIE
                     </h2>
@@ -531,10 +532,10 @@ export default function Regulamin() {
                             Resort dysponuje <strong>14 (czternastoma)</strong> bezpłatnymi miejscami parkingowymi (po jednym na domek + miejsca techniczne). Teren Resortu jest monitorowany w celu zapewnienia bezpieczeństwa mienia.
                         </p>
                     </div>
-                </section>
+                </div>
 
                 {/* § 7 */}
-                <section className="space-y-6">
+                <div className="space-y-6">
                     <h2 className="text-2xl md:text-3xl text-[#C9A84C] font-playfair border-b border-[#2D5A3D]/30 pb-2">
                         § 7. PRAWA I OBOWIĄZKI MEMBERA
                     </h2>
@@ -564,10 +565,10 @@ export default function Regulamin() {
                             Operator może zawiesić dostęp Membera do systemu rezerwacji v przypadku naruszenia Regulaminu lub nieuregulowania kosztów. Zawieszenie nie pozbawia własności Tokenu, a jedynie ogranicza korzystanie z benefitów do czasu usunięcia naruszenia.
                         </p>
                     </div>
-                </section>
+                </div>
 
                 {/* § 8 */}
-                <section className="space-y-6">
+                <div className="space-y-6">
                     <h2 className="text-2xl md:text-3xl text-[#C9A84C] font-playfair border-b border-[#2D5A3D]/30 pb-2">
                         § 8. ZARZĄDZANIE DAO
                     </h2>
@@ -592,10 +593,10 @@ export default function Regulamin() {
                             Spółka pełni rolę <strong>Operatora</strong> Resortu, zarządza codziennymi operacjami, obsługą gości i utrzymaniem technicznym w zamian za Management Fee. Operator działa v granicach budżetu zatwierdzonego przez DAO.
                         </p>
                     </div>
-                </section>
+                </div>
 
                 {/* § 9 */}
-                <section className="space-y-6">
+                <div className="space-y-6">
                     <h2 className="text-2xl md:text-3xl text-[#C9A84C] font-playfair border-b border-[#2D5A3D]/30 pb-2">
                         § 9. OCHRONA DANYCH I WERYFIKACJA (KYC)
                     </h2>
@@ -605,10 +606,10 @@ export default function Regulamin() {
                             Administratorem danych jest <strong>WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.</strong> Weryfikacja tożsamości (KYC) prowadzona jest przez certyfikowanego partnera <strong>DidIt.me</strong>. Dane biometryczne i dokumenty nie są przechowywane bezpośrednio na serwerach Projektu, a jedynie status weryfikacji powiązany z adresem portfela.
                         </p>
                     </div>
-                </section>
+                </div>
 
                 {/* § 10 */}
-                <section className="space-y-6">
+                <div className="space-y-6">
                     <h2 className="text-2xl md:text-3xl text-[#C9A84C] font-playfair border-b border-[#2D5A3D]/30 pb-2">
                         § 10. POSTANOWIENIA KOŃCOWE
                     </h2>
@@ -628,7 +629,7 @@ export default function Regulamin() {
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
 
                 {/* Footer info */}
                 <div className="border-t border-[#2D5A3D]/50 pt-8 mt-16 text-center text-sm text-[#8A9E8A] opacity-80">

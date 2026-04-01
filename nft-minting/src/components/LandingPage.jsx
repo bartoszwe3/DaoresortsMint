@@ -83,6 +83,84 @@ function MemberCarousel() {
     );
 }
 
+const HeroHeadline = ({ t }) => {
+    const [s1Chars, setS1Chars] = useState(0);
+    const [showDot, setShowDot] = useState(false);
+    const [dotVisible, setDotVisible] = useState(true);
+    const [s2Chars, setS2Chars] = useState(0);
+    const [s2Started, setS2Started] = useState(false);
+
+    const s1 = t("hero_title_1").trim();
+    const s1Text = s1.endsWith(".") ? s1.slice(0, -1) : s1;
+    const s2 = t("hero_title_2");
+
+    useEffect(() => {
+        let isMounted = true;
+
+        // Initial delay
+        setTimeout(() => {
+            if (!isMounted) return;
+
+            // 1. Type Sentence 1
+            let i = 0;
+            const s1Interval = setInterval(() => {
+                i++;
+                setS1Chars(i);
+                if (i >= s1Text.length) {
+                    clearInterval(s1Interval);
+
+                    // 2. Show dot and blink it
+                    setShowDot(true);
+                    setTimeout(() => {
+                        if (!isMounted) return;
+                        setDotVisible(false);
+                        setTimeout(() => {
+                            if (!isMounted) return;
+                            setDotVisible(true);
+
+                            // 3. Pause 2 seconds
+                            setTimeout(() => {
+                                if (!isMounted) return;
+                                setS2Started(true);
+
+                                // 4. Type Sentence 2
+                                let j = 0;
+                                const s2Interval = setInterval(() => {
+                                    j++;
+                                    setS2Chars(j);
+                                    if (j >= s2.length) clearInterval(s2Interval);
+                                }, 60);
+                            }, 2000);
+                        }, 400);
+                    }, 400);
+                }
+            }, 60);
+        }, 800);
+
+        return () => { isMounted = false; };
+    }, [s1Text, s2]);
+
+    return (
+        <h1 className="text-5xl md:text-7xl lg:text-8xl text-center font-playfair font-semibold leading-[1.1] text-text-primary mb-8 tracking-tight drop-shadow-lg break-words w-full min-h-[1.2em]">
+            <span>{s1Text.slice(0, s1Chars)}</span>
+            {showDot && (
+                <span style={{ opacity: dotVisible ? 1 : 0 }} className="transition-opacity duration-150">
+                    .
+                </span>
+            )}
+
+            <br className="block md:hidden mb-2" />
+
+            <span className="text-gold-500 italic font-medium md:ml-3 block md:inline">
+                {s2.slice(0, s2Chars)}
+                {s2Started && s2Chars < s2.length && (
+                    <span className="typewriter-cursor" />
+                )}
+            </span>
+        </h1>
+    );
+};
+
 export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavigate }) {
     const { t } = useTranslation();
     const [activeRoadmapIndex, setActiveRoadmapIndex] = useState(0);
@@ -178,9 +256,69 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
 
                         {/* Quiet Luxury Headline */}
                         <h1 className="text-5xl md:text-7xl lg:text-8xl text-center font-playfair font-semibold leading-[1.1] text-text-primary mb-8 tracking-tight drop-shadow-lg break-words w-full">
-                            {t("hero_title_1")}
-                            <br className="block md:hidden mb-2" />
-                            <span className="text-gold-500 italic font-medium md:ml-2 block md:inline">{t("hero_title_2")}</span>
+                            {(() => {
+                                const s1 = t("hero_title_1").trim();
+                                const s1Text = s1.endsWith(".") ? s1.slice(0, -1) : s1;
+                                const s2 = t("hero_title_2");
+
+                                const s1FinishTime = 0.8 + s1Text.length * 0.06;
+                                const dotBlinkDuration = 1.0;
+                                const s2StartTime = s1FinishTime + dotBlinkDuration + 2.0;
+
+                                return (
+                                    <>
+                                        <motion.span
+                                            initial="hidden"
+                                            animate="visible"
+                                            variants={{
+                                                visible: { transition: { staggerChildren: 0.06, delayChildren: 0.8 } }
+                                            }}
+                                        >
+                                            {s1Text.split("").map((char, i) => (
+                                                <motion.span
+                                                    key={`s1-${i}`}
+                                                    variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.01 } } }}
+                                                >
+                                                    {char}
+                                                </motion.span>
+                                            ))}
+                                        </motion.span>
+
+                                        <motion.span
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: [0, 1, 0, 1] }}
+                                            transition={{
+                                                times: [0, 0.2, 0.5, 1],
+                                                duration: dotBlinkDuration,
+                                                delay: s1FinishTime
+                                            }}
+                                        >
+                                            .
+                                        </motion.span>
+
+                                        <br className="block md:hidden mb-2" />
+
+                                        <motion.span
+                                            className="text-gold-500 italic font-medium md:ml-3 block md:inline"
+                                            initial="hidden"
+                                            animate="visible"
+                                            variants={{
+                                                visible: { transition: { staggerChildren: 0.06, delayChildren: s2StartTime } }
+                                            }}
+                                        >
+                                            {s2.split("").map((char, i) => (
+                                                <motion.span
+                                                    key={`s2-${i}`}
+                                                    variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.01 } } }}
+                                                >
+                                                    {char}
+                                                </motion.span>
+                                            ))}
+                                            <span className="typewriter-cursor" />
+                                        </motion.span>
+                                    </>
+                                );
+                            })()}
                         </h1>
 
                         <p className="text-base md:text-xl text-text-secondary max-w-2xl leading-relaxed mb-10 font-sans font-light break-words w-full px-4 md:px-0 text-center">
