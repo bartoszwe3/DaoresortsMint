@@ -585,13 +585,29 @@ app.get("/api/vote/proposals", (_, res) => {
   const proposals = loadJSON(FILE_PROPOSALS);
   const now = Date.now();
   const enriched = proposals.map(p => {
-    const liveFor = (p.votes || []).filter(v => v.choice === "for").length;
-    const liveAgainst = (p.votes || []).filter(v => v.choice === "against").length;
-    const liveAbstain = (p.votes || []).filter(v => v.choice === "abstain").length;
+    const votes = p.votes || [];
+    const status = p.status_override || (p.endTime ? (now < p.endTime ? "active" : "ended") : "active");
+    
+    // Support custom choices if defined
+    if (p.choices && p.choices.length > 0) {
+      const choiceCounts = {};
+      p.choices.forEach(c => {
+        choiceCounts[c] = votes.filter(v => v.choice === c).length + (p.historicalVotesByChoice?.[c] || 0);
+      });
+      return {
+        ...p,
+        status,
+        votesByChoice: choiceCounts,
+        totalVotes: votes.length + Object.values(p.historicalVotesByChoice || {}).reduce((a, b) => a + b, 0),
+      };
+    }
+
+    const liveFor = votes.filter(v => v.choice === "for").length;
+    const liveAgainst = votes.filter(v => v.choice === "against").length;
+    const liveAbstain = votes.filter(v => v.choice === "abstain").length;
     const votesFor = liveFor + (p.historicalVotesFor || 0);
     const votesAgainst = liveAgainst + (p.historicalVotesAgainst || 0);
     const votesAbstain = liveAbstain + (p.historicalVotesAbstain || 0);
-    const status = p.status_override || (p.endTime ? (now < p.endTime ? "active" : "ended") : "active");
     return {
       ...p,
       status,
@@ -622,7 +638,7 @@ app.get("/api/vote/proposals/:id", (req, res) => {
 
 // CREATE proposal (admin only)
 app.post("/api/vote/create-proposal", (req, res) => {
-  const { title, description, durationMinutes, adminAddress } = req.body;
+  const { title, description, durationMinutes, adminAddress, choices } = req.body;
   if (!title) return res.status(400).json({ error: "Title required" });
 
   const OWNER = process.env.OWNER_ADDRESS || "";
@@ -638,6 +654,7 @@ app.post("/api/vote/create-proposal", (req, res) => {
     id: newId,
     title,
     description: description || "",
+    choices: (choices && Array.isArray(choices)) ? choices.filter(c => c.trim().length > 0) : [],
     createdAt: Date.now(),
     endTime: Date.now() + durationMs,
     votes: [],
@@ -657,13 +674,21 @@ app.post("/api/vote/cast", async (req, res) => {
   if (!walletAddress || !proposalId || tokenId == null || !choice) {
     return res.status(400).json({ error: "Missing fields: walletAddress, proposalId, tokenId, choice" });
   }
-  if (!["for", "against", "abstain"].includes(choice)) {
-    return res.status(400).json({ error: "Invalid choice. Use: for / against / abstain" });
-  }
 
   const proposals = loadJSON(FILE_PROPOSALS);
   const proposal = proposals.find(p => String(p.id) === String(proposalId));
   if (!proposal) return res.status(404).json({ error: "Proposal not found" });
+
+  // Choice validation
+  if (proposal.choices && proposal.choices.length > 0) {
+    if (!proposal.choices.includes(choice)) {
+      return res.status(400).json({ error: `Invalid choice. Allowed: ${proposal.choices.join(', ')}` });
+    }
+  } else {
+    if (!["for", "against", "abstain"].includes(choice)) {
+      return res.status(400).json({ error: "Invalid choice. Use: for / against / abstain" });
+    }
+  }
 
   // Check voting period
   if (proposal.endTime && Date.now() > proposal.endTime) {

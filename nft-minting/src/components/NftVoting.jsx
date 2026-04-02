@@ -30,54 +30,81 @@ function formatDate(ts) {
   return new Date(ts).toLocaleDateString("pl-PL", { day: "numeric", month: "short", year: "numeric" });
 }
 
-function VoteBar({ votesFor = 0, votesAgainst = 0, votesAbstain = 0 }) {
-  const realTotal = votesFor + votesAgainst + votesAbstain;
-  const total = realTotal || 1;
-  const pFor = Math.round((votesFor / total) * 100);
-  const pAgainst = Math.round((votesAgainst / total) * 100);
-  const pAbstain = Math.min(100 - pFor - pAgainst, Math.round((votesAbstain / total) * 100));
+function VoteBar({ votesFor, votesAgainst, votesAbstain, votesByChoice, choices }) {
+  const isCustom = choices && choices.length > 0;
+  
+  let total = 0;
+  if (isCustom) {
+    total = Object.values(votesByChoice || {}).reduce((a, b) => a + b, 0);
+  } else {
+    total = (votesFor || 0) + (votesAgainst || 0) + (votesAbstain || 0);
+  }
 
-  if (realTotal === 0) {
+  if (total === 0) {
     return (
       <div className="space-y-2">
         <div className="h-2 rounded-full bg-white/5 w-full" />
-        <p className="text-gray-600 text-xs">Brak głosów</p>
+        <p className="text-gray-600 text-[10px] uppercase font-bold tracking-widest">Brak głosów</p>
       </div>
     );
   }
 
+  // Predefined colors for custom choices
+  const colors = [
+    "bg-gold-500", "bg-neon-cyan", "bg-purple-500", "bg-orange-500", "bg-pink-500", "bg-blue-500"
+  ];
+
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between mb-1">
-        <span className="text-gray-500 text-xs">Łącznie: <span className="text-white font-bold">{realTotal}</span> głosów</span>
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <span className="text-gray-500 text-[10px] font-bold uppercase tracking-wider">Wyniki: <span className="text-white">{total}</span> głosów</span>
       </div>
 
-      {/* Stacked bar */}
-      <div className="flex rounded-full overflow-hidden h-3 bg-white/5 gap-px">
-        {pFor > 0 && <div style={{ width: `${pFor}%` }} className="bg-green-500 transition-all duration-500" />}
-        {pAgainst > 0 && <div style={{ width: `${pAgainst}%` }} className="bg-red-500 transition-all duration-500" />}
-        {pAbstain > 0 && <div style={{ width: `${pAbstain}%` }} className="bg-gray-500 transition-all duration-500" />}
+      {/* Dynamic Stacked Bar */}
+      <div className="flex rounded-full overflow-hidden h-2.5 bg-white/5 gap-px shadow-inner">
+        {isCustom ? (
+          choices.map((c, idx) => {
+            const count = votesByChoice?.[c] || 0;
+            const pct = Math.round((count / total) * 100);
+            if (pct === 0) return null;
+            return <div key={c} style={{ width: `${pct}%` }} className={`${colors[idx % colors.length]} transition-all duration-700`} />;
+          })
+        ) : (
+          <>
+            {votesFor > 0 && <div style={{ width: `${Math.round((votesFor / total) * 100)}%` }} className="bg-green-500 transition-all duration-700" />}
+            {votesAgainst > 0 && <div style={{ width: `${Math.round((votesAgainst / total) * 100)}%` }} className="bg-red-500 transition-all duration-700" />}
+            {votesAbstain > 0 && <div style={{ width: `${Math.round((votesAbstain / total) * 100)}%` }} className="bg-gray-500 transition-all duration-700" />}
+          </>
+        )}
       </div>
 
       {/* Labels */}
-      <div className="flex flex-wrap gap-x-4 gap-y-1">
-        {votesFor > 0 && (
-          <span className="text-green-400 text-xs font-medium flex items-center gap-1">
-            ✅ ZA <strong>{votesFor}</strong>
-            <span className="text-green-600">({pFor}%)</span>
-          </span>
-        )}
-        {votesAgainst > 0 && (
-          <span className="text-red-400 text-xs font-medium flex items-center gap-1">
-            ❌ PRZECIW <strong>{votesAgainst}</strong>
-            <span className="text-red-600">({pAgainst}%)</span>
-          </span>
-        )}
-        {votesAbstain > 0 && (
-          <span className="text-gray-400 text-xs font-medium flex items-center gap-1">
-            - WSTRZYMAŁO SIĘ <strong>{votesAbstain}</strong>
-            <span className="text-gray-600">({pAbstain}%)</span>
-          </span>
+      <div className="flex flex-wrap gap-x-4 gap-y-2">
+        {isCustom ? (
+          choices.map((c, idx) => {
+            const count = votesByChoice?.[c] || 0;
+            const pct = Math.round((count / total) * 100);
+            return (
+              <span key={c} className="text-[10px] font-bold uppercase flex items-center gap-1.5">
+                <div className={`w-2 h-2 rounded-full ${colors[idx % colors.length]}`} />
+                <span className="text-white">{c}</span>
+                <span className="text-gray-550">{count} ({pct}%)</span>
+              </span>
+            );
+          })
+        ) : (
+          <>
+            {votesFor >= 0 && (
+              <span className="text-green-400 text-[10px] font-bold uppercase flex items-center gap-1">
+                ✅ ZA <span className="text-white">{votesFor}</span> <span className="text-green-600/50">({Math.round((votesFor / total) * 100)}%)</span>
+              </span>
+            )}
+            {votesAgainst >= 0 && (
+              <span className="text-red-400 text-[10px] font-bold uppercase flex items-center gap-1">
+                ❌ PRZECIW <span className="text-white">{votesAgainst}</span> <span className="text-red-600/50">({Math.round((votesAgainst / total) * 100)}%)</span>
+              </span>
+            )}
+          </>
         )}
       </div>
     </div>
@@ -170,7 +197,13 @@ export default function NftVoting({ isState3Member }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      toast.success(`✅ Zagłosowano (${selectedChoice === "for" ? "ZA" : selectedChoice === "against" ? "PRZECIW" : "WSTRZYMANIE"})`);
+
+      let choiceLabel = selectedChoice;
+      if (selectedChoice === "for") choiceLabel = "ZA";
+      else if (selectedChoice === "against") choiceLabel = "PRZECIW";
+      else if (selectedChoice === "abstain") choiceLabel = "WSTRZYMANIE";
+
+      toast.success(`✅ Zagłosowano: ${choiceLabel}`);
       await loadProposals();
       await loadMyVotes();
     } catch (e) {
@@ -313,8 +346,14 @@ export default function NftVoting({ isState3Member }) {
                   </div>{/* close clickable header */}
 
                   {/* Vote bar */}
-                  <div className="px-6 pb-4">
-                    <VoteBar votesFor={p.votesFor} votesAgainst={p.votesAgainst} votesAbstain={p.votesAbstain} />
+                  <div className="px-6 pb-6 border-b border-white/5 mx-2 mb-2 bg-white/[0.01] rounded-2xl">
+                    <VoteBar 
+                      votesFor={p.votesFor} 
+                      votesAgainst={p.votesAgainst} 
+                      votesAbstain={p.votesAbstain} 
+                      votesByChoice={p.votesByChoice}
+                      choices={p.choices}
+                    />
                   </div>
 
 
@@ -346,30 +385,52 @@ export default function NftVoting({ isState3Member }) {
                         </div>
                       ) : (
                         <div className="space-y-3">
-                          <div className="flex gap-2">
-                            {[
-                              { choice: "for", label: "ZA", icon: ThumbsUp, color: "green" },
-                              { choice: "against", label: "PRZECIW", icon: ThumbsDown, color: "red" },
-                              { choice: "abstain", label: "WSTRZYMAJ", icon: Minus, color: "gray" },
-                            ].map(({ choice, label, icon: Icon, color }) => (
-                              <button key={choice}
-                                onClick={() => {
-                                  const tokenId = myTokenIds.length === 1 ? myTokenIds[0] : state.selectedTokenId;
-                                  setVotingState(prev => ({ ...prev, [p.id]: { ...prev[p.id], selectedChoice: choice, selectedTokenId: tokenId || prev[p.id]?.selectedTokenId } }));
-                                }}
-                                className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-bold border transition-all
-                                ${state.selectedChoice === choice
-                                    ? color === "green" ? "bg-green-500/20 border-green-500 text-green-400" : color === "red" ? "bg-red-500/20 border-red-500 text-red-400" : "bg-gray-500/20 border-gray-500 text-gray-300"
-                                    : "bg-white/5 border-white/10 text-gray-400 hover:border-white/30"
-                                  }`}>
-                                <Icon size={14} />{label}
-                              </button>
-                            ))}
+                          <div className={`flex gap-2 ${p.choices?.length > 2 ? 'flex-col' : ''}`}>
+                            {p.choices && p.choices.length > 0 ? (
+                              p.choices.map((choice, idx) => {
+                                const colors = ["border-gold-500 text-gold-400", "border-neon-cyan text-neon-cyan", "border-purple-500 text-purple-400", "border-orange-500 text-orange-400"];
+                                const activeColor = ["bg-gold-500/20", "bg-neon-cyan/20", "bg-purple-500/20", "bg-orange-500/20"];
+                                
+                                return (
+                                  <button key={choice}
+                                    onClick={() => {
+                                      const tokenId = myTokenIds.length === 1 ? myTokenIds[0] : state.selectedTokenId;
+                                      setVotingState(prev => ({ ...prev, [p.id]: { ...prev[p.id], selectedChoice: choice, selectedTokenId: tokenId || prev[p.id]?.selectedTokenId } }));
+                                    }}
+                                    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold border transition-all
+                                    ${state.selectedChoice === choice
+                                        ? `${activeColor[idx % activeColor.length]} ${colors[idx % colors.length]}`
+                                        : "bg-white/5 border-white/10 text-gray-400 hover:border-white/30"
+                                      }`}>
+                                    {choice}
+                                  </button>
+                                );
+                              })
+                            ) : (
+                              [
+                                { choice: "for", label: "ZA", icon: ThumbsUp, color: "green" },
+                                { choice: "against", label: "PRZECIW", icon: ThumbsDown, color: "red" },
+                                { choice: "abstain", label: "WSTRZYMAJ", icon: Minus, color: "gray" },
+                              ].map(({ choice, label, icon: Icon, color }) => (
+                                <button key={choice}
+                                  onClick={() => {
+                                    const tokenId = myTokenIds.length === 1 ? myTokenIds[0] : state.selectedTokenId;
+                                    setVotingState(prev => ({ ...prev, [p.id]: { ...prev[p.id], selectedChoice: choice, selectedTokenId: tokenId || prev[p.id]?.selectedTokenId } }));
+                                  }}
+                                  className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-bold border transition-all
+                                  ${state.selectedChoice === choice
+                                      ? color === "green" ? "bg-green-500/20 border-green-500 text-green-400" : color === "red" ? "bg-red-500/20 border-red-500 text-red-400" : "bg-gray-500/20 border-gray-500 text-gray-300"
+                                      : "bg-white/5 border-white/10 text-gray-400 hover:border-white/30"
+                                    }`}>
+                                  <Icon size={14} />{label}
+                                </button>
+                              ))
+                            )}
                           </div>
                           <button
                             onClick={() => castVote(p.id)}
                             disabled={state.sending || !state.selectedChoice}
-                            className="w-full py-2.5 bg-gradient-to-r from-gold-500 to-gold-400 text-black font-black rounded-xl text-sm disabled:opacity-40 transition-all hover:scale-[1.02] shadow-[0_0_15px_rgba(201,168,76,0.3)]"
+                            className="w-full py-3 bg-gold-500 text-black font-black rounded-xl text-sm disabled:opacity-40 transition-all hover:scale-[1.02] shadow-lg shadow-gold-500/10"
                           >
                             {state.sending ? "Wysyłanie..." : "Potwierdź głos"}
                           </button>
