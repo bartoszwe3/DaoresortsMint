@@ -60,7 +60,7 @@ export default function Footer() {
                         Token Członkowski DAOResorts nie jest instrumentem finansowym w rozumieniu MiCA. Paszport NFT jest darmowy i nie stanowi prawa do korzystania z resortu.
                     </p>
                     <p className="text-[#8A9E8A] text-xs text-center">
-                        © 2026 DAOResorts by WE3.CLUB RESORT DEVELOPMENT SP. Z O.O. Wszelkie prawa zastrzeżone.
+                        © 2026 DAOResorts by WE3.CLUB RESORT DEVELOPMENT SP. Z O.O. Wszelkie prawa zastrzeżone. | <a href="https://polygon.technology/" target="_blank" rel="noreferrer" className="hover:text-[#C9A84C] transition-colors underline decoration-[#C9A84C]/30">Powered by Polygon</a>
                     </p>
                 </div>
 
