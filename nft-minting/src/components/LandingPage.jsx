@@ -730,12 +730,12 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                             </p>
                         </div>
 
-                        {/* 15% Maintenance */}
+                        {/* 10% Maintenance */}
                         <div className="bg-forest-800 p-8 rounded-2xl border border-border-default/30 relative overflow-hidden group hover:border-gold-500/30 transition-all shadow-sm">
                             <motion.div
                                 className="absolute bottom-0 left-0 h-1 bg-gold-500"
                                 initial={{ width: 0 }}
-                                whileInView={{ width: "15%" }}
+                                whileInView={{ width: "10%" }}
                                 transition={{ duration: 1.5, ease: "easeOut" }}
                                 viewport={{ once: true }}
                             />
@@ -743,7 +743,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                                 <div className="p-4 bg-forest-500/10 rounded-xl text-gold-500">
                                     <Wrench size={32} strokeWidth={1.5} />
                                 </div>
-                                <div className="text-5xl font-sans font-light text-text-primary">15<span className="text-2xl text-text-muted">%</span></div>
+                                <div className="text-5xl font-sans font-light text-text-primary">10<span className="text-2xl text-text-muted">%</span></div>
                             </div>
                             <h3 className="text-xl font-playfair font-medium text-text-primary mb-3">{t("alloc_2_title")}</h3>
                             <p className="text-text-secondary leading-relaxed text-sm font-light">
@@ -751,12 +751,12 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                             </p>
                         </div>
 
-                        {/* 15% Ops */}
+                        {/* 20% Ops */}
                         <div className="bg-forest-800 p-8 rounded-2xl border border-border-default/30 relative overflow-hidden group hover:border-text-secondary/30 transition-all shadow-sm">
                             <motion.div
                                 className="absolute bottom-0 left-0 h-1 bg-text-secondary"
                                 initial={{ width: 0 }}
-                                whileInView={{ width: "15%" }}
+                                whileInView={{ width: "20%" }}
                                 transition={{ duration: 1.5, ease: "easeOut" }}
                                 viewport={{ once: true }}
                             />
@@ -764,7 +764,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                                 <div className="p-4 bg-forest-500/10 rounded-xl text-text-secondary">
                                     <Settings size={32} strokeWidth={1.5} />
                                 </div>
-                                <div className="text-5xl font-sans font-light text-text-primary">15<span className="text-2xl text-text-muted">%</span></div>
+                                <div className="text-5xl font-sans font-light text-text-primary">20<span className="text-2xl text-text-muted">%</span></div>
                             </div>
                             <h3 className="text-xl font-playfair font-medium text-text-primary mb-3">{t("alloc_3_title")}</h3>
                             <p className="text-text-secondary leading-relaxed text-sm font-light">
