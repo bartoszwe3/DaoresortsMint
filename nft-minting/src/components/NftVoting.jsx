@@ -30,6 +30,33 @@ function formatDate(ts) {
   return new Date(ts).toLocaleDateString("pl-PL", { day: "numeric", month: "short", year: "numeric" });
 }
 
+function LinkifiedText({ text }) {
+  if (!text) return null;
+  // Regex to find t.me, http://, https://
+  const urlRegex = /(https?:\/\/[^\s]+|t\.me\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+  
+  return (
+    <span className="whitespace-pre-line">
+      {parts.map((part, i) => {
+        if (part.match(urlRegex)) {
+          let url = part;
+          if (url.startsWith('t.me/')) url = 'https://' + url;
+          return (
+            <a key={i} href={url} target="_blank" rel="noopener noreferrer" 
+               className="text-gold-500 hover:text-gold-400 underline decoration-gold-500/30 underline-offset-4 font-bold transition-colors"
+               onClick={(e) => e.stopPropagation() /* Prevent expanding/collapsing when clicking link */}
+            >
+              {part}
+            </a>
+          );
+        }
+        return part;
+      })}
+    </span>
+  );
+}
+
 function VoteBar({ votesFor, votesAgainst, votesAbstain, votesByChoice, choices }) {
   const isCustom = choices && choices.length > 0;
   
@@ -322,9 +349,9 @@ export default function NftVoting({ isState3Member }) {
                           {i18n.language === "pl" ? (p.title_pl || p.title) : (p.title_en || p.title_pl || p.title)}
                         </h3>
                         {descText && (
-                          <p className={`text-gray-400 text-sm mt-2 whitespace-pre-line ${isExpanded ? "" : "line-clamp-3"}`}>
-                            {descText}
-                          </p>
+                          <div className={`text-gray-400 text-sm mt-3 ${isExpanded ? "" : "line-clamp-3"}`}>
+                            <LinkifiedText text={descText} />
+                          </div>
                         )}
                         {!isExpanded && descText && descText.length > 180 && (
                           <p className="text-neon-cyan/70 text-xs mt-1 font-medium">Kliknij aby rozwinąć ↓</p>
