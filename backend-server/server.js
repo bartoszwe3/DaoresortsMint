@@ -134,6 +134,17 @@ const CONTRACT_ABI = [
     "outputs": [{ "internalType": "bool[]", "name": "", "type": "bool[]" }],
     "stateMutability": "view",
     "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_to", "type": "address" },
+      { "internalType": "uint256", "name": "_photoId", "type": "uint256" },
+      { "internalType": "string", "name": "_name", "type": "string" }
+    ],
+    "name": "mintPassport",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   }
 ];
 
