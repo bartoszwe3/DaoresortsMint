@@ -100,21 +100,29 @@ app.use(
 // -------------------------------
 const CONTRACT_ABI = [
   {
-    "inputs": [{ "internalType": "address", "name": "user", "type": "address" }],
-    "name": "addToWhitelist",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }],
+    "name": "ownerOf",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "address", "name": "_to", "type": "address" },
-      { "internalType": "uint256", "name": "_photoId", "type": "uint256" },
-      { "internalType": "string", "name": "_name", "type": "string" }
+    "inputs": [{ "internalType": "address", "name": "user", "type": "address" }],
+    "name": "getOwnedBeavers",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+          { "internalType": "uint256", "name": "photoId", "type": "uint256" },
+          { "internalType": "uint256", "name": "mintTimestamp", "type": "uint256" },
+          { "internalType": "string", "name": "memberName", "type": "string" }
+        ],
+        "internalType": "struct DAOBeaverPassport.PassportInfo[]",
+        "name": "",
+        "type": "tuple[]"
+      }
     ],
-    "name": "mintPassport",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -124,14 +132,6 @@ const CONTRACT_ABI = [
     ],
     "name": "getBatchTokenStatus",
     "outputs": [{ "internalType": "bool[]", "name": "", "type": "bool[]" }],
-    "stateMutability": "view",
-    "type": "function"
-  }
-  ,
-  {
-    "inputs": [{ "internalType": "address", "name": "user", "type": "address" }],
-    "name": "getOwnedBeavers",
-    "outputs": [{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }],
     "stateMutability": "view",
     "type": "function"
   }
@@ -247,9 +247,16 @@ app.get("/api/status/:wallet", (req, res) => {
   const { wallet } = req.params;
   const users = loadJSON(FILE_USERS);
 
-  const user = users.find((u) => u.wallet.toLowerCase() === wallet.toLowerCase());
+  // Find ALL entries for this wallet
+  const walletEntries = users.filter((u) => u.wallet?.toLowerCase() === wallet.toLowerCase());
 
-  if (!user) return res.json({ registered: false });
+  if (walletEntries.length === 0) return res.json({ registered: false });
+
+  // Preferred entry is the first one or one with a valid token
+  const user = walletEntries.find(u => u.minted && u.membershipTokenId != null) || walletEntries[0];
+  const allTokens = walletEntries
+    .filter(u => u.minted && u.membershipTokenId != null)
+    .map(u => String(u.membershipTokenId));
 
   res.json({
     registered: true,
@@ -257,6 +264,7 @@ app.get("/api/status/:wallet", (req, res) => {
     whitelisted: user.whitelisted || false,
     minted: user.minted || false,
     membershipTokenId: user.membershipTokenId ?? null,
+    membershipTokenIds: allTokens, // Array of all tokens owned by this wallet in DB
     photoId: user.photoId ?? null,
     memberName: user.memberName || "",
     kycStatus: user.kycStatus || "not_started",

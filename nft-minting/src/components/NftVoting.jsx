@@ -194,8 +194,12 @@ export default function NftVoting({ isState3Member }) {
     try {
       const res = await fetch(`${API_BASE}/api/status/${currentUserAddress}`);
       const d = await res.json();
-      if (d?.minted && d?.membershipTokenId != null) {
-        setMyTokenIds([String(d.membershipTokenId)]);
+      if (d?.minted) {
+        if (d.membershipTokenIds && d.membershipTokenIds.length > 0) {
+          setMyTokenIds(d.membershipTokenIds.map(String));
+        } else if (d.membershipTokenId != null) {
+          setMyTokenIds([String(d.membershipTokenId)]);
+        }
       }
     } catch { }
   }, [isAuthenticated, currentUserAddress, getOwnedBeavers]);
