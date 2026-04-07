@@ -74,7 +74,7 @@
       "Domek B - Elastyczny": 11,
       "Wstrzymuję się": 2
     },
-    "historicalNote_pl": "Przywrócono 15 głosów po resecie serwera (2x A, 11x B, 2x Wstrz.).",
+    "status_override": "passed",
     "votes": []
   }
 ]
