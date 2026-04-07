@@ -69,6 +69,12 @@
     "choices": ["Domek A - Klasyczny", "Domek B - Elastyczny", "Wstrzymuję się"],
     "createdAt": 1775135585915,
     "endTime": 1775394785915,
+    "historicalVotesByChoice": {
+      "Domek A - Klasyczny": 2,
+      "Domek B - Elastyczny": 11,
+      "Wstrzymuję się": 2
+    },
+    "historicalNote_pl": "Przywrócono 15 głosów po resecie serwera (2x A, 11x B, 2x Wstrz.).",
     "votes": []
   }
 ]
