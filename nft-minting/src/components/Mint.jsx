@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, UserPlus } from "lucide-react";
 import { useTranslation, Trans } from "react-i18next";
+import { trackPixelEvent } from "../utils/pixel";
 
 
 import { NFT_CONTRACT_ADDRESS } from "../contracts/contracts";
@@ -153,6 +154,12 @@ export default function Mint({ onMintSuccess, onConnect }) {
           ),
           { id: toastId, duration: 8000 }
         );
+        trackPixelEvent('Purchase', { 
+          value: 0, 
+          currency: 'PLN', 
+          content_name: 'Passport NFT', 
+          content_ids: [String(id)] 
+        });
 
         setHasNft(true);
         // Refresh gallery after a delay to show updated blockchain state

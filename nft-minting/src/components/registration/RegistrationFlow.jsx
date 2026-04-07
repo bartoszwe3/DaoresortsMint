@@ -10,6 +10,7 @@ import StepMethodSelect from "./StepMethodSelect";
 import StepEmailVerify from "./StepEmailVerify";
 import StepWalletConnect from "./StepWalletConnect";
 import StepProfile from "./StepProfile";
+import { trackPixelEvent } from "../../utils/pixel";
 
 const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
@@ -121,6 +122,7 @@ export default function RegistrationFlow({ onCancel }) {
             }
 
             setFirstName(profileData.firstName);
+            trackPixelEvent('Lead', { email: userEmail, firstName: profileData.firstName });
             toast.success("Profil utworzony pomyślnie! 🎉");
             navigate("/mint");
         } catch (err) {
