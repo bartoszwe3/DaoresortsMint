@@ -11,6 +11,7 @@ import MyNfts from "./MyNfts";
 import AboutProject from "./AboutProject";
 import ProjectsShowcase from "./ProjectsShowcase";
 import LandingPage from "./LandingPage";
+import Prezentacja from "./Prezentacja";
 
 import Team from "./Team";
 import FAQ from "./FAQ";
@@ -37,10 +38,10 @@ const shortenAddress = (addr) =>
 
 const IPFS_BASE = "https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2pbbrpz6qsmbgeajptl3q/";
 
-export default function MainPage() {
+export default function MainPage({ defaultTab }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const selected = searchParams.get("tab") || "home";
+  const selected = searchParams.get("tab") || defaultTab || "home";
 
   const setSelected = (tab) => {
     if (tab === "checkout/reserve" || tab === "checkout/activate") {
@@ -57,6 +58,7 @@ export default function MainPage() {
 
   const { open } = useAppKit();
   const { logout } = useAuth();
+  const [isLoginFlow, setIsLoginFlow] = useState(false);
   const { chainId, switchNetwork } = useAppKitNetwork();
   const { getOwnedBeavers } = useContract();
   const { t, i18n } = useTranslation();
@@ -71,8 +73,9 @@ export default function MainPage() {
     userRecord
   } = useUserStatus();
 
-  const connectWallet = () => {
+  const connectWallet = (isLogin = false) => {
     if (!isAuthenticated) {
+      setIsLoginFlow(isLogin === true);
       setSelected("register");
     } else {
       if (user?.type === "wallet") {
@@ -177,9 +180,10 @@ export default function MainPage() {
 
         {/* Content Area */}
         <div ref={scrollContainerRef} className={`flex-1 ${selected === "home" ? "" : "p-6 md:p-10"}`}>
-          <div className={selected === "home" ? "w-full" : "w-full max-w-6xl mx-auto"}>
-            {selected === "home" && <LandingPage onConnect={connectWallet} scrollContainer={scrollContainerRef} hasNft={!!sidebarNft} onNavigate={setSelected} />}
-            {selected === "register" && <RegistrationFlow onCancel={() => setSelected("home")} />}
+          <div className={selected === "home" || selected === "landing" ? "w-full" : "w-full max-w-6xl mx-auto"}>
+            {selected === "home" && <Prezentacja onConnect={connectWallet} />}
+            {selected === "landing" && <LandingPage onConnect={connectWallet} scrollContainer={scrollContainerRef} hasNft={!!sidebarNft} onNavigate={setSelected} />}
+            {selected === "register" && <RegistrationFlow isLogin={isLoginFlow} onCancel={() => setSelected("home")} />}
             {selected === "admin" && isAdmin && <AdminWhitelist />}
             {selected === "about" && <AboutProject />}
             {selected === "mint" && <Mint onMintSuccess={refreshSidebarNft} onConnect={connectWallet} />}

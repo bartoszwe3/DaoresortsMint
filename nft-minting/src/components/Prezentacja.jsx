@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll } from "framer-motion";
 import { ChevronDown, Share2, Check, Shield, Vote, Key, Calendar, Users, Home, ArrowRight, ChevronRight, Minus, Plus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import HeroHeadline from "./HeroHeadline";
+import MemberCarousel from "./MemberCarousel";
 
 /* ================================================================
    UTILITY - Animated counter hook
@@ -128,6 +131,38 @@ function ShareButton() {
 }
 
 /* ================================================================
+   STICKY CTA - specific for cold traffic
+   ================================================================ */
+function StickyCTA({ onClick }) {
+    const { scrollY } = useScroll();
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        return scrollY.on("change", (latest) => {
+            if (latest > window.innerHeight * 0.4) {
+                setVisible(true);
+            } else {
+                setVisible(false);
+            }
+        });
+    }, [scrollY]);
+
+    if (!visible) return null;
+
+    return (
+        <motion.button
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            onClick={onClick}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-8 py-4 bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-sans font-bold shadow-[0_4px_20px_rgba(201,168,76,0.3)] hover:shadow-[0_4px_30px_rgba(201,168,76,0.5)] transition-all whitespace-nowrap"
+        >
+            Dołącz za darmo i odbierz Paszport
+        </motion.button>
+    );
+}
+
+/* ================================================================
    COUNTER CARD - animated number on scroll
    ================================================================ */
 function CounterCard({ value, prefix = "", suffix = "", label, sublabel, accent = false }) {
@@ -155,7 +190,7 @@ function CounterCard({ value, prefix = "", suffix = "", label, sublabel, accent 
 /* ================================================================
    MAIN COMPONENT
    ================================================================ */
-export default function Prezentacja() {
+export default function Prezentacja({ onConnect }) {
     const [activeSection, setActiveSection] = useState("s1");
 
     /* Scroll Listener for dot-nav */
@@ -202,15 +237,7 @@ export default function Prezentacja() {
             <div className="absolute inset-0 bg-gradient-to-b from-[#0E1208]/70 via-[#0E1208]/50 to-[#0E1208]" />
 
             <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-                <motion.h1
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.3 }}
-                    className="font-playfair text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#F5F0E8] leading-tight mb-6"
-                >
-                    Hotele zarabiają na Tobie.{" "}
-                    <span className="text-[#C9A84C]">Czas to zmienić.</span>
-                </motion.h1>
+                <HeroHeadline text1="Hotele zarabiają na Tobie. " text2="Czas to zmienić." />
 
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
@@ -218,7 +245,7 @@ export default function Prezentacja() {
                     transition={{ duration: 0.8, delay: 0.7 }}
                     className="text-lg md:text-xl text-[#F5F0E8]/80 mb-10 max-w-2xl mx-auto"
                 >
-                    Jeden token. 14 nocy rocznie. Dożywotnio po kosztach.
+                    Jedno członkostwo. 14 nocy rocznie. Dożywotnio po kosztach.
                 </motion.p>
 
                 {/* Two hero numbers */}
@@ -226,7 +253,7 @@ export default function Prezentacja() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 1.1 }}
-                    className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-12"
+                    className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-8"
                 >
                     <div className="bg-[#C9A84C]/10 border border-[#C9A84C]/30 rounded-xl px-8 py-5">
                         <div className="font-playfair text-2xl md:text-3xl text-[#C9A84C] font-bold">2 000 PLN</div>
@@ -237,6 +264,32 @@ export default function Prezentacja() {
                         <div className="text-[#8A9E8A] text-sm mt-1">oszczędności przez 20 lat</div>
                     </div>
                 </motion.div>
+
+                {/* Main Registration CTAs */}
+                {onConnect && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 1.3 }}
+                        className="flex flex-col items-center gap-2 w-full px-4 md:px-0 mb-12"
+                    >
+                        {/* Główny - dołącz za darmo */}
+                        <button
+                            onClick={() => onConnect(false)}
+                            className="px-6 py-3 w-full sm:w-[300px] bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-sans font-bold rounded-none transition-all shadow-btn-primary hover:shadow-btn-primary-hover flex items-center justify-center gap-3 text-sm min-w-[280px]"
+                        >
+                            Dołącz za darmo
+                        </button>
+
+                        {/* Zaloguj się */}
+                        <button
+                            onClick={() => onConnect(true)}
+                            className="text-[#8A9E8A] text-xs text-center w-full mt-2 hover:text-[#C9A84C] transition-colors"
+                        >
+                            Masz już konto? Zaloguj się
+                        </button>
+                    </motion.div>
+                )}
             </div>
 
             {/* Scroll indicator */}
@@ -738,8 +791,8 @@ export default function Prezentacja() {
                 <div className="space-y-6 mb-14 text-left">
                     {[
                         { pct: 70, amount: "~13 993 PLN", label: "Budowa resortu", desc: "Materiały budowlane, robocizna, infrastruktura", color: "bg-[#C9A84C]" },
-                        { pct: 15, amount: "~2 999 PLN", label: "Fundusz remontowy DAO", desc: "Twoje pieniądze na przyszłość resortu", color: "bg-green-500" },
-                        { pct: 15, amount: "~2 999 PLN", label: "Development i obsługa", desc: "Prawnik, marketing, wynagrodzenie foundera", color: "bg-[#2D5A3D]" },
+                        { pct: 10, amount: "~1 999 PLN", label: "Fundusz remontowy DAO", desc: "Twoje pieniądze na przyszłość resortu", color: "bg-green-500" },
+                        { pct: 20, amount: "~3 998 PLN", label: "Development i obsługa", desc: "Prawnik, marketing, wynagrodzenie foundera", color: "bg-[#2D5A3D]" },
                     ].map((item, i) => (
                         <div key={i}>
                             <div className="flex justify-between items-baseline mb-2">
@@ -861,20 +914,22 @@ export default function Prezentacja() {
                 </p>
 
                 {/* CTAs */}
-                <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
-                    <a
-                        href="/"
-                        className="bg-[#C9A84C] text-[#0E1208] font-bold px-8 py-4 rounded-xl transition-transform hover:scale-105 shadow-[0_0_20px_rgba(201,168,76,0.2)] flex items-center justify-center gap-2"
-                    >
-                        Odbierz darmowy Paszport <ArrowRight size={18} />
-                    </a>
-                    <a
-                        href="/checkout/stage/0"
-                        className="border border-[#C9A84C] text-[#C9A84C] font-bold px-8 py-4 rounded-xl hover:bg-[#C9A84C] hover:text-[#0E1208] transition-all flex items-center justify-center"
-                    >
-                        Zarezerwuj członkostwo - 2000 PLN
-                    </a>
-                </div>
+                {onConnect && (
+                    <div className="flex flex-col items-center gap-2 w-full px-4 md:px-0 mb-8 max-w-sm mx-auto">
+                        <button
+                            onClick={() => onConnect(false)}
+                            className="px-6 py-4 w-full bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-sans font-bold transition-all shadow-[0_0_20px_rgba(201,168,76,0.2)] flex items-center justify-center gap-2"
+                        >
+                            Dołącz za darmo
+                        </button>
+                        <button
+                            onClick={() => onConnect(true)}
+                            className="text-[#8A9E8A] text-xs text-center w-full mt-2 hover:text-[#C9A84C] transition-colors"
+                        >
+                            Masz już konto? Zaloguj się
+                        </button>
+                    </div>
+                )}
 
                 <p className="text-[#8A9E8A] text-xs">
                     Masz pytania?{" "}
@@ -890,14 +945,19 @@ export default function Prezentacja() {
        RENDER
        ============================================================ */
     return (
-        <main className="bg-[#0E1208] min-h-screen text-[#8A9E8A] text-center">
+        <div className="bg-[#0E1208] min-h-screen text-[#8A9E8A] text-center w-full overflow-x-hidden">
             <DotNav activeId={activeSection} />
             <ShareButton />
+            {onConnect && <StickyCTA onClick={() => onConnect(false)} />}
 
             <S1 />
             <S2 />
             <S3 />
             <S4 />
+            
+            {/* Adding social proof right after the math section */}
+            <MemberCarousel />
+
             <S5 />
             <S6 />
             <S7 />
@@ -909,6 +969,6 @@ export default function Prezentacja() {
 
             {/* Footer spacer */}
             <div className="h-20" />
-        </main>
+        </div>
     );
 }

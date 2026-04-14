@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const { ethers } = require("ethers");
 const { Mutex } = require("async-mutex");
+const supabase = require("./utils/supabase"); // Integration with Supabase
 
 const txMutex = new Mutex();
 const dbMutex = new Mutex();
@@ -227,61 +228,137 @@ app.use('/api/admin/payments', adminPaymentRoutes);
 // -------------------------------
 // REGISTER USER
 // -------------------------------
-app.post("/api/register", (req, res) => {
+app.post("/api/register", async (req, res) => {
+  const { email, wallet, firstName, phone } = req.body;
+
+  if (!email)
+    return res.status(400).json({ error: "Email required" });
+
+  try {
+    const { data: existingUser } = await supabase
+      .from('dao_users')
+      .select('*')
+      .eq('email', email)
+      .maybeSingle();
+
+    if (existingUser) {
+      const updates = {};
+      if (firstName) updates.member_name = firstName;
+      if (phone) updates.phone = phone;
+      if (wallet && !existingUser.wallet) updates.wallet = wallet.toLowerCase();
+
+      if (Object.keys(updates).length > 0) {
+        const { error: updError } = await supabase
+          .from('dao_users')
+          .update(updates)
+          .eq('email', email);
+        if (updError) throw updError;
+      }
+    } else {
+      const { error: insError } = await supabase
+        .from('dao_users')
+        .insert([{
+          email: email.toLowerCase(),
+          wallet: wallet ? wallet.toLowerCase() : null,
+          member_name: firstName || "",
+          phone: phone || "",
+          registered_at: new Date().toISOString(),
+          whitelisted: false,
+          minted: false,
+        }]);
+      if (insError) throw insError;
+    }
+
+    res.json({ message: "Registered successfully", status: "pending" });
+  } catch (err) {
+    console.error("Register Error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// -------------------------------
+// LINK WALLET
+// -------------------------------
+app.post("/api/link-wallet", async (req, res) => {
   const { email, wallet } = req.body;
+  if (!email || !wallet) return res.status(400).json({ error: "Email and wallet required" });
 
-  if (!email || !wallet)
-    return res.status(400).json({ error: "Email and wallet required" });
+  try {
+    const { data: user } = await supabase
+      .from('dao_users')
+      .select('*')
+      .eq('email', email)
+      .maybeSingle();
 
-  let users = loadJSON(FILE_USERS);
+    if (user) {
+      if (!user.wallet || user.wallet.toLowerCase() !== wallet.toLowerCase()) {
+        const { error: updError } = await supabase
+          .from('dao_users')
+          .update({ wallet: wallet.toLowerCase() })
+          .eq('email', email);
+        if (updError) throw updError;
+      }
+    } else {
+      const { error: insError } = await supabase
+        .from('dao_users')
+        .insert([{
+          email: email.toLowerCase(),
+          wallet: wallet.toLowerCase(),
+          registered_at: new Date().toISOString(),
+          whitelisted: false,
+          minted: false,
+        }]);
+      if (insError) throw insError;
+    }
 
-  if (users.find((u) => u.wallet === wallet))
-    return res.json({ message: "Already registered", status: "pending" });
-
-  users.push({
-    email,
-    wallet,
-    registeredAt: Date.now(),
-    whitelisted: false,
-    minted: false,
-  });
-
-  saveJSON(FILE_USERS, users);
-
-  res.json({ message: "Registered successfully", status: "pending" });
+    res.json({ ok: true });
+  } catch (err) {
+    console.error("Link Wallet Error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 // -------------------------------
 // CHECK WALLET STATUS
 // -------------------------------
-app.get("/api/status/:wallet", (req, res) => {
+app.get("/api/status/:wallet", async (req, res) => {
   const { wallet } = req.params;
-  const users = loadJSON(FILE_USERS);
 
-  // Find ALL entries for this wallet
-  const walletEntries = users.filter((u) => u.wallet?.toLowerCase() === wallet.toLowerCase());
+  try {
+    const { data: walletEntries, error } = await supabase
+      .from('dao_users')
+      .select('*')
+      .eq('wallet', wallet.toLowerCase());
 
-  if (walletEntries.length === 0) return res.json({ registered: false });
+    if (error) throw error;
 
-  // Preferred entry is the first one or one with a valid token
-  const user = walletEntries.find(u => u.minted && u.membershipTokenId != null) || walletEntries[0];
-  const allTokens = walletEntries
-    .filter(u => u.minted && u.membershipTokenId != null)
-    .map(u => String(u.membershipTokenId));
+    if (!walletEntries || walletEntries.length === 0) {
+      return res.json({ registered: false });
+    }
 
-  res.json({
-    registered: true,
-    email: user.email || null,
-    whitelisted: user.whitelisted || false,
-    minted: user.minted || false,
-    membershipTokenId: user.membershipTokenId ?? null,
-    membershipTokenIds: allTokens, // Array of all tokens owned by this wallet in DB
-    photoId: user.photoId ?? null,
-    memberName: user.memberName || "",
-    kycStatus: user.kycStatus || "not_started",
-    kycVerifiedAt: user.kycVerifiedAt || null,
-    registeredAt: user.registeredAt || null,
-  });
+    const user = walletEntries.find(u => u.minted && u.membership_token_id != null) || walletEntries[0];
+    const allTokens = walletEntries
+      .filter(u => u.minted && u.membership_token_id != null)
+      .map(u => String(u.membership_token_id));
+
+    res.json({
+      registered: true,
+      email: user.email || null,
+      whitelisted: user.whitelisted || false,
+      minted: user.minted || false,
+      membershipTokenId: user.membership_token_id ?? null,
+      membershipTokenIds: allTokens,
+      photoId: user.photo_id ?? null,
+      memberName: user.member_name || "",
+      phone: user.phone || "",
+      kycStatus: user.kyc_status || "not_started",
+      kycVerifiedAt: user.metadata?.kycVerifiedAt || null,
+      registeredAt: user.registered_at || null,
+    });
+  } catch (err) {
+    console.error("Status Check Error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 // -------------------------------

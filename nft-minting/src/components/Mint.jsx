@@ -243,10 +243,10 @@ export default function Mint({ onMintSuccess, onConnect }) {
           </h1>
           <p className="text-gray-400 text-lg">Zarejestruj się, aby uzyskać dostęp do galerii paszportów.</p>
         </div>
-        <div className="text-center mt-10 p-8 border border-red-500/20 rounded-2xl bg-red-500/5">
-          <p className="text-red-400 mb-4 font-semibold">Twoje konto wymaga weryfikacji.</p>
-          <button onClick={onConnect} className="px-6 py-3 bg-gold-500 text-black rounded-xl font-bold">
-            Dokończ rejestrację
+        <div className="text-center mt-10 p-8 border border-[#2D5A3D]/40 rounded-2xl bg-[#0E1208]">
+          <p className="text-[#8A9E8A] mb-4">Aby dołączyć do społeczności DAOResorts, uzupełnij swój profil.</p>
+          <button onClick={onConnect} className="px-6 py-3 bg-[#C9A84C] hover:bg-[#D4B96A] text-[#0E1208] rounded-xl font-bold transition-colors">
+            Załóż profil
           </button>
         </div>
       </div>
@@ -269,7 +269,6 @@ export default function Mint({ onMintSuccess, onConnect }) {
         </p>
         <p className="text-[#C9A84C] text-center text-sm mb-8">
           Paszport to Twój profil w społeczności DAOResorts.
-          Nie jest to jeszcze Członkostwo.
         </p>
 
         {hasNft && <MembershipBanner activeMembers={0} />}

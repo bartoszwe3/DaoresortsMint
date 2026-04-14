@@ -8,7 +8,8 @@ import LongTermSavings from "./LongTermSavings";
 import MembershipProgress from "./MembershipProgress";
 import { FounderTeaser } from "./FounderTeaser";
 import FAQ from "./FAQ";
-
+import MemberCarousel from "./MemberCarousel";
+import HeroHeadline from "./HeroHeadline";
 
 /* ========================================================
    SVG COMPONENTS
@@ -41,125 +42,7 @@ const BookingFlowSVG = ({ t }) => (
     </svg>
 );
 
-const IPFS_BASE = "https://ipfs.io/ipfs/bafybeicw5an7sbklho2rmlvtbr7cqbdvw7sei2pbbrpz6qsmbgeajptl3q/";
-const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
-function MemberCarousel() {
-    const [members, setMembers] = useState([]);
-
-    React.useEffect(() => {
-        fetch(`${API_BASE}/api/members/public`)
-            .then(r => r.ok ? r.json() : [])
-            .then(data => setMembers(data))
-            .catch(() => { });
-    }, []);
-
-    if (members.length === 0) return null;
-
-    const displayMembers = [...members, ...members, ...members, ...members];
-
-    return (
-        <section className="w-full py-14 border-y border-border-default/20 bg-forest-900/40 backdrop-blur-sm overflow-hidden flex flex-col items-center">
-            <h3 className="text-text-secondary font-playfair italic mb-8 tracking-wider text-xl">
-                Dołącz do {members.length} członków założycieli
-            </h3>
-            <div className="w-full relative flex whitespace-nowrap overflow-hidden">
-                <div className="flex animate-marquee min-w-max gap-8 px-4 items-center">
-                    {displayMembers.map((m, i) => (
-                        <div key={i} className="flex items-center gap-4 bg-forest-800/80 border border-border-default rounded-full p-2 pr-6 backdrop-blur-md shadow-sm shrink-0 hover:border-gold-500/30 transition-colors">
-                            <img src={`${IPFS_BASE}${m.photoId}.webp`} className="w-12 h-12 object-cover rounded-full border border-border-default" alt={m.memberName} />
-                            <div className="flex flex-col">
-                                <span className="text-sm font-bold text-text-primary">{m.memberName}</span>
-                                <span className="text-xs text-gold-500 font-mono tracking-widest">#{m.tokenId}</span>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                {/* Gradient Masks */}
-                <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-bg-primary to-transparent pointer-events-none" />
-                <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-bg-primary to-transparent pointer-events-none" />
-            </div>
-        </section>
-    );
-}
-
-const HeroHeadline = ({ t }) => {
-    const [s1Chars, setS1Chars] = useState(0);
-    const [showDot, setShowDot] = useState(false);
-    const [dotVisible, setDotVisible] = useState(true);
-    const [s2Chars, setS2Chars] = useState(0);
-    const [s2Started, setS2Started] = useState(false);
-
-    const s1 = t("hero_title_1").trim();
-    const s1Text = s1.endsWith(".") ? s1.slice(0, -1) : s1;
-    const s2 = t("hero_title_2");
-
-    useEffect(() => {
-        let isMounted = true;
-
-        // Initial delay
-        setTimeout(() => {
-            if (!isMounted) return;
-
-            // 1. Type Sentence 1
-            let i = 0;
-            const s1Interval = setInterval(() => {
-                i++;
-                setS1Chars(i);
-                if (i >= s1Text.length) {
-                    clearInterval(s1Interval);
-
-                    // 2. Show dot and blink it
-                    setShowDot(true);
-                    setTimeout(() => {
-                        if (!isMounted) return;
-                        setDotVisible(false);
-                        setTimeout(() => {
-                            if (!isMounted) return;
-                            setDotVisible(true);
-
-                            // 3. Pause 2 seconds
-                            setTimeout(() => {
-                                if (!isMounted) return;
-                                setS2Started(true);
-
-                                // 4. Type Sentence 2
-                                let j = 0;
-                                const s2Interval = setInterval(() => {
-                                    j++;
-                                    setS2Chars(j);
-                                    if (j >= s2.length) clearInterval(s2Interval);
-                                }, 60);
-                            }, 2000);
-                        }, 400);
-                    }, 400);
-                }
-            }, 60);
-        }, 800);
-
-        return () => { isMounted = false; };
-    }, [s1Text, s2]);
-
-    return (
-        <h1 className="text-5xl md:text-7xl lg:text-8xl text-center font-playfair font-semibold leading-[1.1] text-text-primary mb-8 tracking-tight drop-shadow-lg break-words w-full min-h-[1.2em]">
-            <span>{s1Text.slice(0, s1Chars)}</span>
-            {showDot && (
-                <span style={{ opacity: dotVisible ? 1 : 0 }} className="transition-opacity duration-150">
-                    .
-                </span>
-            )}
-
-            <br className="block md:hidden mb-2" />
-
-            <span className="text-gold-500 italic font-medium md:ml-3 block md:inline">
-                {s2.slice(0, s2Chars)}
-                {s2Started && s2Chars < s2.length && (
-                    <span className="typewriter-cursor" />
-                )}
-            </span>
-        </h1>
-    );
-};
 
 export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavigate }) {
     const { t } = useTranslation();
@@ -256,69 +139,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
 
                         {/* Quiet Luxury Headline */}
                         <h1 className="text-5xl md:text-7xl lg:text-8xl text-center font-playfair font-semibold leading-[1.1] text-text-primary mb-8 tracking-tight drop-shadow-lg break-words w-full">
-                            {(() => {
-                                const s1 = t("hero_title_1").trim();
-                                const s1Text = s1.endsWith(".") ? s1.slice(0, -1) : s1;
-                                const s2 = t("hero_title_2");
-
-                                const s1FinishTime = 0.8 + s1Text.length * 0.06;
-                                const dotBlinkDuration = 1.0;
-                                const s2StartTime = s1FinishTime + dotBlinkDuration + 2.0;
-
-                                return (
-                                    <>
-                                        <motion.span
-                                            initial="hidden"
-                                            animate="visible"
-                                            variants={{
-                                                visible: { transition: { staggerChildren: 0.06, delayChildren: 0.8 } }
-                                            }}
-                                        >
-                                            {s1Text.split("").map((char, i) => (
-                                                <motion.span
-                                                    key={`s1-${i}`}
-                                                    variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.01 } } }}
-                                                >
-                                                    {char}
-                                                </motion.span>
-                                            ))}
-                                        </motion.span>
-
-                                        <motion.span
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: [0, 1, 0, 1] }}
-                                            transition={{
-                                                times: [0, 0.2, 0.5, 1],
-                                                duration: dotBlinkDuration,
-                                                delay: s1FinishTime
-                                            }}
-                                        >
-                                            .
-                                        </motion.span>
-
-                                        <br className="block md:hidden mb-2" />
-
-                                        <motion.span
-                                            className="text-gold-500 italic font-medium md:ml-3 block md:inline"
-                                            initial="hidden"
-                                            animate="visible"
-                                            variants={{
-                                                visible: { transition: { staggerChildren: 0.06, delayChildren: s2StartTime } }
-                                            }}
-                                        >
-                                            {s2.split("").map((char, i) => (
-                                                <motion.span
-                                                    key={`s2-${i}`}
-                                                    variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.01 } } }}
-                                                >
-                                                    {char}
-                                                </motion.span>
-                                            ))}
-                                            <span className="typewriter-cursor" />
-                                        </motion.span>
-                                    </>
-                                );
-                            })()}
+                            <HeroHeadline text1={t("hero_title_1").trim()} text2={t("hero_title_2")} />
                         </h1>
 
                         <p className="text-base md:text-xl text-text-secondary max-w-2xl leading-relaxed mb-10 font-sans font-light break-words w-full px-4 md:px-0 text-center">
@@ -326,36 +147,21 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                         </p>
 
                         <div className="flex flex-col items-center gap-2 w-full px-4 md:px-0">
-                            {/* Główny - rezerwacja */}
-                            <a
-                                href="/checkout/stage/0"
+                            {/* Główny - dołącz za darmo */}
+                            <button
+                                onClick={() => onConnect(false)}
                                 className="px-6 py-3 w-full sm:w-[300px] bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-sans font-bold rounded-none transition-all shadow-btn-primary hover:shadow-btn-primary-hover flex items-center justify-center gap-3 text-sm min-w-[280px]"
                             >
-                                Zarezerwuj miejsce — 2 000 PLN
-                                <ArrowRight size={18} />
-                            </a>
+                                Dołącz za darmo
+                            </button>
 
-                            {/* Pod przyciskiem - wyjaśnienie */}
-                            <p className="text-[#8A9E8A] text-xs text-center w-full mt-1">
-                                Rezerwacja 2000 PLN (zwrotna).
-                                Kolejne etapy płatne wraz z postępem budowy.
-                            </p>
-
-                            {/* Dodatkowy - paszport darmowy */}
-                            {!hasNft && (
-                                <button
-                                    onClick={() => {
-                                        if (onNavigate) {
-                                            onNavigate("mint");
-                                        } else {
-                                            onConnect();
-                                        }
-                                    }}
-                                    className="w-full sm:w-[300px] mt-2 border border-[#2D5A3D] text-[#8A9E8A] px-6 py-3 rounded-md text-sm hover:border-[#C9A84C] hover:text-[#C9A84C] transition-colors"
-                                >
-                                    Odbierz darmowy Paszport →
-                                </button>
-                            )}
+                            {/* Zaloguj się */}
+                            <button
+                                onClick={() => onConnect(true)}
+                                className="text-[#8A9E8A] text-xs text-center w-full mt-2 hover:text-[#C9A84C] transition-colors"
+                            >
+                                Masz już konto? Zaloguj się
+                            </button>
                         </div>
 
                         <div className="mt-12 w-full max-w-full overflow-hidden">
@@ -677,16 +483,18 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                         </p>
 
                         <div className="flex flex-col items-center gap-5">
-                            <a
-                                href="/checkout/stage/0"
+                            <button
+                                onClick={() => onConnect(false)}
                                 className="px-12 py-5 bg-[#C9A84C] hover:bg-[#D4B96A] text-[#0E1208] font-sans font-bold uppercase tracking-[0.2em] rounded-none transition-all shadow-xl hover:shadow-[#C9A84C]/10 flex items-center justify-center gap-4 text-sm min-w-[320px] group"
                             >
-                                Zarezerwuj miejsce - 2 000 PLN
-                                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                            </a>
-                            <p className="text-[#8A9E8A] text-[10px] uppercase font-bold tracking-[0.15em] opacity-80">
-                                Zwrotne przed startem budowy · Blokuje 1 z 150 miejsc
-                            </p>
+                                Dołącz za darmo
+                            </button>
+                            <button
+                                onClick={() => onConnect(true)}
+                                className="text-[#8A9E8A] text-[10px] uppercase font-bold tracking-[0.15em] opacity-80 hover:text-[#C9A84C] transition-colors mt-2"
+                            >
+                                Masz już konto? Zaloguj się
+                            </button>
                         </div>
                     </div>
                 </div>

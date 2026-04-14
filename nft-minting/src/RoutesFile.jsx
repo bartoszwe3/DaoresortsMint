@@ -26,7 +26,8 @@ function RoutesFile() {
     <Router>
       <AppLayout>
         <Routes>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<MainPage defaultTab="home" />} />
+          <Route path="/landing" element={<MainPage defaultTab="landing" />} />
           <Route path="/members" element={<ProjectsShowcase />} />
           <Route path="/faq" element={<Navigate to="/?tab=faq" replace />} />
           <Route path="/passport" element={<MyNfts />} />
@@ -46,7 +47,7 @@ function RoutesFile() {
           <Route path="/checkout/stage/:stage" element={<CheckoutPage />} />
           <Route path="/checkout/reserve" element={<CheckoutReservePage />} />
           <Route path="/checkout/activate" element={<CheckoutReservePage />} /> {/* Placeholder reuse for now */}
-          <Route path="/prezentacja" element={<Prezentacja />} />
+          <Route path="/prezentacja" element={<Navigate to="/" replace />} />
         </Routes>
       </AppLayout>
     </Router>

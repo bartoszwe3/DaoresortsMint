@@ -36,59 +36,77 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (isConnected && address) {
-            setUser({
-                type: 'wallet',
-                address,
-            });
-        } else if (magicUser) {
-            // Support Magic v33+ metadata structure where address is under wallets array or object
-            let publicAddress = null;
-            if (magicUser.wallets) {
-                if (Array.isArray(magicUser.wallets) && magicUser.wallets.length > 0) {
-                    const ethWallet = magicUser.wallets.find(w => w.network === 'ethereum' || w.walletType === 'ethereum' || w.publicAddress);
-                    publicAddress = ethWallet ? ethWallet.publicAddress : magicUser.wallets[0].publicAddress;
-                } else if (!Array.isArray(magicUser.wallets) && typeof magicUser.wallets === 'object') {
-                    // It's an object, e.g., { ethereum: { publicAddress: "0x..." } }
-                    if (magicUser.wallets.ethereum) {
-                        publicAddress = magicUser.wallets.ethereum.publicAddress;
-                    } else {
-                        // fallback to the first key
-                        const keys = Object.keys(magicUser.wallets);
-                        if (keys.length > 0) {
-                            publicAddress = magicUser.wallets[keys[0]].publicAddress;
+        const handleUserSet = async () => {
+            if (isConnected && address) {
+                setUser({
+                    type: 'wallet',
+                    address,
+                });
+            } else if (magicUser) {
+                // Support Magic v33+ metadata structure where address is under wallets array or object
+                let publicAddress = null;
+                if (magicUser.wallets) {
+                    if (Array.isArray(magicUser.wallets) && magicUser.wallets.length > 0) {
+                        const ethWallet = magicUser.wallets.find(w => w.network === 'ethereum' || w.walletType === 'ethereum' || w.publicAddress);
+                        publicAddress = ethWallet ? ethWallet.publicAddress : magicUser.wallets[0].publicAddress;
+                    } else if (!Array.isArray(magicUser.wallets) && typeof magicUser.wallets === 'object') {
+                        // It's an object, e.g., { ethereum: { publicAddress: "0x..." } }
+                        if (magicUser.wallets.ethereum) {
+                            publicAddress = magicUser.wallets.ethereum.publicAddress;
+                        } else {
+                            // fallback to the first key
+                            const keys = Object.keys(magicUser.wallets);
+                            if (keys.length > 0) {
+                                publicAddress = magicUser.wallets[keys[0]].publicAddress;
+                            }
                         }
                     }
                 }
-            }
 
-            // Fallback for older Magic SDK structure
-            if (!publicAddress) {
-                publicAddress = magicUser.publicAddress;
-            }
+                // Fallback for older Magic SDK structure
+                if (!publicAddress) {
+                    publicAddress = magicUser.publicAddress;
+                }
 
-            setUser({
-                type: 'magic',
-                email: magicUser.email,
-                publicAddress: publicAddress,
-            });
-        } else {
-            setUser(null);
-        }
+                const email = magicUser.email;
+
+                if (email && publicAddress) {
+                    try {
+                        const API_BASE = process.env.REACT_APP_API_BASE ?? "";
+                        await fetch(`${API_BASE}/api/link-wallet`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ email, wallet: publicAddress })
+                        });
+                    } catch (error) {
+                        console.error('Failed to link wallet to email backend:', error);
+                    }
+                }
+
+                setUser({
+                    type: 'magic',
+                    email: email,
+                    publicAddress: publicAddress,
+                });
+            } else {
+                setUser(null);
+            }
+        };
+
+        handleUserSet();
     }, [isConnected, address, magicUser]);
 
     const loginWithMagic = async (email, onEmailSent) => {
         try {
-            // DEVELOPER MOCK FOR LOCALHOST TO BYPASS 400 ERRORS
+            // DEVELOPER MOCK FOR LOCALHOST TO BYPASS 400 ERRORS (Disabled to test OTP)
+            /*
             if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
                 console.warn("🔐 MAGIC LINK MOCK MODE ACTIVATED 🔐");
                 if (isConnected) disconnectWallet();
                 if (onEmailSent) onEmailSent();
 
-                // Simulate network delay
                 await new Promise(r => setTimeout(r, 1500));
 
-                // Mock user data
                 const mockUserData = {
                     email: email,
                     publicAddress: "0x1234567890ABCDEF1234567890ABCDEF12345678",
@@ -99,6 +117,7 @@ export const AuthProvider = ({ children }) => {
                 setMagicUser(mockUserData);
                 return;
             }
+            */
 
             if (!magic) throw new Error('Magic SDK not initialized');
             // If a wallet is connected, disconnect it first to keep auth simple
@@ -106,13 +125,12 @@ export const AuthProvider = ({ children }) => {
                 disconnectWallet();
             }
 
-            const loginPromise = magic.auth.loginWithMagicLink({ email });
+            const loginPromise = magic.auth.loginWithEmailOTP({ email, showUI: true });
 
             if (onEmailSent) {
-                loginPromise.on('email-sent', () => {
-                    console.log("Magic: Email sent!");
-                    onEmailSent();
-                });
+                // Email-sent event is similar, let's just trigger it natively to switch our own UI to waiting state
+                // Some SDK versions fire 'email-sent' on OTP as well, but we can call it manually to be safe.
+                onEmailSent();
             }
 
             const didToken = await loginPromise;
@@ -144,7 +162,7 @@ export const AuthProvider = ({ children }) => {
         user,
         isAuthenticated: !!user,
         isInitializing,
-        loginWithMagicLink: loginWithMagic,
+        loginWithEmailOTP: loginWithMagic,
         logout,
     };
 
