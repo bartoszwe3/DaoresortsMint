@@ -47,6 +47,11 @@ export default function RegistrationFlow({ onCancel, isLogin = false }) {
                 setError("Imię i numer telefonu są wymagane do rejestracji.");
                 return;
             }
+            const cleanedPhone = phone.replace(/\D/g, '');
+            if (cleanedPhone.length < 9 || cleanedPhone.length > 12) {
+                setError("Numer telefonu musi mieć od 9 do 12 cyfr (bez spacji i znaków).");
+                return;
+            }
         }
 
         setLoading(true);

@@ -875,6 +875,36 @@ app.get("/api/members/public", (req, res) => {
 });
 
 // -------------------------------
+// LEAD CAPTURE
+// -------------------------------
+app.post("/api/leads", async (req, res) => {
+  const { imie, telefon, zrodlo } = req.body;
+
+  if (!imie || !telefon) {
+    return res.status(400).json({ error: "Name and phone are required" });
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("leady")
+      .insert([
+        { 
+          imie, 
+          telefon, 
+          zrodlo: zrodlo || "unknown",
+          created_at: new Date().toISOString()
+        }
+      ]);
+
+    if (error) throw error;
+    res.json({ ok: true });
+  } catch (err) {
+    console.error("❌ Error saving lead:", err);
+    res.status(500).json({ error: "Failed to save lead" });
+  }
+});
+
+// -------------------------------
 // SERVE STATIC FRONTEND (MONOLITH)
 // -------------------------------
 app.use(express.static(path.join(__dirname, "public")));

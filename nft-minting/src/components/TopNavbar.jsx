@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import { useAppKit } from "@reown/appkit/react";
+import LeadGenModal from "./LeadGenModal";
 // shortenAddress not needed, using inline shortenAddr.
 
 const shortenAddr = (addr) => (addr ? `${addr.slice(0, 5)}...${addr.slice(-4)}` : "");
@@ -14,6 +15,7 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
     const { t, i18n } = useTranslation();
     const { isAuthenticated, user, logout } = useAuth();
     const { open } = useAppKit();
+    const [showLeadModal, setShowLeadModal] = useState(false);
 
     const handleConnect = () => {
         if (isRegistered) {
@@ -34,8 +36,10 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
 
     const navLinks = [
         { id: "home", label: "O PROJEKCIE" },
-        { id: "team", label: "SPOŁECZNOŚĆ" },
-        { id: "voting", label: "GŁOSOWANIA" },
+        ...(isAuthenticated ? [
+            { id: "team", label: "SPOŁECZNOŚĆ" },
+            { id: "voting", label: "GŁOSOWANIA" }
+        ] : []),
         { id: "projects", label: "NASZ RESORT" },
         { id: "faq", label: "FAQ" },
         { id: "founder", label: "ZAŁOŻYCIEL", isRoute: true },
@@ -81,19 +85,22 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
                             <button onClick={() => onNavigate("mynfts")} className="px-6 py-2.5 bg-gold-500 text-forest-900 font-sans text-sm font-bold uppercase tracking-wider rounded-md hover:bg-gold-600 transition-all shadow-btn-primary hover:shadow-btn-primary-hover focus:outline-none focus:ring-2 focus:ring-gold-500/50">
                                 {t("nav_mynfts") || "Mój Paszport"}
                             </button>
-                        ) : (
+                        ) : isAuthenticated ? (
                             <button
                                 onClick={handleConnect}
                                 className="px-6 py-2.5 bg-gold-500 text-forest-900 font-sans text-sm font-bold uppercase tracking-wider rounded-md hover:bg-gold-600 transition-all shadow-btn-primary hover:shadow-btn-primary-hover focus:outline-none focus:ring-2 focus:ring-gold-500/50 flex items-center justify-center min-w-[150px]"
                             >
-                                {isAuthenticated ? (
-                                    <div className="flex items-center gap-2">
-                                        <span>MÓJ PASZPORT</span>
-                                        <Wallet size={16} />
-                                    </div>
-                                ) : (
-                                    "MÓJ PASZPORT"
-                                )}
+                                <div className="flex items-center gap-2">
+                                    <span>MÓJ PASZPORT</span>
+                                    <Wallet size={16} />
+                                </div>
+                            </button>
+                        ) : (
+                            <button
+                                onClick={() => setShowLeadModal(true)}
+                                className="px-6 py-2.5 bg-gold-500 text-forest-900 font-sans text-sm font-bold uppercase tracking-wider rounded-md hover:bg-gold-600 transition-all shadow-btn-primary hover:shadow-btn-primary-hover focus:outline-none focus:ring-2 focus:ring-gold-500/50 flex items-center justify-center min-w-[150px]"
+                            >
+                                Zostaw numer →
                             </button>
                         )}
                     </div>
@@ -145,13 +152,22 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
                                 <button onClick={() => i18n.changeLanguage("en")} className={`text-2xl opacity-${i18n.language === 'en' ? '100' : '40'}`}>🇬🇧</button>
                             </div>
 
-                            <button onClick={() => { handleConnect(); setMobileMenuOpen(false); }} className="w-full py-4 bg-gold-500 text-forest-900 font-sans text-sm font-bold uppercase tracking-wider rounded-md text-center">
-                                MÓJ PASZPORT
+                            <button 
+                                onClick={() => { 
+                                    if (isAuthenticated) handleConnect(); 
+                                    else setShowLeadModal(true);
+                                    setMobileMenuOpen(false); 
+                                }} 
+                                className="w-full py-4 bg-gold-500 text-forest-900 font-sans text-sm font-bold uppercase tracking-wider rounded-md text-center"
+                            >
+                                {isAuthenticated ? "MÓJ PASZPORT" : "Zostaw numer →"}
                             </button>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            <LeadGenModal isOpen={showLeadModal} onClose={() => setShowLeadModal(false)} />
         </>
     );
 }
