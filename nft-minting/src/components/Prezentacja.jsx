@@ -139,7 +139,7 @@ function StickyCTA({ onClick }) {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
             onClick={onClick}
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-8 py-4 bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-sans font-bold shadow-[0_4px_20px_rgba(201,168,76,0.3)] hover:shadow-[0_4px_30px_rgba(201,168,76,0.5)] transition-all whitespace-nowrap"
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 md:px-8 py-3 md:py-4 bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-sans font-bold shadow-[0_4px_20px_rgba(201,168,76,0.3)] hover:shadow-[0_4px_30px_rgba(201,168,76,0.5)] transition-all whitespace-normal md:whitespace-nowrap text-center max-w-[90vw] md:max-w-none text-xs md:text-sm lg:text-base border-none outline-none ring-0 focus:outline-none"
         >
             Dołącz za darmo i odbierz Paszport
         </motion.button>
@@ -173,43 +173,43 @@ function CounterCard({ value, prefix = "", suffix = "", label, sublabel, accent 
    ============================================================ */
 
 const S1 = ({ onConnect }) => (
-    <div id="s1" className="relative w-full h-screen flex items-center justify-center overflow-hidden">
-        <video src="/silnawebvideo.mp4" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0E1208]/70 via-[#0E1208]/50 to-[#0E1208]" />
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+    <div id="s1" className="relative w-full h-[calc(100vh-72px)] md:h-screen flex flex-col items-center justify-center overflow-visible bg-[#0E1208] isolate">
+        <video src="/silnawebvideo.mp4" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0 opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0E1208]/70 via-[#0E1208]/40 to-[#0E1208] z-[1]" />
+        <div className="relative z-[20] w-full max-w-4xl mx-auto px-6 text-center flex flex-col items-center">
             <HeroHeadline text1="Hotele zarabiają na Tobie. " text2="Czas to zmienić." />
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7 }} className="text-lg md:text-xl text-[#F5F0E8]/80 mb-10 max-w-2xl mx-auto">
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl px-4">
                 Jedno członkostwo. 14 nocy rocznie. Dożywotnio po kosztach.
             </motion.p>
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.1 }} className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-8">
-                <div className="bg-[#C9A84C]/10 border border-[#C9A84C]/30 rounded-xl px-8 py-5">
-                    <div className="font-playfair text-2xl md:text-3xl text-[#C9A84C] font-bold">2 000 PLN</div>
-                    <div className="text-[#F5F0E8]/70 text-sm mt-1">rezerwacja miejsca</div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-8 w-full max-w-lg mx-auto px-4">
+                <div className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 md:px-8 py-5 backdrop-blur-sm">
+                    <div className="font-playfair text-2xl md:text-3xl text-gold-500 font-bold">2 000 PLN</div>
+                    <div className="text-white/70 text-sm mt-1">rezerwacja miejsca</div>
                 </div>
-                <div className="bg-[#1C2614]/80 border border-[#2D5A3D]/40 rounded-xl px-8 py-5">
-                    <div className="font-playfair text-2xl md:text-3xl text-[#F5F0E8] font-bold">~316 000 PLN</div>
+                <div className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 md:px-8 py-5 backdrop-blur-sm">
+                    <div className="font-playfair text-2xl md:text-3xl text-white font-bold">~316 000 PLN</div>
                     <div className="text-[#8A9E8A] text-sm mt-1">oszczędności przez 20 lat</div>
                 </div>
             </motion.div>
             {onConnect && (
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.3 }} className="flex flex-col items-center gap-2 w-full px-4 md:px-0 mb-12">
-                    <button onClick={() => onConnect(false)} className="px-6 py-3 w-full sm:w-[300px] bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-sans font-bold rounded-none transition-all shadow-btn-primary hover:shadow-btn-primary-hover flex items-center justify-center gap-3 text-sm min-w-[280px]">
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }} className="flex flex-col items-center gap-2 w-full max-w-sm mx-auto mb-12 px-4">
+                    <button onClick={() => onConnect(false)} className="px-6 py-4 w-full bg-gold-500 hover:bg-[#b09342] text-black font-sans font-bold rounded-none transition-all shadow-btn-primary hover:shadow-btn-primary-hover flex items-center justify-center gap-3 text-sm">
                         Dołącz za darmo
                     </button>
-                    <button onClick={() => onConnect(true)} className="text-[#8A9E8A] text-xs text-center w-full mt-2 hover:text-[#C9A84C] transition-colors">
+                    <button onClick={() => onConnect(true)} className="text-[#8A9E8A] text-xs text-center w-full mt-2 hover:text-gold-500 transition-colors">
                         Masz już konto? Zaloguj się
                     </button>
                 </motion.div>
             )}
         </div>
-        <motion.div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10" animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}>
-            <ChevronDown size={28} className="text-[#C9A84C]/60" />
+        <motion.div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[20] hidden md:block" animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}>
+            <ChevronDown size={28} className="text-gold-500/60" />
         </motion.div>
     </div>
 );
 
 const S2 = () => (
-    <Section id="s2" className="py-20 md:py-32 px-6">
+    <Section id="s2" className="py-12 md:py-32 px-6">
         <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
                 <p className="text-[#C9A84C] text-xs uppercase tracking-[0.25em] mb-4">Problem</p>
@@ -248,7 +248,7 @@ const S2 = () => (
 );
 
 const S3 = () => (
-    <Section id="s3" className="py-20 md:py-32 px-6">
+    <Section id="s3" className="py-12 md:py-32 px-6">
         <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
                 <p className="text-[#C9A84C] text-xs uppercase tracking-[0.25em] mb-4">Rozwiązanie</p>
@@ -275,7 +275,7 @@ const S3 = () => (
 );
 
 const S8 = ({ leadForm, setLeadForm, leadStatus, handleLeadSubmit }) => (
-    <Section id="s8" className="py-20 md:py-32 px-6">
+    <Section id="s8" className="py-12 md:py-32 px-6">
         <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
                 <p className="text-[#C9A84C] text-xs uppercase tracking-[0.25em] mb-4">Założyciel</p>
@@ -288,7 +288,7 @@ const S8 = ({ leadForm, setLeadForm, leadStatus, handleLeadSubmit }) => (
                     <h3 className="font-playfair text-2xl md:text-3xl text-[#F5F0E8] mb-2">Bartosz Zniszczoł</h3>
                     <p className="text-[#8A9E8A] text-xs mb-4">WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.</p>
                     <blockquote className="border-l-4 border-[#C9A84C] pl-4 mb-5">
-                        <p className="font-playfair text-lg text-[#F5F0E8] italic">„Szukałem miejsca gdzie mógłbym wypoczywać bez przepłacania hotelom. Bez wydawania 500 tys pln na dom wakacyjny. Nie znalazłem, więc postanowiłem je zbudować.”</p>
+                        <p className="font-playfair text-lg text-[#F5F0E8] italic">„Kupiłem tę ziemię za własne pieniądze zanim sprzedałem pierwsze członkostwo. Nie możesz mi zaufać bardziej niż ja zaufałem tej idei.”</p>
                     </blockquote>
                     <p className="text-[#8A9E8A] text-sm leading-relaxed mb-5">Buduję transparentną i elitarną społeczność wokół pierwszej w Polsce wioski turystycznej zaprojektowanej pod nowoczesne standardy.</p>
                     <div className="flex flex-wrap gap-3 mb-8">

@@ -41,7 +41,7 @@ export default function FounderPage() {
                             WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.
                         </p>
                         <p className="text-[#F5F0E8] text-base font-medium border-l-4 border-[#C9A84C] pl-4 mb-4">
-                            Kupiłem tę ziemię za własne pieniądze zanim sprzedałem pierwszy token. Nie możesz mi zaufać bardziej niż ja zaufałem tej idei.
+                            Kupiłem tę ziemię za własne pieniądze zanim sprzedałem pierwsze członkostwo. Nie możesz mi zaufać bardziej niż ja zaufałem tej idei.
                         </p>
                         <blockquote className="border-l-4 border-[#C9A84C] pl-4 mb-6">
                             <p className="font-playfair text-xl text-[#F5F0E8] italic">
@@ -74,7 +74,7 @@ export default function FounderPage() {
                         {
                             year: '2024',
                             title: 'Budowa zespołu i koncepcji prawnej',
-                            desc: 'Dopracowanie prawnych aspektów tokenizacji prawa do pobytu w Polsce z użyciem Smart Kontraktów Polygon.'
+                            desc: 'Dopracowanie prawnych aspektów członkostwa i prawa do pobytu w Polsce z użyciem publicznego rejestru cyfrowego.'
                         },
                         {
                             year: '2025',
@@ -126,7 +126,7 @@ export default function FounderPage() {
 
                     {/* Akapit 2 */}
                     <p className="text-[#8A9E8A] text-base leading-relaxed">
-                        Blockchain daje coś czego tradycyjne rynki nigdy nie oferowały -
+                        Publiczny rejestr cyfrowy daje coś czego tradycyjne rynki nigdy nie oferowały -
                         pełną przejrzystość. Każda złotówka widoczna. Każda decyzja głosowana.
                         Każdy etap budowy dokumentowany publicznie, w czasie rzeczywistym.
                     </p>

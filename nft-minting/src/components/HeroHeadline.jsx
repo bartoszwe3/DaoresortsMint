@@ -59,30 +59,35 @@ export default function HeroHeadline({ text1, text2 }) {
     }, [s1Text, s2]);
 
     return (
-        <h1 className="text-5xl md:text-7xl lg:text-8xl text-center font-playfair font-semibold leading-[1.1] text-text-primary mb-8 tracking-tight drop-shadow-lg break-words w-full">
-            <span>
-                {s1Text.split("").map((char, index) => (
-                    <span key={`s1-${index}`} style={{ opacity: index < s1Chars ? 1 : 0 }}>
-                        {char}
-                    </span>
-                ))}
+        <h1 className="text-[2.2rem] leading-[1.1] md:text-7xl lg:text-8xl text-center font-playfair font-semibold !text-white mb-8 tracking-tight drop-shadow-lg break-words w-full max-w-full px-4 relative z-[30]">
+            <span className="inline md:hidden">
+                {s1Text}. <span className="text-gold-500 italic font-medium">{s2}</span>
             </span>
+            <span className="hidden md:inline">
+                <span>
+                    {s1Chars === 0 ? s1Text : s1Text.split("").map((char, index) => (
+                        <span key={`s1-${index}`} style={{ opacity: index < s1Chars ? 1 : 0 }}>
+                            {char}
+                        </span>
+                    ))}
+                </span>
 
-            <span style={{ opacity: showDot && dotVisible ? 1 : 0 }} className="transition-opacity duration-150">
-                .
-            </span>
+                <span style={{ opacity: showDot && dotVisible ? 1 : 0 }} className="transition-opacity duration-150">
+                    .
+                </span>
 
-            <br className="block md:hidden mb-2" />
+                <br className="md:hidden" />
 
-            <span className="text-gold-500 italic font-medium md:ml-3 block md:inline relative">
-                {s2.split("").map((char, index) => (
-                    <span key={`s2-${index}`} style={{ opacity: index < s2Chars ? 1 : 0 }}>
-                        {char}
-                    </span>
-                ))}
-                {s2Started && s2Chars < s2.length && (
-                    <span className="typewriter-cursor absolute" />
-                )}
+                <span className="text-gold-500 italic font-medium md:ml-3 inline relative">
+                    {s2Started && s2Chars === 0 ? s2 : s2.split("").map((char, index) => (
+                        <span key={`s2-${index}`} style={{ opacity: index < s2Chars ? 1 : 0 }}>
+                            {char}
+                        </span>
+                    ))}
+                    {s2Started && s2Chars < s2.length && (
+                        <span className="typewriter-cursor absolute" />
+                    )}
+                </span>
             </span>
         </h1>
     );

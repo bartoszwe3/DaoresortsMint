@@ -85,7 +85,7 @@ export default function RegistrationFlow({ onCancel, isLogin = false }) {
     };
 
     return (
-        <div className="w-full max-w-xl mx-auto min-h-[500px] flex flex-col justify-center py-10 px-4">
+        <div className="w-full max-w-xl mx-auto min-h-[400px] flex flex-col justify-center py-6 md:py-10 px-4">
             <div className="bg-[#0E1208] border border-[#2D5A3D]/40 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 blur-[100px] pointer-events-none rounded-full" />
                 
