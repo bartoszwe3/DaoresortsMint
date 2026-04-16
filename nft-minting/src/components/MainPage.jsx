@@ -138,7 +138,7 @@ export default function MainPage({ defaultTab }) {
   ];
 
   return (
-    <div className="w-full min-h-screen max-w-[100vw] overflow-x-hidden flex flex-col bg-deep-black text-white relative selection:bg-gold-500 selection:text-forest-900">
+    <div className="w-full min-h-screen bg-deep-black text-white relative selection:bg-gold-500 selection:text-forest-900 flex flex-col">
 
       {/* Background Glows */}
       {/* Background Glows */}
@@ -154,7 +154,7 @@ export default function MainPage({ defaultTab }) {
       ======================= */}
 
       {/* Content Area uses pt-0 now because AppLayout handles pt-[72px] */}
-      <main className="flex-1 flex flex-col relative z-10 isolate">
+      <main className="flex-1 flex flex-col relative z-20">
 
         {/* Network Warning */}
         <AnimatePresence>
@@ -179,7 +179,7 @@ export default function MainPage({ defaultTab }) {
         </AnimatePresence>
 
         {/* Content Area */}
-        <div ref={scrollContainerRef} className={`flex-1 ${selected === "home" ? "" : "p-6 md:p-10"}`}>
+        <div ref={scrollContainerRef} className={`${selected === "home" ? "" : "p-6 md:p-10 flex-1"}`}>
           <div className={selected === "home" || selected === "landing" ? "w-full" : "w-full max-w-6xl mx-auto"}>
             {selected === "home" && <Prezentacja onConnect={connectWallet} />}
             {selected === "landing" && <LandingPage onConnect={connectWallet} scrollContainer={scrollContainerRef} hasNft={!!sidebarNft} onNavigate={setSelected} />}

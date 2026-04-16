@@ -69,7 +69,7 @@ export default function AppLayout({ children }) {
     };
 
     return (
-        <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-[#0E1208] text-white flex flex-col">
+        <div className="min-h-screen w-full bg-[#0E1208] text-white flex flex-col">
             <TopNavbar
                 onNavigate={handleNavigate}
                 activeTab={selected}
@@ -80,7 +80,7 @@ export default function AppLayout({ children }) {
                 onConnect={onConnect}
             />
 
-            <main className="flex-1 pt-[72px] w-full max-w-[100vw] overflow-x-hidden">
+            <main className="flex-1 pt-[72px] w-full">
                 {children}
             </main>
 

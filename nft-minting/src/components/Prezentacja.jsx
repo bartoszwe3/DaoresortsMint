@@ -649,7 +649,12 @@ export default function Prezentacja({ onConnect }) {
     };
 
     useEffect(() => {
+        let lastScrollTime = 0;
         const handleScroll = () => {
+            const now = Date.now();
+            if (now - lastScrollTime < 100) return; // Throttle to ~10fps for performance
+            lastScrollTime = now;
+
             const sections = SECTIONS.map(s => document.getElementById(s.id)).filter(Boolean);
             let current = activeSection;
             for (const section of sections) {
@@ -664,7 +669,7 @@ export default function Prezentacja({ onConnect }) {
     }, [activeSection]);
 
     return (
-        <div className="bg-[#0E1208] min-h-screen text-[#F5F0E8] font-sans selection:bg-[#C9A84C]/30 relative overflow-x-hidden">
+        <div className="bg-[#0E1208] min-h-screen text-[#F5F0E8] font-sans selection:bg-[#C9A84C]/30 relative">
             <title>DAOResorts | Luksusowe Wakacje na Własność</title>
             <DotNav activeId={activeSection} />
             {isAuthenticated && <ShareButton />}
