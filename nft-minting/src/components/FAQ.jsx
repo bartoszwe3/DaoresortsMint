@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, HelpCircle, Shield, Home, CreditCard, Star, Globe } from "lucide-react";
+import { ChevronDown, HelpCircle, Shield, Home, CreditCard, Star, Globe, Calendar } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export default function FAQ() {
@@ -12,6 +12,32 @@ export default function FAQ() {
     };
 
     const faqCategories = [
+        {
+            title: t("faq_cat_timeline_title", "Harmonogram & Budowa"),
+            icon: <Calendar className="text-gold-500" size={24} />,
+            items: [
+                {
+                    q: t("faq_timeline_q1", "Kiedy faktycznie powstanie resort i skąd mam wiedzieć, że nie za 10 lat?"),
+                    a: t("faq_timeline_a1", "Mamy działkę, podpisanych architektów i wkrótce składamy wniosek o pozwolenie na budowę. Budowa startuje po spełnieniu dwóch warunków: pozwolenie na budowę + 100 podpisanych umów rezerwacyjnych. Termin graniczny to 30 października 2026...")
+                },
+                {
+                    q: t("faq_timeline_q2", "Co się dzieje z moimi pieniędzmi jeśli nie zbierze się 150 osób?"),
+                    a: t("faq_timeline_a2", "Etap 0 to 2 000 PLN i jest w 100% zwrotny. Zwrot następuje automatycznie w ciągu 14 dni roboczych jeśli do 30 września 2026...")
+                },
+                {
+                    q: t("faq_timeline_q3", "Ile realnie zapłacę przez 10/20 lat?"),
+                    a: t("faq_timeline_a3", "Wejście płatne jednorazowo. Pobyt: ~567 PLN za tydzień dla 4 osób - tyle płacisz za prąd, wodę, jacuzzi i sprzątanie...")
+                },
+                {
+                    q: t("faq_timeline_q4", "Kto podejmuje decyzje i czy mój głos cokolwiek zmienia?"),
+                    a: t("faq_timeline_a4", "Spółka zarządza operacyjnie - codzienne decyzje. Społeczność głosuje nad wszystkim co dotyczy Twoich pieniędzy i komfortu...")
+                },
+                {
+                    q: t("faq_timeline_q5", "Co się dzieje z moim miejscem jeśli nie pojadę w danym roku?"),
+                    a: t("faq_timeline_a5", "Masz trzy opcje. Pierwsza: rezerwujesz termin i jedziesz. Druga: udostępniasz swój termin Członkowi swojej rodziny...")
+                }
+            ]
+        },
         {
             title: t("faq_cat_1_title", "Model & Koszty"),
             icon: <CreditCard className="text-gold-500" size={24} />,
