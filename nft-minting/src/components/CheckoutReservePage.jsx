@@ -143,7 +143,7 @@ Tytuł przelewu: DAOResorts Rezerwacja #${assignedTokenNumber} ${userEmail}`;
                     <h1 className="font-playfair text-3xl text-[#F5F0E8] mb-3">Rezerwacja przyjęta</h1>
                     <p className="text-[#C9A84C] font-semibold mb-4">Miejsce #{assignedTokenNumber} zarezerwowane dla Ciebie</p>
                     <p className="text-[#8A9E8A] mb-8 leading-relaxed">
-                        Po uzyskaniu pozwolenia na budowę dostaniesz email z prośbą o dopłatę 17 990 PLN. Masz 30 dni.
+                        Po uzyskaniu pozwolenia na budowę dostaniesz email z prośbą o dopłatę 23 900 PLN. Masz 30 dni.
                     </p>
 
                     <div className="bg-[#1C2614] border border-[#2D5A3D] rounded-xl p-6 text-left mb-8">
@@ -154,7 +154,7 @@ Tytuł przelewu: DAOResorts Rezerwacja #${assignedTokenNumber} ${userEmail}`;
                                 { label: "Weryfikacja przelewu (1-2 dni)", current: true },
                                 { label: "Projekt architektoniczny w toku", future: true },
                                 { label: "Pozwolenie na budowę", future: true },
-                                { label: "Dopłata 17 990 PLN (30 dni od PNB)", future: true },
+                                { label: "Dopłata 23 900 PLN (30 dni od PNB)", future: true },
                                 { label: "Token Członkowski aktywny", future: true },
                             ].map((s, i) => (
                                 <div key={i} className="flex items-center gap-3">
@@ -213,8 +213,8 @@ Tytuł przelewu: DAOResorts Rezerwacja #${assignedTokenNumber} ${userEmail}`;
                         {[
                             ['Numer miejsca', `#${assignedTokenNumber}`],
                             ['Paszport', `#${passportId} - ${userName}`],
-                            ['Dopłata po PNB', '17 990 PLN (termin: 30 dni od PNB)'],
-                            ['Łącznie', '19 990 PLN'],
+                            ['Dopłata po PNB', '23 900 PLN (termin: 30 dni od PNB)'],
+                            ['Łącznie', '25 900 PLN'],
                             ['Pozostało miejsc', `${150 - reservedCount} z 150`],
                         ].map(([label, value]) => (
                             <div key={label} className="flex justify-between text-sm">

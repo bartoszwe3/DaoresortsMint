@@ -426,7 +426,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                             Płacisz razem z budową
                         </h2>
                         <p className="text-lg md:text-xl text-[#8A9E8A] font-light leading-relaxed max-w-2xl mx-auto">
-                            Nie płacisz 19 990 PLN z góry. Każda wpłata
+                            Nie płacisz 25 900 PLN z góry. Każda wpłata
                             jest powiązana z konkretnym etapem budowy -
                             widzisz za co płacisz.
                         </p>
@@ -472,7 +472,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                         {/* Sum Line */}
                         <div className="border-t border-[#C9A84C]/50 mt-8 pt-6 flex justify-between items-center px-2">
                             <span className="text-sm font-sans font-bold uppercase tracking-[0.3em] text-[#8A9E8A]">ŁĄCZNIE</span>
-                            <span className="text-2xl md:text-3xl font-bold font-sans text-white tracking-tight">19 990 PLN</span>
+                            <span className="text-2xl md:text-3xl font-bold font-sans text-white tracking-tight">25 900 PLN</span>
                         </div>
                     </div>
 

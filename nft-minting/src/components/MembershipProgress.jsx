@@ -31,7 +31,7 @@ export default function MembershipProgress({ passportCount = 189, reservedCount 
                 </div>
             </div>
 
-            {/* Aktywne członkostwa - 19 990 PLN */}
+            {/* Aktywne członkostwa - 25 900 PLN */}
             <div>
                 <div className="flex justify-between text-sm mb-1">
                     <span className="text-[#8A9E8A] font-medium">

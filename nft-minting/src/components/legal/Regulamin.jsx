@@ -163,8 +163,8 @@ export default function Regulamin() {
                                     <tr><td className="py-3 px-4">1</td><td className="py-3 px-4">Fundamenty</td><td className="py-3 px-4 font-bold">5 000 PLN</td><td className="py-3 px-4">Po uzyskaniu PNB</td><td className="py-3 px-4 opacity-50">Brak **</td></tr>
                                     <tr><td className="py-3 px-4">2</td><td className="py-3 px-4">Konstrukcja</td><td className="py-3 px-4 font-bold">5 000 PLN</td><td className="py-3 px-4">Stan surowy otwarty</td><td className="py-3 px-4 opacity-50">Brak **</td></tr>
                                     <tr><td className="py-3 px-4">3</td><td className="py-3 px-4">Wykończenie</td><td className="py-3 px-4 font-bold">3 000 PLN</td><td className="py-3 px-4">Instalacje i stolarka</td><td className="py-3 px-4 opacity-50">Brak **</td></tr>
-                                    <tr><td className="py-3 px-4">4</td><td className="py-3 px-4">Aktywacja</td><td className="py-3 px-4 font-bold">4 990 PLN</td><td className="py-3 px-4">Odbiór końcowy i otwarcie</td><td className="py-3 px-4 opacity-50">Brak **</td></tr>
-                                    <tr className="bg-[#1C2614]/30"><td colSpan={2} className="py-3 px-4 font-bold uppercase tracking-widest text-[#C9A84C]">Łącznie</td><td className="py-3 px-4 font-bold text-[#C9A84C]">19 990 PLN</td><td colSpan={2}></td></tr>
+                                    <tr><td className="py-3 px-4">4</td><td className="py-3 px-4">Aktywacja</td><td className="py-3 px-4 font-bold">10 900 PLN</td><td className="py-3 px-4">Odbiór końcowy i otwarcie</td><td className="py-3 px-4 opacity-50">Brak **</td></tr>
+                                    <tr className="bg-[#1C2614]/30"><td colSpan={2} className="py-3 px-4 font-bold uppercase tracking-widest text-[#C9A84C]">Łącznie</td><td className="py-3 px-4 font-bold text-[#C9A84C]">25 900 PLN</td><td colSpan={2}></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -226,7 +226,7 @@ export default function Regulamin() {
                         <h3 className="text-lg text-[#F5F0E8] font-semibold mt-6">3.6. Wymagania do aktywacji Członkostwa</h3>
                         <p>Pełna aktywacja Członkostwa wymaga łącznie:</p>
                         <ol className="list-decimal pl-6 space-y-2 leading-relaxed">
-                            <li>Opłacenia wszystkich 5 etapów zgodnie z harmonogramem (łącznie 19 990 PLN)</li>
+                            <li>Opłacenia wszystkich 5 etapów zgodnie z harmonogramem (łącznie 25 900 PLN)</li>
                             <li>Posiadania Paszportu NFT (darmowy — generowany automatycznie przy Etapie 0)</li>
                             <li>Przejścia weryfikacji KYC przez platformę DidIt.me</li>
                         </ol>
@@ -451,7 +451,7 @@ export default function Regulamin() {
 
                         <h3 className="text-lg text-[#F5F0E8] font-semibold mt-6">5.5. Podział środków ze sprzedaży Tokenów Członkowskich</h3>
                         <p className="leading-relaxed mb-4">
-                            Ze środków uzyskanych ze sprzedaży 150 Tokenów Członkowskich (łącznie do 2 998 500 PLN brutto):
+                            Ze środków uzyskanych ze sprzedaży 150 Tokenów Członkowskich (łącznie do 3 885 000 PLN brutto):
                         </p>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
@@ -463,9 +463,9 @@ export default function Regulamin() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#2D5A3D]/30">
-                                    <tr><td className="py-3 px-4">Budowa Resortu (materiały, robocizna, działka)</td><td className="py-3 px-4 text-[#C9A84C] font-mono">70%</td><td className="py-3 px-4 text-right font-mono">~2 098 950 PLN</td></tr>
-                                    <tr><td className="py-3 px-4">Fundusz remontowy i operacyjny DAO</td><td className="py-3 px-4 text-[#C9A84C] font-mono">10%</td><td className="py-3 px-4 text-right font-mono">~299 850 PLN</td></tr>
-                                    <tr><td className="py-3 px-4">Koszty operacyjne, obsługa, marketing, zysk Spółki</td><td className="py-3 px-4 text-[#C9A84C] font-mono">20%</td><td className="py-3 px-4 text-right font-mono">~599 700 PLN</td></tr>
+                                    <tr><td className="py-3 px-4">Budowa Resortu (materiały, robocizna, działka)</td><td className="py-3 px-4 text-[#C9A84C] font-mono">70%</td><td className="py-3 px-4 text-right font-mono">~2 719 500 PLN</td></tr>
+                                    <tr><td className="py-3 px-4">Fundusz remontowy i operacyjny DAO</td><td className="py-3 px-4 text-[#C9A84C] font-mono">10%</td><td className="py-3 px-4 text-right font-mono">~388 500 PLN</td></tr>
+                                    <tr><td className="py-3 px-4">Koszty operacyjne, obsługa, marketing, zysk Spółki</td><td className="py-3 px-4 text-[#C9A84C] font-mono">20%</td><td className="py-3 px-4 text-right font-mono">~777 000 PLN</td></tr>
                                 </tbody>
                             </table>
                         </div>

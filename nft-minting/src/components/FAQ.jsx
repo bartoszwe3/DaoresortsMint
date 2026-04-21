@@ -44,7 +44,7 @@ export default function FAQ() {
             items: [
                 {
                     q: t("faq_q_1_1", "Na czym polega opłata 2000 PLN i model etapowy?"),
-                    a: t("faq_a_1_1", "To pierwszy krok do członkostwa. Opłata 2000 PLN to rezerwacja miejsca w klubie (wpisowe zwrotne). Całkowity koszt członkostwa (19 990 PLN) jest rozłożony na 5 etapów płatnych wraz z postępem prac budowlanych.")
+                    a: t("faq_a_1_1", "To pierwszy krok do członkostwa. Opłata 2000 PLN to rezerwacja miejsca w klubie (wpisowe zwrotne). Całkowity koszt członkostwa (25 900 PLN) jest rozłożony na 5 etapów płatnych wraz z postępem prac budowlanych.")
                 },
                 {
                     q: t("faq_q_1_2", "Jakie dokładnie koszty ponoszę jadąc na wakacje?"),
