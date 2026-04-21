@@ -463,9 +463,9 @@ export default function Regulamin() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#2D5A3D]/30">
-                                    <tr><td className="py-3 px-4">Budowa Resortu (materiały, robocizna, działka)</td><td className="py-3 px-4 text-[#C9A84C] font-mono">70%</td><td className="py-3 px-4 text-right font-mono">~2 719 500 PLN</td></tr>
-                                    <tr><td className="py-3 px-4">Fundusz remontowy i operacyjny DAO</td><td className="py-3 px-4 text-[#C9A84C] font-mono">10%</td><td className="py-3 px-4 text-right font-mono">~388 500 PLN</td></tr>
-                                    <tr><td className="py-3 px-4">Koszty operacyjne, obsługa, marketing, zysk Spółki</td><td className="py-3 px-4 text-[#C9A84C] font-mono">20%</td><td className="py-3 px-4 text-right font-mono">~777 000 PLN</td></tr>
+                                    <tr><td className="py-3 px-4">Budowa Resortu (materiały, robocizna, działka)</td><td className="py-3 px-4 text-[#C9A84C] font-mono">76%</td><td className="py-3 px-4 text-right font-mono">~2 952 600 PLN</td></tr>
+                                    <tr><td className="py-3 px-4">Fundusz remontowy i operacyjny DAO</td><td className="py-3 px-4 text-[#C9A84C] font-mono">5%</td><td className="py-3 px-4 text-right font-mono">~194 250 PLN</td></tr>
+                                    <tr><td className="py-3 px-4">Koszty operacyjne, obsługa, marketing, zysk Spółki</td><td className="py-3 px-4 text-[#C9A84C] font-mono">19%</td><td className="py-3 px-4 text-right font-mono">~738 150 PLN</td></tr>
                                 </tbody>
                             </table>
                         </div>

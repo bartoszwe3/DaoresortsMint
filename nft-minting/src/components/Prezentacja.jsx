@@ -528,9 +528,9 @@ const S10 = ({ t }) => (
             </div>
             <div className="space-y-6 mb-14 text-left">
                 {[
-                    { pct: 70, amount: "~18 130 PLN", label: t("prezentacja_s10_row1_label", "Budowa resortu"), desc: t("prezentacja_s10_row1_desc", "Materiały budowlane, robocizna, infrastruktura"), color: "bg-[#C9A84C]" },
-                    { pct: 10, amount: "~2 590 PLN", label: t("prezentacja_s10_row2_label", "Fundusz remontowy wspólnoty"), desc: t("prezentacja_s10_row2_desc", "Twoje pieniądze na przyszłość resortu"), color: "bg-green-500" },
-                    { pct: 20, amount: "~5 180 PLN", label: t("prezentacja_s10_row3_label", "Development i obsługa"), desc: t("prezentacja_s10_row3_desc", "Prawnik, marketing, wynagrodzenie foundera"), color: "bg-[#2D5A3D]" }
+                    { pct: 76, amount: "~19 684 PLN", label: t("prezentacja_s10_row1_label", "Budowa resortu"), desc: t("prezentacja_s10_row1_desc", "Materiały budowlane, robocizna, infrastruktura"), color: "bg-[#C9A84C]" },
+                    { pct: 5, amount: "~1 295 PLN", label: t("prezentacja_s10_row2_label", "Fundusz remontowy wspólnoty"), desc: t("prezentacja_s10_row2_desc", "Twoje pieniądze na przyszłość resortu"), color: "bg-green-500" },
+                    { pct: 19, amount: "~4 921 PLN", label: t("prezentacja_s10_row3_label", "Development i obsługa"), desc: t("prezentacja_s10_row3_desc", "Prawnik, marketing, wynagrodzenie foundera"), color: "bg-[#2D5A3D]" }
                 ].map((item, i) => (
                     <div key={i}>
                         <div className="flex justify-between items-baseline mb-2">
