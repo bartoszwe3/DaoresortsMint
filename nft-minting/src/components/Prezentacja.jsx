@@ -102,7 +102,7 @@ function DotNav({ activeId, sections }) {
     );
 }
 
-function ShareButton() {
+function ShareButton({ t }) {
     const [copied, setCopied] = useState(false);
     const handleCopy = useCallback(() => {
         navigator.clipboard.writeText(window.location.origin + "/prezentacja").then(() => {
@@ -122,7 +122,7 @@ function ShareButton() {
     );
 }
 
-function StickyCTA({ onClick }) {
+function StickyCTA({ onClick, t }) {
     const { scrollY } = useScroll();
     const [visible, setVisible] = useState(false);
 
@@ -675,9 +675,9 @@ export default function Prezentacja({ onConnect }) {
             if (now - lastScrollTime < 100) return; // Throttle to ~10fps for performance
             lastScrollTime = now;
 
-            const sections = SECTIONS.map(s => document.getElementById(s.id)).filter(Boolean);
+            const sectionElements = sections.map(s => document.getElementById(s.id)).filter(Boolean);
             let current = activeSection;
-            for (const section of sections) {
+            for (const section of sectionElements) {
                 const rect = section.getBoundingClientRect();
                 if (rect.top <= window.innerHeight * 0.45) current = section.id;
             }
@@ -692,8 +692,8 @@ export default function Prezentacja({ onConnect }) {
         <div className="bg-[#0E1208] min-h-screen text-[#F5F0E8] font-sans selection:bg-[#C9A84C]/30 relative">
             <title>DAOResorts | {t("prezentacja_title", "Luksusowe Wakacje na Własność")}</title>
             <DotNav activeId={activeSection} sections={sections} />
-            {isAuthenticated && <ShareButton />}
-            {onConnect && <StickyCTA onClick={() => onConnect(false)} />}
+            {isAuthenticated && <ShareButton t={t} />}
+            {onConnect && <StickyCTA onClick={() => onConnect(false)} t={t} />}
 
             <S1 onConnect={onConnect} t={t} />
             <S2 t={t} />
