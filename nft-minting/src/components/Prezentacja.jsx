@@ -710,7 +710,6 @@ export default function Prezentacja({ onConnect }) {
         <div className="bg-[#0E1208] min-h-screen text-[#F5F0E8] font-sans selection:bg-[#C9A84C]/30 relative">
             <title>Silna.club | {t("prezentacja_title", "Luksusowe Wakacje na Własność")}</title>
             <DotNav activeId={activeSection} sections={sections} />
-            {isAuthenticated && <ShareButton t={t} />}
             {onConnect && <StickyCTA onClick={() => onConnect(false)} t={t} />}
 
             <S1 onConnect={onConnect} t={t} />

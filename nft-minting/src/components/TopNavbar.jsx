@@ -81,7 +81,7 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
 
                         {isRegistered ? (
                             <button onClick={() => onNavigate("mynfts")} className="px-6 py-2.5 bg-gold-500 text-forest-900 font-sans text-sm font-bold uppercase tracking-wider rounded-md hover:bg-gold-600 transition-all shadow-btn-primary hover:shadow-btn-primary-hover focus:outline-none focus:ring-2 focus:ring-gold-500/50">
-                                {t("nav_mynfts") || "Mój Paszport"}
+                                {t("nav_mynfts") || "Moje konto"}
                             </button>
                         ) : isAuthenticated ? (
                             <button
@@ -89,7 +89,7 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
                                 className="px-6 py-2.5 bg-gold-500 text-forest-900 font-sans text-sm font-bold uppercase tracking-wider rounded-md hover:bg-gold-600 transition-all shadow-btn-primary hover:shadow-btn-primary-hover focus:outline-none focus:ring-2 focus:ring-gold-500/50 flex items-center justify-center min-w-[150px]"
                             >
                                 <div className="flex items-center gap-2">
-                                    <span>MÓJ PASZPORT</span>
+                                    <span>MOJE KONTO</span>
                                     <Wallet size={16} />
                                 </div>
                             </button>
@@ -158,7 +158,7 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
                                 }} 
                                 className="w-full py-4 bg-gold-500 text-forest-900 font-sans text-sm font-bold uppercase tracking-wider rounded-md text-center"
                             >
-                                {isAuthenticated ? "MÓJ PASZPORT" : "Zostaw numer →"}
+                                {isAuthenticated ? "MOJE KONTO" : "Zostaw numer →"}
                             </button>
                         </div>
                     </motion.div>
