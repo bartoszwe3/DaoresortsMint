@@ -37,11 +37,9 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
     const navLinks = [
         { id: "home", label: "O PROJEKCIE" },
         ...(isAuthenticated ? [
-            { id: "team", label: "SPOŁECZNOŚĆ" },
             { id: "voting", label: "GŁOSOWANIA" }
         ] : []),
         { id: "projects", label: "NASZ RESORT" },
-        { id: "faq", label: "FAQ" },
         { id: "founder", label: "ZAŁOŻYCIEL", isRoute: true },
         ...(isAdmin ? [{ id: "admin", label: "ADMIN" }, { id: "stats", label: "STATYSTYKI" }] : []),
     ];
