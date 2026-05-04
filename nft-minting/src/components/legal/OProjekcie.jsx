@@ -44,7 +44,7 @@ export default function OProjekcie() {
                     <p className="leading-relaxed"><strong className="text-[#F5F0E8]">Członkostwo w prywatnym klubie wakacyjnym</strong> — to znaczy:</p>
                     <ul className="list-disc pl-6 space-y-2">
                         <li>prawo do korzystania z infrastruktury Klubu na warunkach Regulaminu Klubu</li>
-                        <li>14 nocy rocznie w jednym z 6 domków, po opłacie operacyjnej (sprzątanie, media, obsługa)</li>
+                        <li>14 nocy rocznie w jednym z 6 domków, po opłacie operacyjnej (sprzątanie, media, obsługa). Opłata operacyjna mieści się w widełkach 80–120 PLN za noc.</li>
                         <li>prawo wnoszenia głosu w konsultacjach społeczności w sprawach dotyczących funkcjonowania Klubu</li>
                         <li>możliwość przenoszenia członkostwa zgodnie z zasadami Regulaminu (np. odstąpienie miejsca innej osobie, przekazanie dzieciom)</li>
                         <li>dostęp do społeczności 156 osób, które wybrały podobny styl życia</li>
@@ -101,7 +101,7 @@ export default function OProjekcie() {
                     <ul className="list-disc pl-6 space-y-2">
                         <li>Otrzymuje pulę 14 nocy do wykorzystania w roku kalendarzowym</li>
                         <li>Rezerwuje terminy w systemie Klubu na zasadach pierwszeństwa zgłoszenia, z mechanizmem priorytetu dla nowych członków przy pierwszym pełnym sezonie</li>
-                        <li>Płaci opłatę operacyjną za każdy zarezerwowany pobyt — pokrywającą sprzątanie, media, obsługę, zarządzanie. Bez marży hotelowej, bez zysku Spółki na pobycie członka.</li>
+                        <li>Płaci opłatę operacyjną za każdy zarezerwowany pobyt — pokrywającą sprzątanie, media, obsługę, zarządzanie. Opłata operacyjna mieści się w widełkach 80–120 PLN za noc. Bez marży hotelowej, bez zysku Spółki na pobycie członka.</li>
                         <li>Może przyjeżdżać sam, z rodziną, ze znajomymi (do limitu osób przewidzianego dla domku)</li>
                     </ul>
 
@@ -155,6 +155,10 @@ export default function OProjekcie() {
                             </tbody>
                         </table>
                     </div>
+
+                    <p className="leading-relaxed mt-4">
+                        <strong className="text-[#F5F0E8]">Od drugiego sezonu działania Klubu</strong> obowiązuje roczna składka członkowska w wysokości 250 PLN brutto, płatna do 31 stycznia każdego roku.
+                    </p>
 
                     <p className="leading-relaxed mt-4">
                         <strong className="text-[#F5F0E8]">Kwoty mogą ulec niewielkiej korekcie</strong> w zależności od finalnego kosztorysu wykonawczego — finalna cena zostanie określona w Umowie Członkowskiej (Etap 1) i mieści się w widełkach 24 000 – 28 000 PLN brutto. W przypadku ustalenia ceny powyżej widełek członek ma prawo odstąpienia od Umowy Członkowskiej z pełnym zwrotem Opłaty Rezerwacyjnej.

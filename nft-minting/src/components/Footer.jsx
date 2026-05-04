@@ -57,10 +57,10 @@ export default function Footer() {
                 {/* Disclaimer one-liner */}
                 <div className="border-t border-[#2D5A3D] pt-4 space-y-2">
                     <p className="text-[#8A9E8A] text-xs text-center">
-                        Token Członkowski Silna.club nie jest instrumentem finansowym w rozumieniu MiCA. Paszport NFT jest darmowy i nie stanowi prawa do korzystania z resortu.
+                        Członkostwo Silna.club nie jest instrumentem finansowym.
                     </p>
                     <p className="text-[#8A9E8A] text-xs text-center">
-                        © 2026 Silna.club by WE3.CLUB RESORT DEVELOPMENT SP. Z O.O. Wszelkie prawa zastrzeżone. | <a href="https://polygon.technology/" target="_blank" rel="noreferrer" className="hover:text-[#C9A84C] transition-colors underline decoration-[#C9A84C]/30">Powered by Polygon</a>
+                        © 2026 Silna.club by WE3.CLUB RESORT DEVELOPMENT SP. Z O.O. Wszelkie prawa zastrzeżone.
                     </p>
                 </div>
 
