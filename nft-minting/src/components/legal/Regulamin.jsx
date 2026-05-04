@@ -29,23 +29,23 @@ export default function Regulamin() {
                             <span className="text-4xl text-gold-500 font-playfair font-bold">01.</span>
                             <div className="md:mt-1">
                                 <h3 className="text-xl font-bold text-[#F5F0E8] mb-2">14 nocy rocznie</h3>
-                                <p className="leading-relaxed text-[#8A9E8A]">Każdy członek otrzymuje gwarantowaną pulę 14 nocy do wykorzystania w naszych domkach w każdym roku kalendarzowym.</p>
+                                <p className="leading-relaxed text-[#8A9E8A]">Każdy członek otrzymuje gwarantowaną pulę 14 nocy do wykorzystania w domkach Klubu w każdym roku kalendarzowym.</p>
                             </div>
                         </li>
                         
                         <li className="flex flex-col md:flex-row md:items-start gap-4">
                             <span className="text-4xl text-gold-500 font-playfair font-bold">02.</span>
                             <div className="md:mt-1">
-                                <h3 className="text-xl font-bold text-[#F5F0E8] mb-2">Brak stałej opłaty rocznej</h3>
-                                <p className="leading-relaxed text-[#8A9E8A]">Nie pobieramy marży za bycie członkiem. Jedyne koszty to proporcjonalnie podzielone na wszystkich członków podatki oraz ubezpieczenie infrastruktury.</p>
+                                <h3 className="text-xl font-bold text-[#F5F0E8] mb-2">Płacisz tylko za pobyt</h3>
+                                <p className="leading-relaxed text-[#8A9E8A]">Nie pobieramy marży za bycie członkiem. Jedyne koszty to proporcjonalnie podzielone podatki oraz ubezpieczenie infrastruktury wspólnej. Od drugiego sezonu obowiązuje roczna składka członkowska w wysokości 250 PLN — płacisz dopiero gdy przekonasz się że Klub spełnia Twoje oczekiwania.</p>
                             </div>
                         </li>
 
                         <li className="flex flex-col md:flex-row md:items-start gap-4">
                             <span className="text-4xl text-gold-500 font-playfair font-bold">03.</span>
                             <div className="md:mt-1">
-                                <h3 className="text-xl font-bold text-[#F5F0E8] mb-2">Opłata za noc (80–150 PLN)</h3>
-                                <p className="leading-relaxed text-[#8A9E8A]">Przy rezerwacji terminu pokrywasz jedynie koszt operacyjny (sprzątanie, media, bezpośrednia obsługa), który mieści się w widełkach 80-150 PLN za noc.</p>
+                                <h3 className="text-xl font-bold text-[#F5F0E8] mb-2">Opłata za noc (80–120 PLN)</h3>
+                                <p className="leading-relaxed text-[#8A9E8A]">Przy rezerwacji terminu pokrywasz wyłącznie koszt operacyjny — sprzątanie, media i bezpośrednią obsługę. Koszt mieści się w widełkach 80–120 PLN za noc, bez marży hotelowej.</p>
                             </div>
                         </li>
 
