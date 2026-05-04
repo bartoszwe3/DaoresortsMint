@@ -52,7 +52,7 @@ export default function FounderPage() {
                             Mam 22 lata. Kupiłem działkę, zarejestrowałem spółkę i zbudowałem aplikację. Nie czekałem, po prostu zacząłem.
                         </p>
                         <p className="text-[#8A9E8A] text-base leading-relaxed mt-3">
-                            Buduję pierwszy w Europie prywatny klub wakacyjny posiadany przez społeczność. 150 rodzin, 6 domków z jacuzzi, las, cisza - po kosztach operacyjnych.
+                            Buduję pierwszy w Polsce prywatny klub wakacyjny zarządzany przez społeczność. 156 rodzin, 6 domków z jacuzzi, las, cisza — po kosztach operacyjnych.
                         </p>
                     </div>
 
