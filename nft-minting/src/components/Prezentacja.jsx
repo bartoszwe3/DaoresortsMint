@@ -259,7 +259,7 @@ const S3 = ({ t }) => (
                 {[
                     { icon: <Key size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card1_title", "Płacisz raz"), desc: t("prezentacja_s3_card1_desc", "25 900 PLN jednorazowo. Żadnych rocznych opłat członkowskich. Żadnych ukrytych kosztów wejścia.") },
                     { icon: <Home size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card2_title", "Korzystasz po kosztach"), desc: t("prezentacja_s3_card2_desc", "~692 PLN za tydzień zamiast 5 600 PLN w hotelu. Płacisz tylko realne koszty mediów i sprzątania.") },
-                    { icon: <Shield size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card3_title", "Jesteś właścicielem"), desc: t("prezentacja_s3_card3_desc", "Karta Członkowska to Twój prawny dokument prawa do korzystania. Możesz ją sprzedać, przekazać rodzinie lub zachować na zawsze.") }
+                    { icon: <Shield size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card3_title", "Jesteś klubowiczem"), desc: t("prezentacja_s3_card3_desc", "Karta Członkowska to Twój prawny dokument prawa do korzystania. Możesz ją sprzedać, przekazać rodzinie lub zachować na zawsze.") }
                 ].map((card, i) => (
                     <div key={i} className="bg-[#1C2614]/40 border border-[#2D5A3D]/30 rounded-2xl p-8 hover:border-[#C9A84C]/30 transition-colors text-left">
                         <div className="mb-5">{card.icon}</div>

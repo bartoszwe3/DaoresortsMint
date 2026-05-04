@@ -156,7 +156,7 @@ export default function AboutProject() {
                         className="text-4xl md:text-5xl font-bold leading-tight text-white"
                     >
                         Nie jesteś gościem. <br />
-                        <span className="text-gold-500">Jesteś właścicielem.</span>
+                        <span className="text-gold-500">Jesteś klubowiczem.</span>
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
