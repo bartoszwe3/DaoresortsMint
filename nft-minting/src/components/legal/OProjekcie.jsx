@@ -22,7 +22,7 @@ export default function OProjekcie() {
                 <section className="flex flex-col space-y-4">
                     <h2 className="text-3xl font-playfair text-[#F5F0E8]">Dlaczego powstał Silna.club</h2>
                     <p className="leading-relaxed">
-                        Wakacje w luksusowych domkach w lesie, z jacuzzi, z pełną prywatnością, z dobrym śniadaniem i ciszą wieczorem — w Polsce kosztują 500-700 PLN za noc. Tydzień dla rodziny to 3500-4900 PLN. Dwa tygodnie — drugie tyle.
+                        Domek z balią w Silnej kosztuje dziś 650 PLN za dobę. Tydzień to 4 550 PLN. My - 555 PLN. Za cały tydzień.
                     </p>
                     <p className="leading-relaxed">
                         To nie jest świat dostępny dla większości pracujących ludzi. To jest świat, do którego zaprasza się raz w roku, na medal. Albo się go ogląda na Instagramie.
