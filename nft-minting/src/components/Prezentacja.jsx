@@ -640,15 +640,6 @@ const S12 = ({ onConnect, t }) => {
     );
 };
 
-const Footer = ({ t }) => (
-    <footer className="py-12 border-t border-[#2D5A3D]/20 px-6 text-center">
-        <div className="max-w-4xl mx-auto">
-            <h3 className="font-playfair text-2xl text-[#F5F0E8] mb-6">Silna.club</h3>
-            <p className="text-[#8A9E8A] text-sm mb-8">{t("prezentacja_footer_desc", "Luksus na własność w sercu polskiej natury.")}</p>
-            <div className="text-[#8A9E8A]/50 text-[10px] uppercase tracking-widest">{t("prezentacja_footer_copy", "© 2024 Silna.club. Wszelkie prawa zastrzeżone.")}</div>
-        </div>
-    </footer>
-);
 
 /* ============================================================
    PREZENTACJA (MAIN COMPONENT)
@@ -725,7 +716,6 @@ export default function Prezentacja({ onConnect }) {
             <S10 t={t} />
             <S11 t={t} />
             <S12 onConnect={onConnect} t={t} />
-            <Footer t={t} />
         </div>
     );
 }
