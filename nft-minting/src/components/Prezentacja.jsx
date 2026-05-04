@@ -718,7 +718,7 @@ export default function Prezentacja({ onConnect }) {
             <S3 t={t} />
             <S8 leadForm={leadForm} setLeadForm={setLeadForm} leadConsent={leadConsent} setLeadConsent={setLeadConsent} leadStatus={leadStatus} handleLeadSubmit={handleLeadSubmit} t={t} />
             <S4 t={t} />
-            <MemberCarousel />
+
             <S5 t={t} />
             <S6 t={t} />
             <S7 t={t} />

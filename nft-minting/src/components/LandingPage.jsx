@@ -171,8 +171,6 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                 </div>
             </section>
 
-            {/* MEMBER CAROUSEL */}
-            <MemberCarousel />
 
 
             {/* 2. PARAMETERS & CLUB MODEL */}
