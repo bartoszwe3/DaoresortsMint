@@ -10,7 +10,7 @@ export default function StepMethodSelect({ setAuthMethod, goNext }) {
         <div className="w-full flex flex-col gap-6 animate-fade-in-right">
             <div className="text-center md:text-left mb-2">
                 <h1 className="font-playfair text-3xl font-bold text-[#F5F0E8] mb-2">
-                    Dołącz do DAOResorts
+                    Dołącz do Silna.club
                 </h1>
                 <p className="font-sans text-sm text-[#8A9E8A]">
                     Wybierz jak chcesz się zalogować. Nie potrzebujesz portfela krypto.

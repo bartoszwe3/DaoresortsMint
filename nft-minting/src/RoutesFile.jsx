@@ -18,6 +18,7 @@ import FounderPage from "./components/FounderPage";
 import CheckoutPage from "./components/CheckoutPage";
 import CheckoutReservePage from "./components/CheckoutReservePage";
 import Prezentacja from "./components/Prezentacja";
+import OProjekcie from "./components/legal/OProjekcie";
 
 import AppLayout from "./components/layout/AppLayout";
 
@@ -41,6 +42,7 @@ function RoutesFile() {
           <Route path="/team" element={<Team />} />
           <Route path="/regulamin" element={<Regulamin />} />
           <Route path="/polityka-prywatnosci" element={<PolitykaPrywatnosci />} />
+          <Route path="/o-projekcie" element={<OProjekcie />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/founder" element={<FounderPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />

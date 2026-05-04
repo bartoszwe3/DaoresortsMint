@@ -60,7 +60,7 @@ const AdminPanel = () => {
             <aside className="w-64 border-r border-white/5 bg-[#080D05] hidden lg:flex flex-col sticky top-0 h-screen">
                 <div className="p-8">
                     <div className="font-playfair text-xl font-bold flex items-center gap-2">
-                        DAOResorts <span className="w-1.5 h-1.5 rounded-full bg-accent-gold"></span>
+                        Silna.club <span className="w-1.5 h-1.5 rounded-full bg-accent-gold"></span>
                     </div>
                     <div className="text-[10px] uppercase tracking-widest text-accent-gold mt-1 font-bold">Admin Panel</div>
                 </div>
@@ -101,7 +101,7 @@ const AdminPanel = () => {
             <main className="flex-1 min-h-screen overflow-y-auto">
                 {/* Mobile Header */}
                 <header className="lg:hidden p-4 border-b border-white/5 bg-[#080D05] flex justify-between items-center sticky top-0 z-40">
-                    <div className="font-playfair font-bold">DAOResorts <span className="text-accent-gold">Admin</span></div>
+                    <div className="font-playfair font-bold">Silna.club <span className="text-accent-gold">Admin</span></div>
                     <div className="flex gap-2">
                         {tabs.map((tab) => {
                             const Icon = tab.icon;

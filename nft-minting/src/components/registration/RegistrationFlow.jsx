@@ -105,7 +105,7 @@ export default function RegistrationFlow({ onCancel, isLogin = false }) {
                                         {isLogin ? "Zaloguj się" : "Dołącz za darmo"}
                                     </h2>
                                     <p className="text-[#8A9E8A] text-sm">
-                                        {isLogin ? "Wpisz swój email, aby otrzymać link logowania." : "Zarejestruj się, aby uzyskać bezpłatny profil w klubie DAOResorts."}
+                                        {isLogin ? "Wpisz swój email, aby otrzymać link logowania." : "Zarejestruj się, aby uzyskać bezpłatny profil w klubie Silna.club."}
                                     </p>
                                 </div>
 

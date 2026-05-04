@@ -32,7 +32,7 @@ export default function FounderPage() {
                     {/* Bio */}
                     <div>
                         <p className="text-[#C9A84C] text-xs uppercase tracking-widest mb-2">
-                            Założyciel DAOResorts
+                            Założyciel Silna.club
                         </p>
                         <h1 className="font-playfair text-4xl md:text-5xl text-[#F5F0E8] mb-2">
                             Bartosz Zniszczoł
@@ -83,7 +83,7 @@ export default function FounderPage() {
                         },
                         {
                             year: '2026',
-                            title: 'Launch DAOResorts',
+                            title: 'Launch Silna.club',
                             desc: 'Aplikacja uruchomiona. Pierwsze 150 miejsc członkowskich w sprzedaży. 5000 darmowych Paszportów do odbioru.'
                         },
                     ].map((item, i, arr) => (
@@ -133,7 +133,7 @@ export default function FounderPage() {
 
                     {/* Akapit 2 */}
                     <p className="text-[#8A9E8A] text-base leading-relaxed">
-                        DAOResorts to dowód że społeczność może razem kupić ziemię,
+                        Silna.club to dowód że społeczność może razem kupić ziemię,
                         razem zlecić projekt, razem zbudować coś wartościowego -
                         i razem wypoczywać. Po kosztach. Bez pośredników, bez ukrytych marż,
                         bez wydawania pół miliona na dom wakacyjny który stoi pusty

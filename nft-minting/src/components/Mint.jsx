@@ -218,7 +218,7 @@ export default function Mint({ onMintSuccess, onConnect }) {
           <div className="bg-[#0d1117] border border-white/10 rounded-2xl p-8 shadow-xl shadow-gold-500/5">
             <p className="text-white font-bold text-xl mb-2">Połącz się, aby zacząć</p>
             <p className="text-gray-400 text-sm mb-6">
-              Aby uzyskać dostęp do galerii i zmintować swój paszport DAOResorts, musisz się zalogować.
+              Aby uzyskać dostęp do galerii i zmintować swój paszport Silna.club, musisz się zalogować.
             </p>
             <button
               onClick={onConnect}
@@ -244,7 +244,7 @@ export default function Mint({ onMintSuccess, onConnect }) {
           <p className="text-gray-400 text-lg">Zarejestruj się, aby uzyskać dostęp do galerii paszportów.</p>
         </div>
         <div className="text-center mt-10 p-8 border border-[#2D5A3D]/40 rounded-2xl bg-[#0E1208]">
-          <p className="text-[#8A9E8A] mb-4">Aby dołączyć do społeczności DAOResorts, uzupełnij swój profil.</p>
+          <p className="text-[#8A9E8A] mb-4">Aby dołączyć do społeczności Silna.club, uzupełnij swój profil.</p>
           <button onClick={onConnect} className="px-6 py-3 bg-[#C9A84C] hover:bg-[#D4B96A] text-[#0E1208] rounded-xl font-bold transition-colors">
             Załóż profil
           </button>
@@ -268,7 +268,7 @@ export default function Mint({ onMintSuccess, onConnect }) {
           Każdy zarejestrowany użytkownik odbiera darmowy Paszport.
         </p>
         <p className="text-[#C9A84C] text-center text-sm mb-8">
-          Paszport to Twój profil w społeczności DAOResorts.
+          Paszport to Twój profil w społeczności Silna.club.
         </p>
 
         {hasNft && <MembershipBanner activeMembers={0} />}

@@ -148,7 +148,7 @@ export default function CheckoutPage() {
         const details = `Odbiorca: WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.
 Numer konta (IBAN): 05 1090 1535 0000 0001 5472 8891
 Kwota: ${stageData.amount.toLocaleString("pl-PL")},00 PLN
-Tytuł przelewu: DAOResorts Etap ${stage} #${passportId} ${userEmail}
+Tytuł przelewu: Silna.club Etap ${stage} #${passportId} ${userEmail}
 Bank: mBank S.A.`;
         navigator.clipboard.writeText(details);
         toast?.success("Skopiowano wszystkie dane");
@@ -171,7 +171,7 @@ Bank: mBank S.A.`;
 
             setState("pending");
         } catch (err) {
-            setError("Wystąpił błąd. Spróbuj ponownie lub napisz na bartosz@daoresorts.club");
+            setError("Wystąpił błąd. Spróbuj ponownie lub napisz na bartosz@silna.club");
         } finally {
             setLoadingAction(false);
         }
@@ -275,7 +275,7 @@ Bank: mBank S.A.`;
                         { label: "Odbiorca", value: "WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.", copyable: true },
                         { label: "Numer konta (IBAN)", value: "05 1090 1535 0000 0001 5472 8891", copyable: true, highlight: true },
                         { label: "Kwota", value: `${stageData.amount.toLocaleString("pl-PL")},00 PLN`, copyable: true, highlight: true },
-                        { label: "Tytuł przelewu", value: `DAOResorts Etap ${stage} #${passportId} ${userEmail}`, copyable: true, important: true },
+                        { label: "Tytuł przelewu", value: `Silna.club Etap ${stage} #${passportId} ${userEmail}`, copyable: true, important: true },
                         { label: "Bank odbiorcy", value: "mBank S.A.", copyable: false }
                     ].map(row => <TransferRow key={row.label} {...row} />)}
 
@@ -292,7 +292,7 @@ Bank: mBank S.A.`;
                     <label className="flex items-start gap-3 cursor-pointer group">
                         <input type="checkbox" checked={confirmed} onChange={e => setConfirmed(e.target.checked)} className="mt-1 w-4 h-4 accent-[#C9A84C] flex-shrink-0" />
                         <span className="text-[#8A9E8A] text-sm leading-relaxed">
-                            Potwierdzam że wykonałem przelew na kwotę <strong className="text-[#F5F0E8]">{stageData.amount.toLocaleString("pl-PL")} PLN</strong> z tytułem <strong className="text-[#F5F0E8] break-all">DAOResorts Etap ${stage} #${passportId}</strong>
+                            Potwierdzam że wykonałem przelew na kwotę <strong className="text-[#F5F0E8]">{stageData.amount.toLocaleString("pl-PL")} PLN</strong> z tytułem <strong className="text-[#F5F0E8] break-all">Silna.club Etap ${stage} #${passportId}</strong>
                         </span>
                     </label>
 
@@ -321,7 +321,7 @@ Bank: mBank S.A.`;
                     </p>
 
                     <p className="text-[#8A9E8A] text-xs text-center mt-2">
-                        Masz pytania? <a href="mailto:bartosz@daoresorts.club" className="text-[#C9A84C] hover:underline">bartosz@daoresorts.club</a>
+                        Masz pytania? <a href="mailto:bartosz@silna.club" className="text-[#C9A84C] hover:underline">bartosz@silna.club</a>
                     </p>
                 </div>
             </div>

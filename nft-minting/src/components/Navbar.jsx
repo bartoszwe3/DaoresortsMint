@@ -82,7 +82,7 @@ export default function Header() {
             onClick={() => goTo("/")}
             className="text-2xl font-bold text-white cursor-pointer hover:opacity-80 transition"
           >
-            DAOResorts.club
+            Silna.club
           </div>
 
           {/* DESKTOP NAV */}

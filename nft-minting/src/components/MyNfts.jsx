@@ -581,7 +581,7 @@ export default function MyNfts() {
                     </div>
                     <div className="flex-1 text-center md:text-left">
                       <h3 className="text-xl font-black text-white mb-2">
-                        Witaj w społeczności DAOResorts.
+                        Witaj w społeczności Silna.club.
                       </h3>
                       <div className="text-green-300/80 text-sm leading-relaxed space-y-3">
                         <p>Twój darmowy Paszport jest aktywny.</p>

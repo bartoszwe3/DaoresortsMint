@@ -159,7 +159,7 @@ export default function Team({ hasNft: propHasNft, onNavigate }) {
                 </h1>
                 <p className="text-gray-400 max-w-xl mx-auto text-sm leading-relaxed mb-4">
                     Pierwsi członkowie naszego nowoczesnego resortu wakacyjnego.
-                    Każdy paszport to unikalny dostęp do ekskluzywnego klubu DAOResorts.
+                    Każdy paszport to unikalny dostęp do ekskluzywnego klubu Silna.club.
                 </p>
                 <div className="flex justify-center items-center gap-2 opacity-50 group transition-opacity hover:opacity-100">
                     <span className="text-[10px] text-gray-500 uppercase tracking-widest">On-chain identity</span>

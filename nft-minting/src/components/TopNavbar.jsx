@@ -56,7 +56,7 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
                 <div className="max-w-7xl mx-auto px-6 h-[72px] flex items-center justify-between">
                     <div className="flex items-center gap-2 cursor-pointer" onClick={() => (window.location.href = "/")}>
                         <span className="font-playfair font-semibold text-2xl tracking-wide text-text-primary flex items-center">
-                            DAOResorts<span className="text-gold-500 ml-[1px]">.</span>club
+                            Silna<span className="text-gold-500 ml-[1px]">.</span>club
                         </span>
                     </div>
 
@@ -123,7 +123,7 @@ export default function TopNavbar({ onNavigate, activeTab, isRegistered, address
                     >
                         <div className="flex justify-between items-center mb-12">
                             <span className="font-playfair font-semibold text-2xl tracking-wide text-text-primary flex items-center">
-                                DAOResorts <span className="text-gold-500 ml-[1px]">.</span>club
+                                Silna <span className="text-gold-500 ml-[1px]">.</span>club
                             </span>
                             <button className="text-text-primary" onClick={() => setMobileMenuOpen(false)}>
                                 <X size={28} />

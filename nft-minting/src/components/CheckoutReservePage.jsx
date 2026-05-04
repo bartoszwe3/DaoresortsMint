@@ -99,7 +99,7 @@ export default function CheckoutReservePage() {
         const details = `Odbiorca: WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.
 Numer konta (IBAN): 05 1090 1535 0000 0001 5472 8891
 Kwota: ${RESERVATION_FEE.toLocaleString("pl-PL")},00 PLN
-Tytuł przelewu: DAOResorts Rezerwacja #${assignedTokenNumber} ${userEmail}`;
+Tytuł przelewu: Silna.club Rezerwacja #${assignedTokenNumber} ${userEmail}`;
         navigator.clipboard.writeText(details);
         toast.success("Skopiowano wszystkie dane");
     };
@@ -201,7 +201,7 @@ Tytuł przelewu: DAOResorts Rezerwacja #${assignedTokenNumber} ${userEmail}`;
                     <p className="text-[#C9A84C] text-xs uppercase tracking-widest mb-4">Co rezerwujesz</p>
                     <div className="flex justify-between items-start mb-4">
                         <div>
-                            <p className="text-[#F5F0E8] font-semibold text-lg">Miejsce Założycielskie DAOResorts</p>
+                            <p className="text-[#F5F0E8] font-semibold text-lg">Miejsce Założycielskie Silna.club</p>
                             <p className="text-[#8A9E8A] text-sm mt-1">1 z 150 miejsc · Etap 1 · Cena założycielska</p>
                         </div>
                         <div className="text-right ml-4">
@@ -257,7 +257,7 @@ Tytuł przelewu: DAOResorts Rezerwacja #${assignedTokenNumber} ${userEmail}`;
                         { label: 'Odbiorca', value: 'WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.', copyable: true },
                         { label: 'Numer konta (IBAN)', value: '05 1090 1535 0000 0001 5472 8891', copyable: true, highlight: true },
                         { label: 'Kwota', value: '2 000,00 PLN', copyable: true, highlight: true },
-                        { label: 'Tytuł przelewu', value: `DAOResorts Rezerwacja #${assignedTokenNumber} ${userEmail}`, copyable: true, important: true },
+                        { label: 'Tytuł przelewu', value: `Silna.club Rezerwacja #${assignedTokenNumber} ${userEmail}`, copyable: true, important: true },
                     ].map(row => (
                         <TransferRow key={row.label} {...row} />
                     ))}
@@ -274,7 +274,7 @@ Tytuł przelewu: DAOResorts Rezerwacja #${assignedTokenNumber} ${userEmail}`;
                     <label className="flex items-start gap-3 cursor-pointer">
                         <input type="checkbox" checked={confirmed} onChange={e => setConfirmed(e.target.checked)} className="mt-0.5 w-4 h-4 accent-[#C9A84C] flex-shrink-0" />
                         <span className="text-[#8A9E8A] text-sm">
-                            Potwierdzam że wykonałem przelew <strong className="text-[#F5F0E8]">2 000 PLN</strong> z tytułem <strong className="text-[#F5F0E8]">DAOResorts Rezerwacja #{assignedTokenNumber}</strong>
+                            Potwierdzam że wykonałem przelew <strong className="text-[#F5F0E8]">2 000 PLN</strong> z tytułem <strong className="text-[#F5F0E8]">Silna.club Rezerwacja #{assignedTokenNumber}</strong>
                         </span>
                     </label>
 

@@ -6,11 +6,12 @@ const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
 export default function LeadGenModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({ imie: '', telefon: '' });
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState(null); // 'submitting', 'success', 'error'
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.imie || !formData.telefon) return;
+    if (!formData.imie || !formData.telefon || !consent) return;
     
     // Walidacja numeru telefonu (9-12 cyfr, po oczyszczeniu ze spacji/znaków)
     const cleanedPhone = formData.telefon.replace(/\D/g, '');
@@ -123,10 +124,22 @@ export default function LeadGenModal({ isOpen, onClose }) {
                 />
               </div>
 
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  className="mt-1 w-4 h-4 accent-[#C9A84C] shrink-0"
+                />
+                <span className="text-[#8A9E8A] text-[10px] leading-relaxed">
+                  Akceptuję <a href="/regulamin" className="text-[#C9A84C] hover:underline">Regulamin</a> oraz <a href="/polityka-prywatnosci" className="text-[#C9A84C] hover:underline">Politykę Prywatności</a> i wyrażam zgodę na przetwarzanie moich danych osobowych w celu realizacji połączenia telefonicznego.
+                </span>
+              </label>
+
               <button 
                 type="button"
                 onClick={handleSubmit}
-                disabled={status === 'submitting'}
+                disabled={status === 'submitting' || !consent}
                 className="w-full bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-sans font-bold py-4 rounded-none transition-all shadow-btn-primary hover:shadow-btn-primary-hover flex items-center justify-center gap-2 uppercase tracking-widest text-sm disabled:opacity-50"
               >
                 {status === 'submitting' ? 'Wysyłanie...' : 'Zadzwoń do mnie →'}
@@ -137,10 +150,6 @@ export default function LeadGenModal({ isOpen, onClose }) {
               )}
             </div>
           )}
-
-          <p className="mt-8 text-[10px] text-[#8A9E8A] text-center leading-relaxed opacity-60">
-            Klikając przycisk, wyrażasz zgodę na kontakt telefoniczny w celu przedstawienia szczegółów projektu DAOResorts.
-          </p>
         </motion.div>
       </div>
     </AnimatePresence>

@@ -134,16 +134,16 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                             className="inline-flex items-center gap-2 px-6 py-2 rounded-full border border-gold-500/40 bg-forest-800/50 backdrop-blur-sm text-xs font-sans font-medium tracking-widest text-gold-500/90 mb-8 shadow-sm"
                             whileHover={{ y: -2 }}
                         >
-                            <span>{t("hero_tag")}</span>
+                            <span>{t("prezentacja_hero_tag", "Prywatny Klub Wakacyjny")}</span>
                         </motion.div>
 
                         {/* Quiet Luxury Headline */}
                         <h1 className="text-5xl md:text-7xl lg:text-8xl text-center font-playfair font-semibold leading-[1.1] text-text-primary mb-8 tracking-tight drop-shadow-lg break-words w-full">
-                            <HeroHeadline text1={t("hero_title_1").trim()} text2={t("hero_title_2")} />
+                            <HeroHeadline text1={t("prezentacja_hero_title1", "Hotele zarabiają na Tobie. ").trim()} text2={t("prezentacja_hero_title2", "Czas to zmienić.")} />
                         </h1>
 
                         <p className="text-base md:text-xl text-text-secondary max-w-2xl leading-relaxed mb-10 font-sans font-light break-words w-full px-4 md:px-0 text-center">
-                            <Trans i18nKey="hero_desc" components={[<span className="text-text-primary font-medium" />, <span className="text-text-primary font-medium" />]} />
+                            {t("prezentacja_hero_desc", "Jedno członkostwo. 14 nocy rocznie. Dożywotnio po kosztach.")}
                         </p>
 
                         <div className="flex flex-col items-center gap-2 w-full px-4 md:px-0">
@@ -261,7 +261,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
 
                         {/* Title */}
                         <h2 className="text-4xl md:text-6xl font-playfair font-semibold leading-tight text-white mb-2 drop-shadow-md">
-                            DAOResorts - Silna, Lubuskie.
+                            Silna.club - Silna, Lubuskie.
                         </h2>
                     </div>
                 </div>
@@ -403,7 +403,7 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                 </div>
 
                 {/* New Advanced Calculator */}
-                <div className="w-full mb-20">
+                <div id="kalkulator" className="w-full mb-20">
                     <LongTermSavings onConnect={onConnect} hasNft={hasNft} onNavigate={onNavigate} />
                 </div>
 

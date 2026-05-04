@@ -275,7 +275,7 @@ const S3 = ({ t }) => (
     </Section>
 );
 
-const S8 = ({ leadForm, setLeadForm, leadStatus, handleLeadSubmit, t }) => (
+const S8 = ({ leadForm, setLeadForm, leadConsent, setLeadConsent, leadStatus, handleLeadSubmit, t }) => (
     <Section id="s8" className="py-12 md:py-32 px-6">
         <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
@@ -285,7 +285,7 @@ const S8 = ({ leadForm, setLeadForm, leadStatus, handleLeadSubmit, t }) => (
             <div className="flex flex-col md:flex-row items-center md:items-start gap-10 bg-[#1C2614]/30 border border-[#2D5A3D]/30 rounded-2xl p-8 md:p-10 text-left">
                 <img src="/Bartoszzdjecie.jpeg" alt="Bartosz Zniszczoł" className="w-40 h-40 md:w-52 md:h-52 rounded-2xl object-cover border border-[#2D5A3D] shrink-0" />
                 <div className="flex-1">
-                    <p className="text-[#C9A84C] text-xs uppercase tracking-widest mb-1">{t("prezentacja_s8_role", "Założyciel DAOResorts")}</p>
+                    <p className="text-[#C9A84C] text-xs uppercase tracking-widest mb-1">{t("prezentacja_s8_role", "Założyciel Silna.club")}</p>
                     <h3 className="font-playfair text-2xl md:text-3xl text-[#F5F0E8] mb-2">Bartosz Zniszczoł</h3>
                     <p className="text-[#8A9E8A] text-xs mb-4">WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.</p>
                     <blockquote className="border-l-4 border-[#C9A84C] pl-4 mb-5">
@@ -295,19 +295,37 @@ const S8 = ({ leadForm, setLeadForm, leadStatus, handleLeadSubmit, t }) => (
                     <div className="flex flex-wrap gap-3 mb-8">
                         <a href="https://linkedin.com/in/" target="_blank" rel="noreferrer" className="border border-[#C9A84C] text-[#C9A84C] px-4 py-2 rounded-md text-xs hover:bg-[#C9A84C] hover:text-[#0E1208] transition-all">LinkedIn</a>
                         <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="border border-[#2D5A3D] text-[#8A9E8A] px-4 py-2 rounded-md text-xs hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all">X / Twitter</a>
-                        <a href="mailto:bartosz@daoresorts.club" className="border border-[#2D5A3D] text-[#8A9E8A] px-4 py-2 rounded-md text-xs hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all">bartosz@daoresorts.club</a>
+                        <a href="mailto:bartosz@silna.club" className="border border-[#2D5A3D] text-[#8A9E8A] px-4 py-2 rounded-md text-xs hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all">bartosz@silna.club</a>
                     </div>
                     <div className="pt-8 border-t border-[#2D5A3D]/30 min-h-[160px]">
                         <p className="text-[#F5F0E8] text-sm mb-4 font-medium italic">{t("prezentacja_s8_lead_title", "Masz pytania? Zostaw numer - oddzwonię osobiście.")}</p>
                         {leadStatus === 'success' ? (
                             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-[#C9A84C]/10 border border-[#C9A84C]/30 p-4 rounded-xl text-[#C9A84C] text-sm font-medium">{t("prezentacja_s8_lead_success", "Oddzwonię wkrótce. - Bartosz")}</motion.div>
                         ) : (
-                            <div className="flex flex-col sm:flex-row gap-3">
-                                <input type="text" placeholder={t("prezentacja_s8_placeholder_name", "Imię")} required className="bg-[#0E1208] border border-[#2D5A3D] rounded-none px-4 py-2.5 text-sm text-[#F5F0E8] focus:outline-none focus:border-[#C9A84C] transition-colors flex-1" value={leadForm.imie} onChange={(e) => setLeadForm({...leadForm, imie: e.target.value})} />
-                                <input type="tel" placeholder={t("prezentacja_s8_placeholder_phone", "Numer telefonu")} required className="bg-[#0E1208] border border-[#2D5A3D] rounded-none px-4 py-2.5 text-sm text-[#F5F0E8] focus:outline-none focus:border-[#C9A84C] transition-colors flex-1" value={leadForm.telefon} onChange={(e) => setLeadForm({...leadForm, telefon: e.target.value})} />
-                                <button type="button" onClick={handleLeadSubmit} disabled={leadStatus === 'submitting'} className="bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-bold px-6 py-2.5 rounded-none transition-all shadow-btn-primary flex items-center justify-center gap-2 text-sm whitespace-nowrap disabled:opacity-50">
-                                    {leadStatus === 'submitting' ? t("prezentacja_s8_btn_sending", "Wysyłanie...") : t("prezentacja_s8_btn_call", "Zadzwoń do mnie →")}
-                                </button>
+                            <div className="flex flex-col gap-4">
+                                <div className="flex flex-col sm:flex-row gap-3">
+                                    <input type="text" placeholder={t("prezentacja_s8_placeholder_name", "Imię")} required className="bg-[#0E1208] border border-[#2D5A3D] rounded-none px-4 py-2.5 text-sm text-[#F5F0E8] focus:outline-none focus:border-[#C9A84C] transition-colors flex-1" value={leadForm.imie} onChange={(e) => setLeadForm({...leadForm, imie: e.target.value})} />
+                                    <input type="tel" placeholder={t("prezentacja_s8_placeholder_phone", "Numer telefonu")} required className="bg-[#0E1208] border border-[#2D5A3D] rounded-none px-4 py-2.5 text-sm text-[#F5F0E8] focus:outline-none focus:border-[#C9A84C] transition-colors flex-1" value={leadForm.telefon} onChange={(e) => setLeadForm({...leadForm, telefon: e.target.value})} />
+                                    <button
+                                        type="button"
+                                        onClick={handleLeadSubmit}
+                                        disabled={leadStatus === 'submitting' || !leadConsent}
+                                        className="bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-bold px-6 py-2.5 rounded-none transition-all shadow-btn-primary flex items-center justify-center gap-2 text-sm whitespace-nowrap disabled:opacity-50"
+                                    >
+                                        {leadStatus === 'submitting' ? t("prezentacja_s8_btn_sending", "Wysyłanie...") : t("prezentacja_s8_btn_call", "Zadzwoń do mnie →")}
+                                    </button>
+                                </div>
+                                <label className="flex items-start gap-3 cursor-pointer group">
+                                    <input
+                                        type="checkbox"
+                                        checked={leadConsent}
+                                        onChange={(e) => setLeadConsent(e.target.checked)}
+                                        className="mt-1 w-4 h-4 accent-[#C9A84C] shrink-0"
+                                    />
+                                    <span className="text-[#8A9E8A] text-[10px] leading-relaxed">
+                                        Akceptuję <a href="/regulamin" className="text-[#C9A84C] hover:underline">Regulamin</a> oraz <a href="/polityka-prywatnosci" className="text-[#C9A84C] hover:underline">Politykę Prywatności</a> i wyrażam zgodę na przetwarzanie moich danych osobowych w celu realizacji połączenia telefonicznego.
+                                    </span>
+                                </label>
                             </div>
                         )}
                         {leadStatus === 'error' && <p className="text-red-400 text-xs mt-2">{t("prezentacja_s8_lead_error", "Coś poszło nie tak. Spróbuj ponownie lub napisz maila.")}</p>}
@@ -331,7 +349,7 @@ const S4 = ({ t }) => (
                         <tr className="border-b border-[#2D5A3D]/40">
                             <th className="py-4 px-4 text-[#8A9E8A] uppercase tracking-widest text-xs font-normal">{t("prezentacja_s4_th1", "Przez 20 lat")}</th>
                             <th className="py-4 px-4 text-[#8A9E8A] uppercase tracking-widest text-xs font-normal text-right">{t("prezentacja_s4_th2", "Hotel premium")}</th>
-                            <th className="py-4 px-4 text-[#C9A84C] uppercase tracking-widest text-xs font-normal text-right">{t("prezentacja_s4_th3", "DAOResorts")}</th>
+                            <th className="py-4 px-4 text-[#C9A84C] uppercase tracking-widest text-xs font-normal text-right">{t("prezentacja_s4_th3", "Silna.club")}</th>
                         </tr>
                     </thead>
                     <tbody className="text-[#F5F0E8]">
@@ -414,7 +432,7 @@ const S6 = ({ t }) => (
                 {[
                     { step: "01", icon: <Users size={24} />, title: t("prezentacja_s6_step1_title", "Odbierz darmowy Paszport"), desc: t("prezentacja_s6_step1_desc", "Rejestracja emailem. Zero skomplikowanych rejestracji — logujesz się przez link wysłany na Twój email.") },
                     { step: "02", icon: <Key size={24} />, title: t("prezentacja_s6_step2_title", "Zarezerwuj członkostwo"), desc: t("prezentacja_s6_step2_desc", "2000 PLN wpisowego. Zabezpieczasz swoje miejsce w pierwszym etapie. Kolejne wpłaty wraz z postępem budowy.") },
-                    { step: "03", icon: <Calendar size={24} />, title: t("prezentacja_s6_step3_title", "Rezerwuj domek"), desc: t("prezentacja_s6_step3_desc", "Przez aplikację DAOResorts. 14 nocy rocznie w dowolnym dostępnym terminie. Płacisz tylko koszty operacyjne.") },
+                    { step: "03", icon: <Calendar size={24} />, title: t("prezentacja_s6_step3_title", "Rezerwuj domek"), desc: t("prezentacja_s6_step3_desc", "Przez aplikację Silna.club. 14 nocy rocznie w dowolnym dostępnym terminie. Płacisz tylko koszty operacyjne.") },
                     { step: "04", icon: <Vote size={24} />, title: t("prezentacja_s6_step4_title", "Głosuj i współdecyduj"), desc: t("prezentacja_s6_step4_desc", "Każdy członek ma 1 głos. Decydujesz o budżecie, modernizacjach i zasadach. To Twój resort.") }
                 ].map((item, i) => (
                     <div key={i} className="flex gap-6 md:gap-8">
@@ -450,7 +468,7 @@ const S7 = ({ t }) => (
                             t("prezentacja_s7_fact1", "Działka kupiona - Silna, Lubuskie"),
                             t("prezentacja_s7_fact2", "Spółka zarejestrowana - KRS 0001188626"),
                             t("prezentacja_s7_fact3", "Architekci podpisani - projekt w toku"),
-                            t("prezentacja_s7_fact4", "Aplikacja działa - daoresorts.club"),
+                            t("prezentacja_s7_fact4", "Aplikacja działa - silna.club"),
                             t("prezentacja_s7_fact5", "Umowa w publicznym rejestrze cyfrowym — każda złotówka widoczna")
                         ].map((fact, i) => (
                             <li key={i} className="flex items-start gap-3 text-sm text-[#8A9E8A]">
@@ -595,14 +613,13 @@ const S11 = ({ t }) => {
 };
 
 const S12 = ({ onConnect, t }) => {
-    const activeMembers = 0;
+    const activeMembers = 22;
     return (
         <Section id="s12" className="py-20 md:py-32 px-6">
             <div className="max-w-2xl mx-auto text-center">
                 <h2 className="font-playfair text-3xl md:text-5xl text-[#F5F0E8] mb-4">
                     {t("prezentacja_s12_title", "Zostało {{left}} z 150 miejsc założycielskich.", { left: 150 - activeMembers })}
                 </h2>
-                <p className="text-[#8A9E8A] text-base mb-8">{t("prezentacja_s12_desc", "Cena w Etapie 2 będzie wyższa. Founder price tylko teraz.")}</p>
                 <div className="w-full bg-[#1C2614] rounded-full h-3 mb-2 overflow-hidden">
                     <div className="h-full bg-gradient-to-r from-[#C9A84C] to-[#C9A84C]/70 rounded-full transition-all duration-1000" style={{ width: `${(activeMembers / 150) * 100}%` }} />
                 </div>
@@ -617,7 +634,7 @@ const S12 = ({ onConnect, t }) => {
                         </button>
                     </div>
                 )}
-                <p className="text-[#8A9E8A] text-xs">{t("prezentacja_s12_footer_contact", "Masz pytania?")} <a href="mailto:bartosz@daoresorts.club" className="text-[#C9A84C] hover:underline">bartosz@daoresorts.club</a></p>
+                <p className="text-[#8A9E8A] text-xs">{t("prezentacja_s12_footer_contact", "Masz pytania?")} <a href="mailto:bartosz@silna.club" className="text-[#C9A84C] hover:underline">bartosz@silna.club</a></p>
             </div>
         </Section>
     );
@@ -626,9 +643,9 @@ const S12 = ({ onConnect, t }) => {
 const Footer = ({ t }) => (
     <footer className="py-12 border-t border-[#2D5A3D]/20 px-6 text-center">
         <div className="max-w-4xl mx-auto">
-            <h3 className="font-playfair text-2xl text-[#F5F0E8] mb-6">DAOResorts</h3>
+            <h3 className="font-playfair text-2xl text-[#F5F0E8] mb-6">Silna.club</h3>
             <p className="text-[#8A9E8A] text-sm mb-8">{t("prezentacja_footer_desc", "Luksus na własność w sercu polskiej natury.")}</p>
-            <div className="text-[#8A9E8A]/50 text-[10px] uppercase tracking-widest">{t("prezentacja_footer_copy", "© 2024 DAOResorts. Wszelkie prawa zastrzeżone.")}</div>
+            <div className="text-[#8A9E8A]/50 text-[10px] uppercase tracking-widest">{t("prezentacja_footer_copy", "© 2024 Silna.club. Wszelkie prawa zastrzeżone.")}</div>
         </div>
     </footer>
 );
@@ -642,10 +659,11 @@ export default function Prezentacja({ onConnect }) {
     const sections = getSections(t);
     const [activeSection, setActiveSection] = useState("s1");
     const [leadForm, setLeadForm] = useState({ imie: "", telefon: "" });
+    const [leadConsent, setLeadConsent] = useState(false);
     const [leadStatus, setLeadStatus] = useState(null);
 
     const handleLeadSubmit = async () => {
-        if (!leadForm.imie || !leadForm.telefon) return;
+        if (!leadForm.imie || !leadForm.telefon || !leadConsent) return;
 
         // Walidacja numeru telefonu (9-12 cyfr, po oczyszczeniu ze spacji/znaków)
         const cleanedPhone = leadForm.telefon.replace(/\D/g, '');
@@ -690,7 +708,7 @@ export default function Prezentacja({ onConnect }) {
 
     return (
         <div className="bg-[#0E1208] min-h-screen text-[#F5F0E8] font-sans selection:bg-[#C9A84C]/30 relative">
-            <title>DAOResorts | {t("prezentacja_title", "Luksusowe Wakacje na Własność")}</title>
+            <title>Silna.club | {t("prezentacja_title", "Luksusowe Wakacje na Własność")}</title>
             <DotNav activeId={activeSection} sections={sections} />
             {isAuthenticated && <ShareButton t={t} />}
             {onConnect && <StickyCTA onClick={() => onConnect(false)} t={t} />}
@@ -698,7 +716,7 @@ export default function Prezentacja({ onConnect }) {
             <S1 onConnect={onConnect} t={t} />
             <S2 t={t} />
             <S3 t={t} />
-            <S8 leadForm={leadForm} setLeadForm={setLeadForm} leadStatus={leadStatus} handleLeadSubmit={handleLeadSubmit} t={t} />
+            <S8 leadForm={leadForm} setLeadForm={setLeadForm} leadConsent={leadConsent} setLeadConsent={setLeadConsent} leadStatus={leadStatus} handleLeadSubmit={handleLeadSubmit} t={t} />
             <S4 t={t} />
             <MemberCarousel />
             <S5 t={t} />

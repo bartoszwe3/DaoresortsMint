@@ -43,7 +43,7 @@ export default function ProjectsShowcase() {
 
     const PROJECT_DATA = {
         id: "resort-silna",
-        name: "DAOResorts - Silna, Lubuskie.",
+        name: "Silna.club - Silna, Lubuskie.",
         location: t("project_silna_location"),
         status: t("project_silna_status"),
         description: t("project_silna_desc"),

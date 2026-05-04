@@ -15,7 +15,7 @@ export default function Footer() {
                         <p className="text-[#8A9E8A] text-xs leading-relaxed">
                             KRS: 0001188626 | NIP: 9731114421 | REGON: 542448933<br />
                             ul. Kazimierza Wielkiego 7/5, 65-047 Zielona Góra<br />
-                            bartosz@daoresorts.club
+                            bartosz@silna.club
                         </p>
                     </div>
 
@@ -41,8 +41,8 @@ export default function Footer() {
                             Resort
                         </p>
                         {[
-                            { label: 'O Projekcie', href: '/#o-projekcie' },
-                            { label: 'Kalkulator', href: '/#kalkulator' },
+                            { label: 'O Projekcie', href: '/o-projekcie' },
+                            { label: 'Kalkulator', href: '/landing#kalkulator' },
                             { label: 'FAQ', href: '/#faq' },
                             { label: 'O Założycielu', href: '/founder' },
                         ].map(link => (
@@ -57,10 +57,10 @@ export default function Footer() {
                 {/* Disclaimer one-liner */}
                 <div className="border-t border-[#2D5A3D] pt-4 space-y-2">
                     <p className="text-[#8A9E8A] text-xs text-center">
-                        Token Członkowski DAOResorts nie jest instrumentem finansowym w rozumieniu MiCA. Paszport NFT jest darmowy i nie stanowi prawa do korzystania z resortu.
+                        Token Członkowski Silna.club nie jest instrumentem finansowym w rozumieniu MiCA. Paszport NFT jest darmowy i nie stanowi prawa do korzystania z resortu.
                     </p>
                     <p className="text-[#8A9E8A] text-xs text-center">
-                        © 2026 DAOResorts by WE3.CLUB RESORT DEVELOPMENT SP. Z O.O. Wszelkie prawa zastrzeżone. | <a href="https://polygon.technology/" target="_blank" rel="noreferrer" className="hover:text-[#C9A84C] transition-colors underline decoration-[#C9A84C]/30">Powered by Polygon</a>
+                        © 2026 Silna.club by WE3.CLUB RESORT DEVELOPMENT SP. Z O.O. Wszelkie prawa zastrzeżone. | <a href="https://polygon.technology/" target="_blank" rel="noreferrer" className="hover:text-[#C9A84C] transition-colors underline decoration-[#C9A84C]/30">Powered by Polygon</a>
                     </p>
                 </div>
 

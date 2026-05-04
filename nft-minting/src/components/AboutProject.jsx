@@ -204,7 +204,7 @@ export default function AboutProject() {
                 <div className="text-center max-w-2xl mx-auto space-y-4">
                     <h2 className="text-3xl font-bold text-white">Resort Współwłasności</h2>
                     <p className="text-white text-lg">
-                        DAOResorts to sieć resortów wakacyjnych współwłasnych przez ich członków.
+                        Silna.club to sieć resortów wakacyjnych współwłasnych przez ich członków.
                         Każdy członek posiada <span className="text-gold-500 font-semibold">Paszport (NFT)</span>, który daje gwarantowany dostęp do pobytów oraz realny udział w decyzjach o przyszłości miejsca.
                     </p>
                 </div>

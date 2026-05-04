@@ -60,7 +60,7 @@ export default function FAQ() {
                 },
                 {
                     q: t("faq_q_1_5", "Czy mogę odsprzedać swój Token?"),
-                    a: t("faq_a_1_5", "Tak - Token jest Twoją własnością i możesz go odsprzedać w dowolnym momencie komukolwiek. Transakcja odbywa się przez aplikację DAOResorts. Jeśli wartość resortu wzrośnie, Token może być wart więcej niż zapłaciłeś.")
+                    a: t("faq_a_1_5", "Tak - Token jest Twoją własnością i możesz go odsprzedać w dowolnym momencie komukolwiek. Transakcja odbywa się przez aplikację Silna.club. Jeśli wartość resortu wzrośnie, Token może być wart więcej niż zapłaciłeś.")
                 }
             ]
         },
@@ -98,7 +98,7 @@ export default function FAQ() {
                 },
                 {
                     q: t("faq_q_2_8", "Czy mogę użyczyć swoich nocy komuś innemu?"),
-                    a: t("faq_a_2_8", "Tak - możesz przekazać swoje noce znajomemu lub rodzinie. Osoba korzystająca musi być zarejestrowana w systemie DAOResorts ze względów bezpieczeństwa obiektu.")
+                    a: t("faq_a_2_8", "Tak - możesz przekazać swoje noce znajomemu lub rodzinie. Osoba korzystająca musi być zarejestrowana w systemie Silna.club ze względów bezpieczeństwa obiektu.")
                 },
                 {
                     q: t("faq_q_2_9", "Czy resort działa przez cały rok?"),
@@ -146,10 +146,10 @@ export default function FAQ() {
                 },
                 {
                     q: t("faq_q_4_1", "Kto jest faktycznym właścicielem ziemi i budynków?"),
-                    a: t("faq_a_4_1", "Działka i wszystkie budynki są własnością spółki DAOResorts sp. z o.o. zarejestrowanej in Polsce. Żaden pojedynczy udziałowiec nie może podjąć decyzji o sprzedaży bez zgody społeczności. W przyszłości organ DAO zostanie formalnie wpisany do struktury nadzorczej spółki.")
+                    a: t("faq_a_4_1", "Działka i wszystkie budynki są własnością spółki Silna.club sp. z o.o. zarejestrowanej in Polsce. Żaden pojedynczy udziałowiec nie może podjąć decyzji o sprzedaży bez zgody społeczności. W przyszłości organ DAO zostanie formalnie wpisany do struktury nadzorczej spółki.")
                 },
                 {
-                    q: t("faq_q_4_2", "Co jeśli DAOResorts zbankrutuje? Co z moimi wpłatami?"),
+                    q: t("faq_q_4_2", "Co jeśli Silna.club zbankrutuje? Co z moimi wpłatami?"),
                     a: t("faq_a_4_2", "Dzięki modelowi 5-etapowemu ryzykujesz tylko aktualną transzę. Każda wpłata jest powiązana z konkretnym, udokumentowanym etapem budowy. Działka i budynki mają realną wartość rynkową - to nie jest cyfrowy token bez pokrycia. Cały postęp widoczny w aplikacji w czasie rzeczywistym, oraz na naszej działce")
                 },
                 {
@@ -162,7 +162,7 @@ export default function FAQ() {
                 },
                 {
                     q: t("faq_q_4_5", "Czy moje dane osobowe z KYC są bezpieczne?"),
-                    a: t("faq_a_4_5", "Weryfikacja tożsamości odbywa się przez DidIt.me - certyfikowanego europejskiego dostawcę usług KYC działającego zgodnie z RODO. DAOResorts nie przechowuje kopii Twojego dowodu osobistego ani danych biometrycznych - tylko potwierdzenie że weryfikacja przebiegła pomyślnie.")
+                    a: t("faq_a_4_5", "Weryfikacja tożsamości odbywa się przez DidIt.me - certyfikowanego europejskiego dostawcę usług KYC działającego zgodnie z RODO. Silna.club nie przechowuje kopii Twojego dowodu osobistego ani danych biometrycznych - tylko potwierdzenie że weryfikacja przebiegła pomyślnie.")
                 }
             ]
         },
@@ -198,7 +198,7 @@ export default function FAQ() {
                     Pytania & <span className="text-gold-500 italic">Odpowiedzi</span>
                 </h1>
                 <p className="text-text-secondary font-light text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-                    Budujemy model jutra, ale cenimy jasne zasady. Oto wszystko, co musisz wiedzieć o członkostwie w DAOResorts.
+                    Budujemy model jutra, ale cenimy jasne zasady. Oto wszystko, co musisz wiedzieć o członkostwie w Silna.club.
                 </p>
             </div>
 

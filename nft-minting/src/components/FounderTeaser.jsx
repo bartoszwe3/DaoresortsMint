@@ -9,7 +9,7 @@ export const FounderTeaser = () => (
                     Za projektem stoi człowiek
                 </p>
                 <h2 className="font-playfair text-3xl md:text-5xl text-[#F5F0E8] mb-4">
-                    Kto buduje DAOResorts
+                    Kto buduje Silna.club
                 </h2>
             </div>
 
@@ -21,7 +21,7 @@ export const FounderTeaser = () => (
                         {/* Zdjęcie */}
                         <img
                             src="/Bartoszzdjecie.jpeg"
-                            alt="Założyciel DAOResorts"
+                            alt="Założyciel Silna.club"
                             className="w-32 h-32 rounded-full object-cover border-2 border-[#C9A84C] flex-shrink-0"
                         />
 

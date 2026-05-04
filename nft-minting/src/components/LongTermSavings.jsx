@@ -262,7 +262,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                                         iconType="circle"
                                         formatter={(value) => <span className="text-xs text-gray-400 uppercase tracking-widest ml-1">{value}</span>}
                                     />
-                                    <Bar dataKey="DAO" fill="#C9A84C" name="DAOResorts" radius={[4, 4, 0, 0]} barSize={isMobile ? 10 : 20} />
+                                    <Bar dataKey="DAO" fill="#C9A84C" name="Silna.club" radius={[4, 4, 0, 0]} barSize={isMobile ? 10 : 20} />
                                     <Bar dataKey="Hotel" fill="#2D5A3D" name="Hotel" radius={[4, 4, 0, 0]} barSize={isMobile ? 10 : 20} />
                                     <Bar dataKey="Own" fill="#E74C3C" name="Własny domek" radius={[4, 4, 0, 0]} barSize={isMobile ? 10 : 20} />
                                 </ComposedChart>
@@ -279,10 +279,10 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                 </h3>
 
                 <div className="grid md:grid-cols-3 gap-6 text-left">
-                    {/* CARD 1: DAOResorts */}
+                    {/* CARD 1: Silna.club */}
                     <div className="border border-[#C9A84C]/40 bg-[#1C2614] rounded-2xl p-6 shadow-xl flex flex-col">
                         <div className="mb-4">
-                            <h4 className="text-[#C9A84C] font-bold text-xl uppercase tracking-tighter">DAOResorts</h4>
+                            <h4 className="text-[#C9A84C] font-bold text-xl uppercase tracking-tighter">Silna.club</h4>
                             <p className="text-[#8A9E8A] text-sm">667 PLN / tydzień — wszystko wliczone</p>
                         </div>
                         <ul className="space-y-3 mb-6 flex-1">
@@ -393,7 +393,7 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                         <h4 className="font-playfair text-xl md:text-2xl text-[#F5F0E8] mb-6 leading-relaxed">
                             Własny domek kosztuje <span className="text-gold-500 font-bold">
                                 {chartData.length > 0 ? (chartData[chartData.length - 1].Own / chartData[chartData.length - 1].DAO).toFixed(1) : "-"} razy
-                            </span> więcej niż Członkostwo DAOResorts przez {years} lat.
+                            </span> więcej niż Członkostwo Silna.club przez {years} lat.
                             <br />
                             <span className="text-sm text-gray-400 italic">I stoi pusty przez 50 tygodni w roku.</span>
                         </h4>
