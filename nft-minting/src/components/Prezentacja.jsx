@@ -63,6 +63,7 @@ const getSections = (t) => [
     { id: "s4", label: t("prezentacja_s4_tag", "Matematyka") },
     { id: "s5", label: t("prezentacja_s5_tag", "Resort") },
     { id: "s6", label: t("prezentacja_s6_tag", "Jak to działa") },
+    { id: "s-payment", label: t("prezentacja_spayment_tag", "Model płatności") },
     { id: "s7", label: t("prezentacja_s7_tag", "Zaufanie") },
     { id: "s9", label: t("prezentacja_s9_tag", "Roadmapa") },
     { id: "s10", label: t("prezentacja_s10_tag", "Alokacja") },
@@ -122,7 +123,7 @@ function ShareButton({ t }) {
     );
 }
 
-function StickyCTA({ onClick, t }) {
+function StickyCTA({ t }) {
     const { scrollY } = useScroll();
     const [visible, setVisible] = useState(false);
 
@@ -135,15 +136,25 @@ function StickyCTA({ onClick, t }) {
     if (!visible) return null;
 
     return (
-        <motion.button
+        <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            onClick={onClick}
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 md:px-8 py-3 md:py-4 bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-sans font-bold shadow-[0_4px_20px_rgba(201,168,76,0.3)] hover:shadow-[0_4px_30px_rgba(201,168,76,0.5)] transition-all whitespace-normal md:whitespace-nowrap text-center max-w-[90vw] md:max-w-none text-xs md:text-sm lg:text-base border-none outline-none ring-0 focus:outline-none"
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center"
         >
-            {t("prezentacja_sticky_cta", "Dołącz za darmo i odbierz Paszport")}
-        </motion.button>
+                <a
+                    href="/kontakt"
+                    style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }}
+                    onMouseEnter={e => e.currentTarget.style.background = '#B8973B'}
+                    onMouseLeave={e => e.currentTarget.style.background = '#C9A84C'}
+                    className="shadow-[0_4px_20px_rgba(201,168,76,0.3)] hover:shadow-[0_4px_30px_rgba(201,168,76,0.5)] transition-all whitespace-normal md:whitespace-nowrap text-center max-w-[90vw] md:max-w-none outline-none ring-0 focus:outline-none"
+                >
+                    Zarezerwuj miejsce w projekcie - 2 000 PLN
+                </a>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+            </p>
+        </motion.div>
     );
 }
 
@@ -174,34 +185,32 @@ function CounterCard({ value, prefix = "", suffix = "", label, sublabel, accent 
    ============================================================ */
 
 const S1 = ({ onConnect, t }) => (
-    <div id="s1" className="relative w-full h-[calc(100vh-72px)] md:h-screen flex flex-col items-center justify-center overflow-visible bg-[#0E1208] isolate">
-        <video src="/silnawebvideo.mp4" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0 opacity-60" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0E1208]/70 via-[#0E1208]/40 to-[#0E1208] z-[1]" />
+    <div id="s1" className="relative w-full h-[calc(100vh-72px)] md:h-screen flex flex-col items-center justify-center overflow-visible bg-[#0E1208]">
+        <video src="/silnawebvideo.mp4" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0 opacity-60 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0E1208]/70 via-[#0E1208]/40 to-[#0E1208] z-[1] pointer-events-none" />
         <div className="relative z-[20] w-full max-w-4xl mx-auto px-6 text-center flex flex-col items-center">
             <HeroHeadline text1={t("prezentacja_hero_title1", "Hotele zarabiają na Tobie. ")} text2={t("prezentacja_hero_title2", "Czas to zmienić.")} />
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl px-4">
                 {t("prezentacja_hero_desc", "Jedno członkostwo. 14 nocy rocznie. Dożywotnio po kosztach.")}
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-8 w-full max-w-lg mx-auto px-4">
-                <div className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 md:px-8 py-5 backdrop-blur-sm">
-                    <div className="font-playfair text-2xl md:text-3xl text-gold-500 font-bold">{t("prezentacja_hero_stat1_val", "2 000 PLN")}</div>
+                <div className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 md:px-8 py-2 md:py-5 backdrop-blur-none md:backdrop-blur-sm">
+                    <div className="font-playfair text-2xl md:text-3xl text-gold-500 font-bold whitespace-nowrap">{t("prezentacja_hero_stat1_val", "2 000 PLN")}</div>
                     <div className="text-white/70 text-sm mt-1">{t("prezentacja_hero_stat1_label", "rezerwacja miejsca")}</div>
                 </div>
-                <div className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 md:px-8 py-5 backdrop-blur-sm">
-                    <div className="font-playfair text-2xl md:text-3xl text-white font-bold">{t("prezentacja_hero_stat2_val", "~316 000 PLN")}</div>
+                <div className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 md:px-8 py-2 md:py-5 backdrop-blur-none md:backdrop-blur-sm">
+                    <div className="font-playfair text-2xl md:text-3xl text-white font-bold whitespace-nowrap">{t("prezentacja_hero_stat2_val", "~316 000 PLN")}</div>
                     <div className="text-[#8A9E8A] text-sm mt-1">{t("prezentacja_hero_stat2_label", "oszczędności przez 20 lat")}</div>
                 </div>
             </motion.div>
-            {onConnect && (
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }} className="flex flex-col items-center gap-2 w-full max-w-sm mx-auto mb-12 px-4">
-                    <button onClick={() => onConnect(false)} className="px-6 py-4 w-full bg-gold-500 hover:bg-[#b09342] text-black font-sans font-bold rounded-none transition-all shadow-btn-primary hover:shadow-btn-primary-hover flex items-center justify-center gap-3 text-sm">
-                        {t("prezentacja_hero_cta_join", "Dołącz za darmo")}
-                    </button>
-                    <button onClick={() => onConnect(true)} className="text-[#8A9E8A] text-xs text-center w-full mt-2 hover:text-gold-500 transition-colors">
-                        {t("prezentacja_hero_cta_login", "Masz już konto? Zaloguj się")}
-                    </button>
-                </motion.div>
-            )}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }} className="flex flex-col items-center w-full max-w-sm mx-auto mb-12 px-4">
+                <a href="/kontakt" style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }} onMouseEnter={e => e.currentTarget.style.background = '#B8973B'} onMouseLeave={e => e.currentTarget.style.background = '#C9A84C'} className="w-full flex items-center justify-center text-center">
+                    Zarezerwuj miejsce w projekcie - 2 000 PLN
+                </a>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                    Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                </p>
+            </motion.div>
         </div>
         <motion.div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[20] hidden md:block" animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}>
             <ChevronDown size={28} className="text-gold-500/60" />
@@ -257,7 +266,7 @@ const S3 = ({ t }) => (
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
-                    { icon: <Key size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card1_title", "Płacisz raz"), desc: t("prezentacja_s3_card1_desc", "25 900 PLN jednorazowo. Żadnych rocznych opłat członkowskich. Żadnych ukrytych kosztów wejścia.") },
+                    { icon: <Key size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card1_title", "Płacisz raz"), desc: t("prezentacja_s3_card1_desc", "25 900 PLN jednorazowo. Zadnych ukrytych oplat. 100% transparentnosci") },
                     { icon: <Home size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card2_title", "Korzystasz po kosztach"), desc: t("prezentacja_s3_card2_desc", "~692 PLN za tydzień zamiast 5 600 PLN w hotelu. Płacisz tylko realne koszty mediów i sprzątania.") },
                     { icon: <Shield size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card3_title", "Jesteś klubowiczem"), desc: t("prezentacja_s3_card3_desc", "Karta Członkowska to Twój prawny dokument prawa do korzystania. Możesz ją sprzedać, przekazać rodzinie lub zachować na zawsze.") }
                 ].map((card, i) => (
@@ -289,46 +298,17 @@ const S8 = ({ leadForm, setLeadForm, leadConsent, setLeadConsent, leadStatus, ha
                     <h3 className="font-playfair text-2xl md:text-3xl text-[#F5F0E8] mb-2">Bartosz Zniszczoł</h3>
                     <p className="text-[#8A9E8A] text-xs mb-4">WE3.CLUB RESORT DEVELOPMENT SP. Z O.O.</p>
                     <blockquote className="border-l-4 border-[#C9A84C] pl-4 mb-5">
-                        <p className="font-playfair text-lg text-[#F5F0E8] italic">{t("prezentacja_s8_quote", "„Kupiłem tę ziemię za własne pieniądze zanim sprzedałem pierwsze członkostwo. Nie możesz mi zaufać bardziej niż ja zaufałem tej idei.”")}</p>
+                        <p className="font-playfair text-lg text-[#F5F0E8] italic">{t("prezentacja_s8_quote", "\u201EKupiłem tę ziemię za własne pieniądze zanim sprzedałem pierwsze członkostwo. Nie możesz mi zaufać bardziej niż ja zaufałem tej idei.\u201D")}</p>
                     </blockquote>
                     <p className="text-[#8A9E8A] text-sm leading-relaxed mb-5">{t("prezentacja_s8_desc", "Buduję transparentną i elitarną społeczność wokół pierwszej w Polsce wioski turystycznej zaprojektowanej pod nowoczesne standardy.")}</p>
-                    <div className="flex flex-wrap gap-3 mb-8">
-                        <a href="https://linkedin.com/in/" target="_blank" rel="noreferrer" className="border border-[#C9A84C] text-[#C9A84C] px-4 py-2 rounded-md text-xs hover:bg-[#C9A84C] hover:text-[#0E1208] transition-all">LinkedIn</a>
-                        <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="border border-[#2D5A3D] text-[#8A9E8A] px-4 py-2 rounded-md text-xs hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all">X / Twitter</a>
-                        <a href="mailto:bartosz@silna.club" className="border border-[#2D5A3D] text-[#8A9E8A] px-4 py-2 rounded-md text-xs hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all">bartosz@silna.club</a>
-                    </div>
-                    <div className="pt-8 border-t border-[#2D5A3D]/30 min-h-[160px]">
-                        <p className="text-[#F5F0E8] text-sm mb-4 font-medium italic">{t("prezentacja_s8_lead_title", "Masz pytania? Zostaw numer - oddzwonię osobiście.")}</p>
-                        {leadStatus === 'success' ? (
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-[#C9A84C]/10 border border-[#C9A84C]/30 p-4 rounded-xl text-[#C9A84C] text-sm font-medium">{t("prezentacja_s8_lead_success", "Oddzwonię wkrótce. - Bartosz")}</motion.div>
-                        ) : (
-                            <div className="flex flex-col gap-4">
-                                <div className="flex flex-col sm:flex-row gap-3">
-                                    <input type="text" placeholder={t("prezentacja_s8_placeholder_name", "Imię")} required className="bg-[#0E1208] border border-[#2D5A3D] rounded-none px-4 py-2.5 text-sm text-[#F5F0E8] focus:outline-none focus:border-[#C9A84C] transition-colors flex-1" value={leadForm.imie} onChange={(e) => setLeadForm({...leadForm, imie: e.target.value})} />
-                                    <input type="tel" placeholder={t("prezentacja_s8_placeholder_phone", "Numer telefonu")} required className="bg-[#0E1208] border border-[#2D5A3D] rounded-none px-4 py-2.5 text-sm text-[#F5F0E8] focus:outline-none focus:border-[#C9A84C] transition-colors flex-1" value={leadForm.telefon} onChange={(e) => setLeadForm({...leadForm, telefon: e.target.value})} />
-                                    <button
-                                        type="button"
-                                        onClick={handleLeadSubmit}
-                                        disabled={leadStatus === 'submitting' || !leadConsent}
-                                        className="bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-bold px-6 py-2.5 rounded-none transition-all shadow-btn-primary flex items-center justify-center gap-2 text-sm whitespace-nowrap disabled:opacity-50"
-                                    >
-                                        {leadStatus === 'submitting' ? t("prezentacja_s8_btn_sending", "Wysyłanie...") : t("prezentacja_s8_btn_call", "Zadzwoń do mnie →")}
-                                    </button>
-                                </div>
-                                <label className="flex items-start gap-3 cursor-pointer group">
-                                    <input
-                                        type="checkbox"
-                                        checked={leadConsent}
-                                        onChange={(e) => setLeadConsent(e.target.checked)}
-                                        className="mt-1 w-4 h-4 accent-[#C9A84C] shrink-0"
-                                    />
-                                    <span className="text-[#8A9E8A] text-[10px] leading-relaxed">
-                                        Akceptuję <a href="/regulamin" className="text-[#C9A84C] hover:underline">Regulamin</a> oraz <a href="/polityka-prywatnosci" className="text-[#C9A84C] hover:underline">Politykę Prywatności</a> i wyrażam zgodę na przetwarzanie moich danych osobowych w celu realizacji połączenia telefonicznego.
-                                    </span>
-                                </label>
-                            </div>
-                        )}
-                        {leadStatus === 'error' && <p className="text-red-400 text-xs mt-2">{t("prezentacja_s8_lead_error", "Coś poszło nie tak. Spróbuj ponownie lub napisz maila.")}</p>}
+                    {/* CTA */}
+                    <div className="mt-8 flex flex-col items-start">
+                        <a href="/kontakt" style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none', display: 'inline-flex' }} onMouseEnter={e => e.currentTarget.style.background = '#B8973B'} onMouseLeave={e => e.currentTarget.style.background = '#C9A84C'}>
+                            Zarezerwuj miejsce w projekcie - 2 000 PLN
+                        </a>
+                        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                            Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -395,21 +375,21 @@ const S5 = ({ t }) => (
             <div className="mb-16">
                 <p className="text-[#C9A84C] text-xs uppercase tracking-[0.25em] mb-4">{t("prezentacja_s5_tag", "Resort")}</p>
                 <h2 className="font-playfair text-3xl md:text-5xl text-[#F5F0E8]">{t("prezentacja_s5_title", "Silna, Lubuskie")}</h2>
-                <p className="text-[#8A9E8A] text-base mt-4 max-w-2xl mx-auto">{t("prezentacja_s5_desc", "Działka 2 530 m² in the forest by Lake Pszczewskie. 6 premium houses with private jacuzzi. 7th operational building with cinema room, game room, and laundry.")}</p>
+                <p className="text-[#8A9E8A] text-base mt-4 max-w-2xl mx-auto">{t("prezentacja_s5_desc", "Działka 2 530 m² w lesie przy jeziorze Pszczewskim. 6 domków premium z prywatnym jacuzzi. Infrastruktura w pełni własna — zero zależności od zewnętrznych dostawców. Płacisz tylko koszty operacyjne ~555 PLN za tydzień dla 4 osób.")}</p>
             </div>
             <div className="relative rounded-3xl overflow-hidden mb-10 aspect-video border border-[#2D5A3D]/30">
                 <video src="/silnawebvideo.mp4" autoPlay muted loop playsInline className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0E1208]/80 to-transparent" />
             </div>
             <blockquote className="max-w-2xl mx-auto mb-14">
-                <p className="font-playfair text-2xl md:text-3xl text-[#F5F0E8] italic leading-relaxed">{t("prezentacja_s5_quote", "„6 domków. 150 rodzin. Las. Jacuzzi. Twoje.”")}</p>
+                <p className="font-playfair text-2xl md:text-3xl text-[#F5F0E8] italic leading-relaxed">{t("prezentacja_s5_quote", "„6 domków. Las. Jacuzzi. Dla Ciebie.”")}</p>
             </blockquote>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
                     { val: "70 m²", label: t("prezentacja_s5_stat1_label", "Powierzchnia domku") },
                     { val: "2", label: t("prezentacja_s5_stat2_label", "Sypialnie w domku") },
                     { val: "Jacuzzi", label: t("prezentacja_s5_stat3_label", "Na tarasie każdego domku") },
-                    { val: "200A", label: t("prezentacja_s5_stat4_label", "Przyłącze trójfazowe") }
+                    { val: t("prezentacja_s5_stat4_val", "Sauna, grill, ognisko"), label: t("prezentacja_s5_stat4_label", "Przestrzeń wspólna dla rezydentów klubu") }
                 ].map((f, i) => (
                     <div key={i} className="bg-[#1C2614]/40 border border-[#2D5A3D]/30 rounded-xl p-5">
                         <div className="font-playfair text-xl text-[#C9A84C] font-bold">{f.val}</div>
@@ -426,19 +406,20 @@ const S6 = ({ t }) => (
         <div className="max-w-4xl mx-auto text-center">
             <div className="mb-16">
                 <p className="text-[#C9A84C] text-xs uppercase tracking-[0.25em] mb-4">{t("prezentacja_s6_tag", "Mechanizm")}</p>
-                <h2 className="font-playfair text-3xl md:text-5xl text-[#F5F0E8]">{t("prezentacja_s6_title", "4 kroki do Twoich wakacji")}</h2>
+                <h2 className="font-playfair text-3xl md:text-5xl text-[#F5F0E8]">{t("prezentacja_s6_title", "5 kroków do Twoich wakacji")}</h2>
             </div>
             <div className="space-y-0 text-left">
                 {[
-                    { step: "01", icon: <Users size={24} />, title: t("prezentacja_s6_step1_title", "Odbierz darmowy Paszport"), desc: t("prezentacja_s6_step1_desc", "Rejestracja emailem. Zero skomplikowanych rejestracji — logujesz się przez link wysłany na Twój email.") },
-                    { step: "02", icon: <Key size={24} />, title: t("prezentacja_s6_step2_title", "Zarezerwuj członkostwo"), desc: t("prezentacja_s6_step2_desc", "2000 PLN wpisowego. Zabezpieczasz swoje miejsce w pierwszym etapie. Kolejne wpłaty wraz z postępem budowy.") },
-                    { step: "03", icon: <Calendar size={24} />, title: t("prezentacja_s6_step3_title", "Rezerwuj domek"), desc: t("prezentacja_s6_step3_desc", "Przez aplikację Silna.club. 14 nocy rocznie w dowolnym dostępnym terminie. Płacisz tylko koszty operacyjne.") },
-                    { step: "04", icon: <Vote size={24} />, title: t("prezentacja_s6_step4_title", "Głosuj i współdecyduj"), desc: t("prezentacja_s6_step4_desc", "Każdy członek ma 1 głos. Decydujesz o budżecie, modernizacjach i zasadach. To Twój resort.") }
-                ].map((item, i) => (
+                    { step: "01", icon: <Users size={24} />, title: t("prezentacja_s6_step1_title", "Umów rozmowę z założycielem"), desc: t("prezentacja_s6_step1_desc", "15 minut. Odpowiadam na każde pytanie zanim wpłacisz złotówkę.") },
+                    { step: "02", icon: <Key size={24} />, title: t("prezentacja_s6_step2_title", "Zarezerwuj miejsce"), desc: t("prezentacja_s6_step2_desc", "2 000 PLN depozytu. Zabezpieczasz numer członkowski. W 100% zwrotne do momentu uzyskania pozwolenia na budowę.") },
+                    { step: "03", icon: <Home size={24} />, title: t("prezentacja_s6_step3_title", "Płać etapami z budową"), desc: t("prezentacja_s6_step3_desc", "Nie płacisz 25 900 PLN z góry. Każda wpłata odpowiada konkretnemu etapowi — fundament, stan surowy, wykończenie, otwarcie.") },
+                    { step: "04", icon: <Calendar size={24} />, title: t("prezentacja_s6_step4_title", "Rezerwuj terminy"), desc: t("prezentacja_s6_step4_desc", "14 nocy rocznie przez aplikację. Płacisz tylko koszty operacyjne — bez marży hotelowej.") },
+                    { step: "05", icon: <Vote size={24} />, title: t("prezentacja_s6_step5_title", "Głosuj i współdecyduj"), desc: t("prezentacja_s6_step5_desc", "Jeden członek, jeden głos. Budżet, modernizacje, zasady. To Twój resort.") }
+                ].map((item, i, arr) => (
                     <div key={i} className="flex gap-6 md:gap-8">
                         <div className="flex flex-col items-center shrink-0">
                             <div className="w-12 h-12 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/30 flex items-center justify-center text-[#C9A84C]">{item.icon}</div>
-                            {i < 3 && <div className="w-px flex-1 bg-[#2D5A3D]/40 my-2 min-h-[40px]" />}
+                            {i < arr.length - 1 && <div className="w-px flex-1 bg-[#2D5A3D]/40 my-2 min-h-[40px]" />}
                         </div>
                         <div className="pb-10 flex-1">
                             <p className="text-[#C9A84C] text-xs uppercase tracking-widest mb-1">{t("prezentacja_s6_step_label", "Krok")} {item.step}</p>
@@ -449,6 +430,87 @@ const S6 = ({ t }) => (
                 ))}
             </div>
             <p className="text-[#8A9E8A] text-sm mt-6 border-t border-[#2D5A3D]/20 pt-8 max-w-lg mx-auto">{t("prezentacja_s6_footer", "Płacisz zwykłym przelewem bankowym. My zadbaliśmy o resztę.")}</p>
+        </div>
+    </Section>
+);
+
+const SPaymentModel = ({ t }) => (
+    <Section id="s-payment" className="py-20 md:py-32 px-6 bg-[#0E1208]">
+        <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-16">
+                <span className="text-[#C9A84C] text-xs font-sans font-semibold uppercase tracking-[0.2em] mb-3 block">
+                    {t("prezentacja_spayment_tag", "Model płatności")}
+                </span>
+                <h2 className="text-3xl md:text-5xl font-playfair font-semibold text-[#F5F0E8] mb-8 tracking-tight">
+                    {t("prezentacja_spayment_title", "Płacisz razem z budową")}
+                </h2>
+                <p className="text-base md:text-lg text-[#8A9E8A] font-light leading-relaxed max-w-2xl mx-auto">
+                    {t("prezentacja_spayment_desc", "Nie płacisz 25 900 PLN z góry. Każda wpłata jest powiązana z konkretnym etapem budowy - widzisz za co płacisz.")}
+                </p>
+            </div>
+
+            <div className="space-y-4">
+                {[
+                    { id: 0, name: 'Rezerwacja miejsca', trigger: 'Dostępne teraz', amount: 2000, refundable: true, active: true },
+                    { id: 1, name: 'Fundament', trigger: 'Po uzyskaniu PNB', amount: 5000, refundable: false, active: false },
+                    { id: 2, name: 'Stan surowy otwarty', trigger: 'Po stanie surowym', amount: 5000, refundable: false, active: false },
+                    { id: 3, name: 'Wykończenie', trigger: 'Instalacje i stolarka', amount: 3000, refundable: false, active: false },
+                    { id: 4, name: 'Aktywacja członkostwa', trigger: 'Po otwarciu', amount: 4990, refundable: false, active: false }
+                ].map(stage => (
+                    <div key={stage.id}
+                        className={`flex items-center justify-between bg-[#1C2614] border ${stage.active ? 'border-[#C9A84C]' : 'border-[#2D5A3D]/40 opacity-70'} rounded-xl p-4 mb-3 hover:bg-[#1C2614]/80 transition-all`}>
+                        <div className="flex items-center gap-3">
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold ${stage.active ? 'bg-[#C9A84C] text-[#0E1208] shadow-lg shadow-[#C9A84C]/20' : 'bg-gray-700/50 text-gray-400 border border-gray-600/30'}`}>
+                                {stage.id}
+                            </div>
+                            <div>
+                                <p className={`font-medium text-sm ${stage.active ? 'text-[#F5F0E8] font-bold' : 'text-[#F5F0E8]/90'}`}>
+                                    {stage.name}
+                                </p>
+                                <p className="text-[#8A9E8A] text-xs flex items-center gap-2">
+                                    <span>{stage.trigger}</span>
+                                    {stage.refundable && (
+                                        <span className="bg-green-500/10 text-green-400 text-[9px] px-1.5 py-0.5 rounded-sm uppercase tracking-wider border border-green-500/20">
+                                            zwrotne
+                                        </span>
+                                    )}
+                                </p>
+                            </div>
+                        </div>
+                        <div className="text-right flex-shrink-0 ml-2">
+                            <p className={`${stage.active ? 'text-[#C9A84C]' : 'text-[#C9A84C]/60'} font-bold text-base font-sans`}>
+                                {stage.amount.toLocaleString('pl-PL')} PLN
+                            </p>
+                        </div>
+                    </div>
+                ))}
+
+                <div className="border-t border-[#C9A84C]/50 mt-8 pt-6 flex justify-between items-center px-2">
+                    <span className="text-sm font-sans font-bold uppercase tracking-[0.3em] text-[#8A9E8A]">ŁĄCZNIE</span>
+                    <span className="text-2xl md:text-3xl font-bold font-sans text-[#F5F0E8] tracking-tight">25 900 PLN</span>
+                </div>
+            </div>
+
+            <div className="mt-20 text-center">
+                <p className="text-[#8A9E8A] text-base mb-10 max-w-lg mx-auto leading-relaxed font-light">
+                    {t("prezentacja_spayment_footer", "Nie możesz kontynuować? Token jest transferowalny - możesz sprzedać swoje miejsce innemu memberowi.")}
+                </p>
+
+                <div className="flex flex-col items-center">
+                    <a
+                        href="/kontakt"
+                        style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }}
+                        onMouseEnter={e => e.currentTarget.style.background = '#B8973B'}
+                        onMouseLeave={e => e.currentTarget.style.background = '#C9A84C'}
+                        className="flex items-center justify-center text-center min-w-[320px]"
+                    >
+                        Zarezerwuj miejsce w projekcie - 2 000 PLN
+                    </a>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                        Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                    </p>
+                </div>
+            </div>
         </div>
     </Section>
 );
@@ -562,14 +624,8 @@ const S10 = ({ t }) => (
                     </div>
                 ))}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-                <div className="bg-[#1C2614]/40 border border-[#2D5A3D]/30 rounded-2xl p-6">
-                    <p className="text-[#8A9E8A] text-xs uppercase tracking-widest mb-3">{t("prezentacja_s10_card1_tag", "Profil Gościa (bezpłatny)")}</p>
-                    <div className="font-playfair text-2xl text-[#F5F0E8] font-bold mb-1">{t("prezentacja_s10_card1_price", "Darmowy")}</div>
-                    <p className="text-[#8A9E8A] text-sm mb-3">{t("prezentacja_s10_card1_count", "5 000 sztuk")}</p>
-                    <p className="text-[#8A9E8A] text-xs">{t("prezentacja_s10_card1_desc", "Profil w społeczności. Dostęp do głosowań i informacji o projekcie.")}</p>
-                </div>
-                <div className="bg-[#C9A84C]/10 border border-[#C9A84C]/30 rounded-xl p-6">
+            <div className="flex justify-center text-left">
+                <div className="bg-[#C9A84C]/10 border border-[#C9A84C]/30 rounded-xl p-6 max-w-md w-full">
                     <p className="text-[#C9A84C] text-xs uppercase tracking-widest mb-3">{t("prezentacja_s10_card2_tag", "Karta Członkowska")}</p>
                     <div className="font-playfair text-2xl text-[#C9A84C] font-bold mb-1">25 900 PLN</div>
                     <p className="text-[#F5F0E8] text-sm mb-1">{t("prezentacja_s10_card2_count", "150 sztuk · Płatność w 5 etapach")}</p>
@@ -624,16 +680,14 @@ const S12 = ({ onConnect, t }) => {
                     <div className="h-full bg-gradient-to-r from-[#C9A84C] to-[#C9A84C]/70 rounded-full transition-all duration-1000" style={{ width: `${(activeMembers / 150) * 100}%` }} />
                 </div>
                 <p className="text-[#8A9E8A] text-xs mb-10">{t("prezentacja_s12_stats", "{{active}} / 150 zajętych", { active: activeMembers })}</p>
-                {onConnect && (
-                    <div className="flex flex-col items-center gap-2 w-full px-4 md:px-0 mb-8 max-w-sm mx-auto">
-                        <button onClick={() => onConnect(false)} className="px-6 py-4 w-full bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-sans font-bold transition-all shadow-btn-primary flex items-center justify-center gap-2">
-                            {t("prezentacja_hero_cta_join", "Dołącz za darmo")}
-                        </button>
-                        <button onClick={() => onConnect(true)} className="text-[#8A9E8A] text-xs text-center w-full mt-2 hover:text-[#C9A84C] transition-colors">
-                            {t("prezentacja_hero_cta_login", "Masz już konto? Zaloguj się")}
-                        </button>
-                    </div>
-                )}
+                <div className="flex flex-col items-center w-full px-4 md:px-0 mb-8 max-w-sm mx-auto">
+                    <a href="/kontakt" style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }} onMouseEnter={e => e.currentTarget.style.background = '#B8973B'} onMouseLeave={e => e.currentTarget.style.background = '#C9A84C'} className="w-full flex items-center justify-center text-center">
+                        Zarezerwuj miejsce w projekcie - 2 000 PLN
+                    </a>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                        Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                    </p>
+                </div>
                 <p className="text-[#8A9E8A] text-xs">{t("prezentacja_s12_footer_contact", "Masz pytania?")} <a href="mailto:bartosz@silna.club" className="text-[#C9A84C] hover:underline">bartosz@silna.club</a></p>
             </div>
         </Section>
@@ -698,10 +752,10 @@ export default function Prezentacja({ onConnect }) {
     }, [activeSection]);
 
     return (
-        <div className="bg-[#0E1208] min-h-screen text-[#F5F0E8] font-sans selection:bg-[#C9A84C]/30 relative">
+        <div className="bg-[#0E1208] text-[#F5F0E8] font-sans selection:bg-[#C9A84C]/30 relative overflow-x-hidden">
             <title>Silna.club | {t("prezentacja_title", "Luksusowe Wakacje na Własność")}</title>
             <DotNav activeId={activeSection} sections={sections} />
-            {onConnect && <StickyCTA onClick={() => onConnect(false)} t={t} />}
+            <StickyCTA t={t} />
 
             <S1 onConnect={onConnect} t={t} />
             <S2 t={t} />
@@ -711,6 +765,7 @@ export default function Prezentacja({ onConnect }) {
 
             <S5 t={t} />
             <S6 t={t} />
+            <SPaymentModel t={t} />
             <S7 t={t} />
             <S9 t={t} />
             <S10 t={t} />

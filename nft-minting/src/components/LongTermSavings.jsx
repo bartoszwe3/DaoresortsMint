@@ -195,21 +195,19 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                             </div>
                         </div>
 
-                        <div className="pt-4">
-                            <button
-                                onClick={() => {
-                                    if (hasNft && onNavigate) {
-                                        onNavigate("projects");
-                                    } else if (onNavigate) {
-                                        onNavigate("mint");
-                                    } else {
-                                        onConnect();
-                                    }
-                                }}
-                                className="w-full py-4 rounded-xl bg-gold-500 hover:bg-gold-600 text-forest-900 font-bold text-lg shadow-btn-primary hover:shadow-btn-primary-hover hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+                        <div className="pt-4 flex flex-col items-center">
+                            <a
+                                href="/checkout/stage/0"
+                                style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }}
+                                onMouseEnter={e => e.currentTarget.style.background = '#B8973B'}
+                                onMouseLeave={e => e.currentTarget.style.background = '#C9A84C'}
+                                className="w-full flex items-center justify-center text-center"
                             >
-                                {hasNft ? "Zobacz nasz projekt!" : t("calculator_get_passport")} <ArrowRight size={20} />
-                            </button>
+                                Zarezerwuj miejsce w projekcie - 2 000 PLN
+                            </a>
+                            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                                Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                            </p>
                         </div>
                     </div>
 
@@ -398,16 +396,20 @@ export default function LongTermSavings({ onConnect, hasNft, onNavigate }) {
                             <span className="text-sm text-gray-400 italic">I stoi pusty przez 50 tygodni w roku.</span>
                         </h4>
 
-                        <button
-                            onClick={() => (window.location.href = "/#register")}
-                            className="bg-gold-500 text-[#0E1208] font-bold px-10 py-4 rounded-xl hover:bg-gold-400 transition-all flex items-center justify-center gap-2 mx-auto shadow-lg shadow-gold-500/20"
-                        >
-                            Zarezerwuj miejsce — 2 000 PLN <ArrowRight size={20} />
-                        </button>
-
-                        <p className="text-[#8A9E8A] text-xs mt-4">
-                            Zwrotne · Blokuje 1 z 150 miejsc
-                        </p>
+                        <div className="flex flex-col items-center justify-center">
+                            <a
+                                href="/checkout/stage/0"
+                                style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }}
+                                onMouseEnter={e => e.currentTarget.style.background = '#B8973B'}
+                                onMouseLeave={e => e.currentTarget.style.background = '#C9A84C'}
+                                className="inline-flex items-center justify-center mx-auto"
+                            >
+                                Zarezerwuj miejsce w projekcie - 2 000 PLN
+                            </a>
+                            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                                Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

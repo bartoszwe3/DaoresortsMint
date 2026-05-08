@@ -14,12 +14,12 @@ export default function MembershipBanner({ activeMembers = 0 }) {
                     14 nocy rocznie · Dożywotnio · Prawo głosu w DAO
                 </p>
             </div>
-            <div className="flex flex-col items-end gap-1">
-                <a href="/checkout/stage/0" className="bg-[#C9A84C] text-[#0E1208] font-semibold px-6 py-3 rounded-md whitespace-nowrap hover:bg-[#C9A84C]/90 transition">
-                    Zarezerwuj członkostwo - 2000 PLN
+            <div className="flex flex-col items-center md:items-end gap-1">
+                <a href="/checkout/stage/0" style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '16px', padding: '12px 32px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                    Zarezerwuj miejsce w projekcie - 2 000 PLN
                 </a>
-                <p className="text-[#8A9E8A] text-xs">
-                    Pozostało {150 - activeMembers} z 150 miejsc
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '4px', textAlign: 'center', display: 'block' }}>
+                    Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
                 </p>
             </div>
         </div>

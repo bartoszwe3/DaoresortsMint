@@ -346,7 +346,7 @@ export default function Mint({ onMintSuccess, onConnect }) {
                       ) : hasNft ? (
                         "Masz już paszport"
                       ) : (
-                        "Zajmij to miejsce - Bezpłatnie"
+                        "Wybierz ten paszport"
                       )}
                     </button>
                     <p className="text-[#8A9E8A] text-[10px] text-center leading-tight opacity-80">

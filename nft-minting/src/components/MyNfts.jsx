@@ -625,12 +625,17 @@ export default function MyNfts() {
                       <div className="text-center">
                         <Lock size={40} className="text-gray-500 mx-auto mb-3" />
                         <p className="text-gray-300 font-bold">Dostępne po rezerwacji miejsca</p>
-                        <button
-                          onClick={() => navigate('/checkout/reserve')}
-                          className="mt-4 bg-transparent hover:bg-gold-500/10 border border-gold-500 text-gold-500 font-bold px-5 py-2 rounded-full text-sm transition-colors shadow-sm"
-                        >
-                          Zarezerwuj miejsce — 2 000 PLN
-                        </button>
+                        <div className="flex flex-col items-center">
+                          <button
+                            onClick={() => navigate('/checkout/stage/0')}
+                            className="mt-4 bg-transparent hover:bg-gold-500/10 border border-gold-500 text-gold-500 font-bold px-5 py-2 rounded-full text-sm transition-colors shadow-sm"
+                          >
+                            Zarezerwuj miejsce w projekcie - 2 000 PLN
+                          </button>
+                          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '8px', textAlign: 'center', display: 'block' }}>
+                              Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                          </p>
+                        </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-4 opacity-30 pointer-events-none select-none">

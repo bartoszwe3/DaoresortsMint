@@ -265,22 +265,19 @@ export default function Team({ hasNft: propHasNft, onNavigate }) {
                     {/* All Members Grid (below fold) */}
                     <div className="mt-20">
                         {/* CTA Button based on NFT ownership */}
-                        <div className="flex justify-center mb-12">
-                            {hasNft ? (
-                                <button
-                                    onClick={() => handleNavigate("projects")}
-                                    className="bg-neon-cyan/10 hover:bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30 font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-[0_0_15px_rgba(0,255,255,0.15)] flex items-center gap-2"
-                                >
-                                    Zobacz nasz projekt <ArrowRight size={18} />
-                                </button>
-                            ) : (
-                                <button
-                                    onClick={() => handleNavigate("mint")}
-                                    className="bg-neon-cyan/10 hover:bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30 font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-[0_0_15px_rgba(0,255,255,0.15)] flex items-center gap-2"
-                                >
-                                    Zdobądź paszport <ArrowRight size={18} />
-                                </button>
-                            )}
+                        <div className="flex flex-col items-center mb-12">
+                            <a
+                                href="/checkout/stage/0"
+                                style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }}
+                                onMouseEnter={e => e.currentTarget.style.background = '#B8973B'}
+                                onMouseLeave={e => e.currentTarget.style.background = '#C9A84C'}
+                                className="flex items-center gap-2"
+                            >
+                                Zarezerwuj miejsce w projekcie - 2 000 PLN
+                            </a>
+                            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                                Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                            </p>
                         </div>
 
                         <h2 className="text-2xl font-black text-white mb-8 text-center">

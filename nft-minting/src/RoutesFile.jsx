@@ -20,6 +20,8 @@ import CheckoutReservePage from "./components/CheckoutReservePage";
 import Prezentacja from "./components/Prezentacja";
 import OProjekcie from "./components/legal/OProjekcie";
 
+import KontaktPage from "./components/KontaktPage";
+
 import AppLayout from "./components/layout/AppLayout";
 
 function RoutesFile() {
@@ -45,6 +47,7 @@ function RoutesFile() {
           <Route path="/o-projekcie" element={<OProjekcie />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/founder" element={<FounderPage />} />
+          <Route path="/kontakt" element={<KontaktPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/checkout/stage/:stage" element={<CheckoutPage />} />
           <Route path="/checkout/reserve" element={<CheckoutReservePage />} />

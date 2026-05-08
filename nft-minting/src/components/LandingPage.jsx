@@ -146,22 +146,19 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                             {t("prezentacja_hero_desc", "Jedno członkostwo. 14 nocy rocznie. Dożywotnio po kosztach.")}
                         </p>
 
-                        <div className="flex flex-col items-center gap-2 w-full px-4 md:px-0">
-                            {/* Główny - dołącz za darmo */}
-                            <button
-                                onClick={() => onConnect(false)}
-                                className="px-6 py-3 w-full sm:w-[300px] bg-[#C9A84C] hover:bg-[#b09342] text-[#0E1208] font-sans font-bold rounded-none transition-all shadow-btn-primary hover:shadow-btn-primary-hover flex items-center justify-center gap-3 text-sm min-w-[280px]"
+                        <div className="flex flex-col items-center w-full px-4 md:px-0">
+                            <a
+                                href="/kontakt"
+                                style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }}
+                                onMouseEnter={e => e.currentTarget.style.background = '#B8973B'}
+                                onMouseLeave={e => e.currentTarget.style.background = '#C9A84C'}
+                                className="flex items-center justify-center text-center w-full sm:w-auto min-w-[280px]"
                             >
-                                Dołącz za darmo
-                            </button>
-
-                            {/* Zaloguj się */}
-                            <button
-                                onClick={() => onConnect(true)}
-                                className="text-[#8A9E8A] text-xs text-center w-full mt-2 hover:text-[#C9A84C] transition-colors"
-                            >
-                                Masz już konto? Zaloguj się
-                            </button>
+                                Zarezerwuj miejsce w projekcie - 2 000 PLN
+                            </a>
+                            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                                Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                            </p>
                         </div>
 
                         <div className="mt-12 w-full max-w-full overflow-hidden">
@@ -480,19 +477,19 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                             możesz sprzedać swoje miejsce innemu memberowi.
                         </p>
 
-                        <div className="flex flex-col items-center gap-5">
-                            <button
-                                onClick={() => onConnect(false)}
-                                className="px-12 py-5 bg-[#C9A84C] hover:bg-[#D4B96A] text-[#0E1208] font-sans font-bold uppercase tracking-[0.2em] rounded-none transition-all shadow-xl hover:shadow-[#C9A84C]/10 flex items-center justify-center gap-4 text-sm min-w-[320px] group"
+                        <div className="flex flex-col items-center">
+                            <a
+                                href="/kontakt"
+                                style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }}
+                                onMouseEnter={e => e.currentTarget.style.background = '#B8973B'}
+                                onMouseLeave={e => e.currentTarget.style.background = '#C9A84C'}
+                                className="flex items-center justify-center text-center min-w-[320px]"
                             >
-                                Dołącz za darmo
-                            </button>
-                            <button
-                                onClick={() => onConnect(true)}
-                                className="text-[#8A9E8A] text-[10px] uppercase font-bold tracking-[0.15em] opacity-80 hover:text-[#C9A84C] transition-colors mt-2"
-                            >
-                                Masz już konto? Zaloguj się
-                            </button>
+                                Zarezerwuj miejsce w projekcie - 2 000 PLN
+                            </a>
+                            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                                Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -634,12 +631,18 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                         exit={{ y: 100, opacity: 0 }}
                         className="fixed bottom-0 left-0 w-full z-[100] bg-forest-900/95 backdrop-blur-lg border-t border-gold-500/20 p-4"
                     >
-                        <a
-                            href="/checkout/stage/0"
-                            className="w-full px-6 py-4 bg-gold-500 hover:bg-gold-600 text-forest-900 font-sans font-bold rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(201,168,76,0.2)] transition-colors"
-                        >
-                            Zarezerwuj miejsce — 2 000 PLN
-                        </a>
+                        <div className="flex flex-col items-center w-full">
+                            <a
+                                href="/kontakt"
+                                style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }}
+                                className="w-full flex items-center justify-center shadow-[0_0_20px_rgba(201,168,76,0.2)]"
+                            >
+                                Zarezerwuj miejsce w projekcie - 2 000 PLN
+                            </a>
+                            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                                Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                            </p>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

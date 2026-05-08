@@ -102,10 +102,10 @@ export default function RegistrationFlow({ onCancel, isLogin = false }) {
                             <motion.div key="form" variants={pageVariants} initial="initial" animate="in" exit="out">
                                 <div className="text-center mb-8">
                                     <h2 className="text-3xl font-playfair font-semibold text-white mb-2">
-                                        {isLogin ? "Zaloguj się" : "Dołącz za darmo"}
+                                        {isLogin ? "Zaloguj się" : "Zarezerwuj miejsce w projekcie - 2 000 PLN"}
                                     </h2>
                                     <p className="text-[#8A9E8A] text-sm">
-                                        {isLogin ? "Wpisz swój email, aby otrzymać link logowania." : "Zarejestruj się, aby uzyskać bezpłatny profil w klubie Silna.club."}
+                                        {isLogin ? "Wpisz swój email, aby otrzymać link logowania." : "Zarejestruj się, aby zarezerwować miejsce w klubie Silna.club."}
                                     </p>
                                 </div>
 
@@ -153,17 +153,24 @@ export default function RegistrationFlow({ onCancel, isLogin = false }) {
                                         </div>
                                     )}
 
-                                    <button
-                                        type="submit"
-                                        disabled={loading}
-                                        className="w-full bg-[#C9A84C] hover:bg-[#D4B96A] text-[#0E1208] font-bold py-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
-                                    >
-                                        {loading ? (
-                                            <><Loader2 className="animate-spin" size={20} /> Przetwarzanie...</>
-                                        ) : (
-                                            isLogin ? "Zaloguj się" : "Dołącz za darmo"
+                                    <div className="flex flex-col items-center">
+                                        <button
+                                            type="submit"
+                                            disabled={loading}
+                                            className="w-full bg-[#C9A84C] hover:bg-[#D4B96A] text-[#0E1208] font-bold py-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
+                                        >
+                                            {loading ? (
+                                                <><Loader2 className="animate-spin" size={20} /> Przetwarzanie...</>
+                                            ) : (
+                                                isLogin ? "Zaloguj się" : "Zarezerwuj miejsce w projekcie - 2 000 PLN"
+                                            )}
+                                        </button>
+                                        {!isLogin && (
+                                            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                                                Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                                            </p>
                                         )}
-                                    </button>
+                                    </div>
                                 </form>
                             </motion.div>
                         ) : (

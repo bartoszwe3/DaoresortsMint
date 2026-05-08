@@ -23,6 +23,7 @@ const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "*";
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, "data");
 const FILE_USERS = path.join(DATA_DIR, "users.json");
 const FILE_PROPOSALS = path.join(DATA_DIR, "proposals.json");
+const FILE_LEADS = path.join(DATA_DIR, "leads.json");
 
 // Ensure folders and files exist
 if (!fs.existsSync(DATA_DIR)) {
@@ -31,6 +32,7 @@ if (!fs.existsSync(DATA_DIR)) {
 }
 if (!fs.existsSync(FILE_USERS)) fs.writeFileSync(FILE_USERS, JSON.stringify([]));
 if (!fs.existsSync(FILE_PROPOSALS)) fs.writeFileSync(FILE_PROPOSALS, JSON.stringify([]));
+if (!fs.existsSync(FILE_LEADS)) fs.writeFileSync(FILE_LEADS, JSON.stringify([]));
 
 // -------------------------------
 // HELPERS
@@ -878,29 +880,53 @@ app.get("/api/members/public", (req, res) => {
 // LEAD CAPTURE
 // -------------------------------
 app.post("/api/leads", async (req, res) => {
-  const { imie, telefon, zrodlo } = req.body;
+  const { imie, telefon, zrodlo, kiedy_dzwonic } = req.body;
 
   if (!imie || !telefon) {
     return res.status(400).json({ error: "Name and phone are required" });
   }
 
+  // Backup: Always save to local JSON first
   try {
-    const { data, error } = await supabase
+    const leads = loadJSON(FILE_LEADS);
+    leads.push({ 
+      imie, 
+      telefon, 
+      zrodlo: zrodlo || "unknown", 
+      kiedy_dzwonic: kiedy_dzwonic || null, 
+      created_at: new Date().toISOString() 
+    });
+    saveJSON(FILE_LEADS, leads);
+    console.log(`📝 Lead saved to local JSON: ${imie} (${telefon})`);
+  } catch (localErr) {
+    console.error("❌ Error saving lead to local JSON:", localErr);
+  }
+
+  // Primary: Save to Supabase
+  try {
+    const { error } = await supabase
       .from("leady")
       .insert([
         { 
           imie, 
           telefon, 
           zrodlo: zrodlo || "unknown",
+          kiedy_dzwonic: kiedy_dzwonic || null,
           created_at: new Date().toISOString()
         }
       ]);
 
-    if (error) throw error;
+    if (error) {
+      console.warn("⚠️ Supabase lead insert failed (using local fallback):", error.message);
+      // We already saved to local JSON, so we can return success anyway
+      return res.json({ ok: true, status: "local_only" });
+    }
+
     res.json({ ok: true });
   } catch (err) {
-    console.error("❌ Error saving lead:", err);
-    res.status(500).json({ error: "Failed to save lead" });
+    console.error("❌ Supabase connection error:", err);
+    // If we reached here, it means Supabase crashed, but we have the local backup
+    res.json({ ok: true, status: "local_only" });
   }
 });
 

@@ -11,6 +11,7 @@ import {
     MEMBERSHIP_TOTAL
 } from "../constants/tokenomics";
 import toast from "react-hot-toast";
+import { trackPixelEvent } from "../utils/pixel";
 
 const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
@@ -120,7 +121,7 @@ export default function CheckoutPage() {
                 }
 
                 setState("checkout");
-
+                trackPixelEvent("InitiateCheckout", { value: STAGE_0_RESERVATION, currency: "PLN" });
             } catch (err) {
                 console.error("Error initializing checkout:", err);
                 // Fallback to checkout anyway to not block UI development for now
@@ -163,6 +164,8 @@ Bank: mBank S.A.`;
 
             // Simulate network request
             await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            trackPixelEvent("Purchase", { value: stageData.amount, currency: "PLN" });
 
             // Set session storage to persist state on refresh
             sessionStorage.setItem("checkout_state", "pending");

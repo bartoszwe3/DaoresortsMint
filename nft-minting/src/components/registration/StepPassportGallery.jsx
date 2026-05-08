@@ -63,16 +63,18 @@ export default function StepPassportGallery({ firstName }) {
                         {/* Separator */}
                         <div className="border-t border-[#2D5A3D] my-4" />
 
-                        {/* CTA Członkostwo */}
+                        {/* CTA Rezerwacja */}
                         <p className="text-[#8A9E8A] text-sm text-center mb-3">
-                            Chcesz korzystać z resortu?
+                            Gotowy na wakacje na własność?
                         </p>
-                        <a href="/checkout/stage/0" className="block text-center w-full bg-[#C9A84C] text-[#0E1208] font-semibold py-3 rounded-md hover:bg-[#C9A84C]/90 transition">
-                            Zarezerwuj członkostwo - 2000 PLN
-                        </a>
-                        <button onClick={() => window.location.href = "/"} className="w-full border border-[#2D5A3D] text-[#8A9E8A] py-2 rounded-md mt-2 text-sm hover:border-[#C9A84C] hover:text-[#C9A84C] transition">
-                            Najpierw przejrzyj ofertę
-                        </button>
+                        <div className="flex flex-col items-center">
+                            <a href="/checkout/stage/0" style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '16px', padding: '14px 24px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }} className="block text-center w-full">
+                                Zarezerwuj miejsce w projekcie - 2 000 PLN
+                            </a>
+                            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                                Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                            </p>
+                        </div>
                     </div>
                 </div>
 

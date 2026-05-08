@@ -138,12 +138,7 @@ export default function MainPage({ defaultTab }) {
   ];
 
   return (
-    <div className="w-full min-h-screen bg-deep-black text-white relative selection:bg-gold-500 selection:text-forest-900 flex flex-col">
-
-      {/* Background Glows */}
-      {/* Background Glows */}
-      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-gold-500/10 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-forest-500/10 blur-[120px] rounded-full pointer-events-none" />
+    <div className="w-full bg-deep-black text-white relative selection:bg-gold-500 selection:text-forest-900 flex flex-col">
 
       {/* =======================
           TOP NAVBAR (UNIFIED FOR ALL STATES)

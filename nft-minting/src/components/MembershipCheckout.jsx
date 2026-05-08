@@ -21,9 +21,12 @@ export default function MembershipCheckout({ membershipCount = 0 }) {
             </div>
 
             {/* Przycisk główny */}
-            <button className="w-full bg-[#C9A84C] text-[#0E1208] font-bold py-4 rounded-none text-lg hover:bg-[#C9A84C]/90 transition-colors uppercase tracking-widest">
-                Zarezerwuj miejsce - {RESERVATION_FEE.toLocaleString("pl-PL")} PLN
+            <button className="w-full bg-[#C9A84C] text-[#0E1208] font-bold py-4 rounded-none text-lg hover:bg-[#C9A84C]/90 transition-colors" style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}>
+                Zarezerwuj miejsce w projekcie - 2 000 PLN
             </button>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+            </p>
 
             {/* Metody płatności */}
             <div className="flex items-center justify-center gap-2 mt-3">

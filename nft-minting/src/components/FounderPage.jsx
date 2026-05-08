@@ -84,7 +84,7 @@ export default function FounderPage() {
                         {
                             year: '2026',
                             title: 'Launch Silna.club',
-                            desc: 'Aplikacja uruchomiona. Pierwsze 150 miejsc członkowskich w sprzedaży. 5000 darmowych Paszportów do odbioru.'
+                            desc: 'Aplikacja uruchomiona. Pierwsze 150 miejsc członkowskich w sprzedaży. Rezerwacja depozytowa od 2 000 PLN.'
                         },
                     ].map((item, i, arr) => (
                         <div key={i} className="flex gap-6">
@@ -155,19 +155,23 @@ export default function FounderPage() {
                 <h2 className="font-playfair text-3xl text-[#F5F0E8] mb-4">
                     Dołącz do projektu
                 </h2>
-                <p className="text-[#8A9E8A] mb-4">
-                    Zajmij darmowe miejsce i zostań częścią społeczności.
-                    Jeśli chcesz korzystać z resortu - zarezerwuj członkostwo.
+                <p className="text-[#8A9E8A] mb-6">
+                    Zarezerwuj swoje miejsce w pierwszym prywatnym klubie wakacyjnym w Polsce.
                 </p>
 
-                {/* Dwa CTA - rozróżnienie paszport vs członkostwo */}
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <a href="/" className="bg-[#C9A84C] text-[#0E1208] font-semibold px-6 py-4 rounded-md hover:bg-[#C9A84C]/90 transition-colors">
-                        Zajmij to miejsce - Bezpłatnie
+                <div className="flex flex-col items-center">
+                    <a
+                        href="/kontakt"
+                        style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }}
+                        onMouseEnter={e => e.currentTarget.style.background = '#B8973B'}
+                        onMouseLeave={e => e.currentTarget.style.background = '#C9A84C'}
+                        className="inline-flex items-center justify-center"
+                    >
+                        Zarezerwuj miejsce w projekcie - 2 000 PLN
                     </a>
-                    <a href="/checkout/stage/0" className="border border-[#C9A84C] text-[#C9A84C] font-semibold px-6 py-4 rounded-md hover:bg-[#C9A84C] hover:text-[#0E1208] transition-colors">
-                        Zarezerwuj członkostwo - 2000 PLN
-                    </a>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+                        Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
+                    </p>
                 </div>
 
                 <p className="text-[#8A9E8A] text-xs mt-4">
