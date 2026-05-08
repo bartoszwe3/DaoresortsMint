@@ -67,13 +67,20 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
     }, [location.hash]);
 
     useEffect(() => {
-        return scrollY.on("change", (latest) => {
-            if (latest > window.innerHeight * 0.8) {
-                setShowSticky(true);
-            } else {
-                setShowSticky(false);
-            }
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        
+        const unsubsScroll = scrollY.on("change", (latest) => {
+            setShowSticky(latest > window.innerHeight * 0.5);
         });
+
+        return () => {
+            window.removeEventListener('resize', checkMobile);
+            unsubsScroll();
+        };
     }, [scrollY]);
 
     // NFT_PRICE is replaced by MEMBERSHIP_TOTAL below
@@ -629,9 +636,9 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 100, opacity: 0 }}
-                        className="fixed bottom-0 left-0 w-full z-[100] bg-forest-900/95 backdrop-blur-lg border-t border-gold-500/20 p-4"
+                        className="fixed bottom-0 left-0 w-full z-[100] bg-forest-900/95 backdrop-blur-lg border-t border-gold-500/20 p-4 pointer-events-none"
                     >
-                        <div className="flex flex-col items-center w-full">
+                        <div className="flex flex-col items-center w-full pointer-events-auto">
                             <a
                                 href="/kontakt"
                                 style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }}

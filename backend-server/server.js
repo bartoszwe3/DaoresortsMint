@@ -886,6 +886,9 @@ app.post("/api/leads", async (req, res) => {
     return res.status(400).json({ error: "Name and phone are required" });
   }
 
+  console.log(`📩 New Lead Attempt: ${imie} (${telefon})`);
+
+  let savedLocally = false;
   // Backup: Always save to local JSON first
   try {
     const leads = loadJSON(FILE_LEADS);
@@ -897,7 +900,8 @@ app.post("/api/leads", async (req, res) => {
       created_at: new Date().toISOString() 
     });
     saveJSON(FILE_LEADS, leads);
-    console.log(`📝 Lead saved to local JSON: ${imie} (${telefon})`);
+    savedLocally = true;
+    console.log(`📝 Lead saved to local JSON: ${imie}`);
   } catch (localErr) {
     console.error("❌ Error saving lead to local JSON:", localErr);
   }
@@ -917,17 +921,44 @@ app.post("/api/leads", async (req, res) => {
       ]);
 
     if (error) {
-      console.warn("⚠️ Supabase lead insert failed (using local fallback):", error.message);
-      // We already saved to local JSON, so we can return success anyway
-      return res.json({ ok: true, status: "local_only" });
+      console.warn("⚠️ Supabase lead insert failed:", error.message);
+    } else {
+      console.log(`✅ Lead saved to Supabase: ${imie}`);
     }
-
-    res.json({ ok: true });
   } catch (err) {
     console.error("❌ Supabase connection error:", err);
-    // If we reached here, it means Supabase crashed, but we have the local backup
-    res.json({ ok: true, status: "local_only" });
   }
+
+  // Send Email Notification to Admin
+  try {
+    const adminEmail = process.env.ADMIN_EMAIL || 'bartosz@daoresorts.club';
+    await resend.emails.send({
+      from: 'Silna Club Leads <witaj@daoresorts.club>',
+      to: [adminEmail],
+      subject: `Nowy Lead: ${imie} 📱`,
+      html: `
+        <div style="font-family: sans-serif; padding: 20px; color: #0E1208;">
+          <h2 style="color: #C9A84C;">Nowy kontakt z formularza</h2>
+          <p><strong>Imię:</strong> ${imie}</p>
+          <p><strong>Telefon:</strong> ${telefon}</p>
+          <p><strong>Źródło:</strong> ${zrodlo || 'kontakt_page'}</p>
+          <p><strong>Kiedy dzwonić:</strong> ${kiedy_dzwonic || 'nie podano'}</p>
+          <hr style="border: 1px solid #eee; margin: 20px 0;" />
+          <p style="font-size: 12px; color: #888;">Lead został również zapisany w bazie danych i pliku lokalnym.</p>
+        </div>
+      `
+    });
+    console.log('📧 Admin notification email sent for lead:', imie);
+  } catch (emailErr) {
+    console.error('❌ Email notification failed:', emailErr);
+  }
+
+  // If we saved at least locally, return success to the frontend
+  if (savedLocally) {
+    return res.json({ ok: true });
+  }
+
+  res.status(500).json({ error: "Failed to save lead" });
 });
 
 // -------------------------------

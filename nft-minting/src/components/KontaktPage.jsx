@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, ArrowLeft, CheckCircle } from "lucide-react";
+import toast from "react-hot-toast";
 
 const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
@@ -16,12 +17,14 @@ export default function KontaktPage() {
 
         const cleanedPhone = form.telefon.replace(/\D/g, '');
         if (cleanedPhone.length < 9 || cleanedPhone.length > 12) {
+            toast.error("Numer telefonu musi mieć od 9 do 12 cyfr.");
             setStatus('error');
             return;
         }
 
         setStatus('submitting');
         try {
+            console.log("🚀 Submitting lead to:", `${API_BASE}/api/leads`);
             const response = await fetch(`${API_BASE}/api/leads`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -32,9 +35,17 @@ export default function KontaktPage() {
                     kiedy_dzwonic: kiedyDzwonic,
                 })
             });
-            setStatus(response.ok ? 'success' : 'error');
+            
+            if (response.ok) {
+                console.log("✅ Lead submitted successfully");
+                setStatus('success');
+            } else {
+                const errorData = await response.json().catch(() => ({}));
+                console.error("❌ Server returned error:", response.status, errorData);
+                setStatus('error');
+            }
         } catch (err) {
-            console.error(err);
+            console.error("❌ Fetch error:", err);
             setStatus('error');
         }
     };

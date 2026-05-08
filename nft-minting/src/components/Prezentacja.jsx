@@ -4,6 +4,7 @@ import { ChevronDown, Share2, Check, Shield, Vote, Key, Calendar, Users, Home, A
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 import HeroHeadline from "./HeroHeadline";
 import MemberCarousel from "./MemberCarousel";
 
@@ -126,32 +127,39 @@ function ShareButton({ t }) {
 function StickyCTA({ t }) {
     const { scrollY } = useScroll();
     const [visible, setVisible] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        return scrollY.on("change", (latest) => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        
+        const unsub = scrollY.on("change", (latest) => {
             setVisible(latest > window.innerHeight * 0.4);
         });
+        return () => {
+            window.removeEventListener('resize', checkMobile);
+            unsub();
+        };
     }, [scrollY]);
 
-    if (!visible) return null;
+    if (!visible || !isMobile) return null;
 
     return (
         <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center"
+            className="fixed bottom-6 left-0 w-full z-50 flex flex-col items-center px-4 pointer-events-none"
         >
                 <a
                     href="/kontakt"
-                    style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }}
-                    onMouseEnter={e => e.currentTarget.style.background = '#B8973B'}
-                    onMouseLeave={e => e.currentTarget.style.background = '#C9A84C'}
-                    className="shadow-[0_4px_20px_rgba(201,168,76,0.3)] hover:shadow-[0_4px_30px_rgba(201,168,76,0.5)] transition-all whitespace-normal md:whitespace-nowrap text-center max-w-[90vw] md:max-w-none outline-none ring-0 focus:outline-none"
+                    style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '16px', padding: '14px 24px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none' }}
+                    className="shadow-[0_4px_20px_rgba(201,168,76,0.3)] w-full max-w-sm text-center pointer-events-auto"
                 >
                     Zarezerwuj miejsce w projekcie - 2 000 PLN
                 </a>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '12px', textAlign: 'center', display: 'block' }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'rgba(245, 240, 232, 0.60)', marginTop: '8px', textAlign: 'center', display: 'block' }}>
                 Rezerwacja w 100% zwrotna. Rezygnujesz kiedy chcesz.
             </p>
         </motion.div>
@@ -710,23 +718,34 @@ export default function Prezentacja({ onConnect }) {
     const handleLeadSubmit = async () => {
         if (!leadForm.imie || !leadForm.telefon || !leadConsent) return;
 
-        // Walidacja numeru telefonu (9-12 cyfr, po oczyszczeniu ze spacji/znaków)
+        // Walidacja numeru telefonu (9-12 cyfr)
         const cleanedPhone = leadForm.telefon.replace(/\D/g, '');
         if (cleanedPhone.length < 9 || cleanedPhone.length > 12) {
+            toast.error("Numer telefonu musi mieć od 9 do 12 cyfr.");
             setLeadStatus('error');
             return;
         }
 
         setLeadStatus('submitting');
         try {
+            console.log("🚀 Submitting lead (founder section) to:", `${API_BASE}/api/leads`);
             const response = await fetch(`${API_BASE}/api/leads`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ...leadForm, zrodlo: 'founder_section' })
             });
-            setLeadStatus(response.ok ? 'success' : 'error');
+            
+            if (response.ok) {
+                console.log("✅ Lead (founder section) submitted successfully");
+                setLeadStatus('success');
+                toast.success("Dziękujemy za kontakt!");
+            } else {
+                const errorData = await response.json().catch(() => ({}));
+                console.error("❌ Server returned error:", response.status, errorData);
+                setLeadStatus('error');
+            }
         } catch (err) {
-            console.error(err);
+            console.error("❌ Fetch error:", err);
             setLeadStatus('error');
         }
     };
