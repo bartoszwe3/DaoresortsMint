@@ -536,7 +536,7 @@ export default function MyNfts() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                         <div className="bg-black/20 p-3 rounded-lg border border-white/5">
                           <p className="text-gray-400 text-xs uppercase">Pozostało do zapłaty</p>
-                          <p className="text-[#F5F0E8] font-bold text-lg">17 990 PLN</p>
+                          <p className="text-[#F5F0E8] font-bold text-lg">23 900 PLN</p>
                         </div>
                         <div className="bg-black/20 p-3 rounded-lg border border-white/5">
                           <p className="text-gray-400 text-xs uppercase">Termin dopłaty</p>

@@ -4,10 +4,9 @@ import { Check, Copy, Clock, ArrowLeft } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import {
     STAGE_0_RESERVATION,
-    STAGE_1_FOUNDATION,
-    STAGE_2_STRUCTURE,
-    STAGE_3_FINISHING,
-    STAGE_4_ACTIVATION,
+    STAGE_1_STRUCTURE_CLOSED,
+    STAGE_2_DEVELOPER_STATE,
+    STAGE_3_ACTIVATION,
     MEMBERSHIP_TOTAL
 } from "../constants/tokenomics";
 import toast from "react-hot-toast";
@@ -134,11 +133,10 @@ export default function CheckoutPage() {
 
     const getStageData = () => {
         switch (stage) {
-            case 0: return { title: "Rezerwacja Miejsca", amount: STAGE_0_RESERVATION, label: "wpisowe zwrotne", desc: "Zarezerwuj swoje miejsce w klubie." };
-            case 1: return { title: "Etap 1: Fundamenty", amount: STAGE_1_FOUNDATION, label: "dopłata", desc: "Rozpoczęcie prac ziemnych i fundamentów." };
-            case 2: return { title: "Etap 2: Konstrukcja", amount: STAGE_2_STRUCTURE, label: "dopłata", desc: "Stan surowy otwarty." };
-            case 3: return { title: "Etap 3: Wykończenie", amount: STAGE_3_FINISHING, label: "dopłata", desc: "Instalacje i wykończenie wnętrz." };
-            case 4: return { title: "Etap 4: Aktywacja", amount: STAGE_4_ACTIVATION, label: "finał", desc: "Przekazanie kluczy i aktywacja NFT." };
+            case 0: return { title: "Etap 0: Rezerwacja", amount: STAGE_0_RESERVATION, label: "wpisowe zwrotne", desc: "Zarezerwuj swoje miejsce w klubie." };
+            case 1: return { title: "Etap 1: Stan surowy zamknięty", amount: STAGE_1_STRUCTURE_CLOSED, label: "dopłata", desc: "Po wylaniu fundamentów." };
+            case 2: return { title: "Etap 2: Stan deweloperski", amount: STAGE_2_DEVELOPER_STATE, label: "dopłata", desc: "Po stanie surowym zamkniętym." };
+            case 3: return { title: "Etap 3: Aktywacja członkostwa", amount: STAGE_3_ACTIVATION, label: "finał", desc: "Po otwarciu resortu." };
             default: return { title: "Aktywacja Członkostwa", amount: MEMBERSHIP_TOTAL, label: "jednorazowo", desc: "Pełny dostęp do klubu." };
         }
     };

@@ -1,23 +1,21 @@
 // Model dwuetapowy (Legacy)
 export const RESERVATION_FEE = 2000;        // kaucja rezerwacyjna PLN
-export const MEMBERSHIP_REMAINING = 17990;  // dopłata po PNB PLN
+export const MEMBERSHIP_REMAINING = 23900;  // dopłata po PNB PLN
 
-// Model 5-etapowy
+// Model 4-etapowy
 export const STAGE_0_RESERVATION = 2000;
-export const STAGE_1_FOUNDATION = 5000;
-export const STAGE_2_STRUCTURE = 5000;
-export const STAGE_3_FINISHING = 3000;
-export const STAGE_4_ACTIVATION = 4990;
+export const STAGE_1_STRUCTURE_CLOSED = 12000;
+export const STAGE_2_DEVELOPER_STATE = 8900;
+export const STAGE_3_ACTIVATION = 3000;
 
 export const PAYMENT_STAGES = [
-    { id: 0, amount: STAGE_0_RESERVATION, label_pl: "Rezerwacja", desc_pl: "Wpisowe rezerwacyjne (zwrotne)" },
-    { id: 1, amount: STAGE_1_FOUNDATION, label_pl: "Fundamenty", desc_pl: "Po uzyskaniu PNB" },
-    { id: 2, amount: STAGE_2_STRUCTURE, label_pl: "Konstrukcja", desc_pl: "Stan surowy otwarty" },
-    { id: 3, amount: STAGE_3_FINISHING, label_pl: "Wykończenie", desc_pl: "Instalacje i stolarka" },
-    { id: 4, amount: STAGE_4_ACTIVATION, label_pl: "Aktywacja", desc_pl: "Odbiór i aktywacja NFT" }
+    { id: 0, amount: STAGE_0_RESERVATION, label_pl: "Etap 0 — Rezerwacja", desc_pl: "Teraz", char_pl: "Zwrotna (wpisowe)" },
+    { id: 1, amount: STAGE_1_STRUCTURE_CLOSED, label_pl: "Etap 1 — Stan surowy zamknięty", desc_pl: "Po wylaniu fundamentów", char_pl: "Uruchomienie budowy" },
+    { id: 2, amount: STAGE_2_DEVELOPER_STATE, label_pl: "Etap 2 — Stan deweloperski", desc_pl: "Po stanie surowym zamkniętym", char_pl: "Postęp prac" },
+    { id: 3, amount: STAGE_3_ACTIVATION, label_pl: "Etap 3 — Aktywacja członkostwa", desc_pl: "Po otwarciu resortu", char_pl: "Finalizacja" }
 ];
 
-export const MEMBERSHIP_TOTAL = 19990;      // łączna cena PLN
+export const MEMBERSHIP_TOTAL = 25900;      // łączna cena PLN
 
 // Supply
 export const TOTAL_PASSPORT_SUPPLY = 5000;

@@ -60,8 +60,8 @@ const getSections = (t) => [
     { id: "s1", label: t("prezentacja_s1_nav", "Hook") },
     { id: "s2", label: t("prezentacja_s2_tag", "Problem") },
     { id: "s3", label: t("prezentacja_s3_tag", "Rozwiązanie") },
-    { id: "s8", label: t("prezentacja_s8_tag", "Założyciel") },
     { id: "s4", label: t("prezentacja_s4_tag", "Matematyka") },
+    { id: "s8", label: t("prezentacja_s8_tag", "Założyciel") },
     { id: "s5", label: t("prezentacja_s5_tag", "Resort") },
     { id: "s6", label: t("prezentacja_s6_tag", "Jak to działa") },
     { id: "s-payment", label: t("prezentacja_spayment_tag", "Model płatności") },
@@ -274,7 +274,7 @@ const S3 = ({ t }) => (
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
-                    { icon: <Key size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card1_title", "Płacisz raz"), desc: t("prezentacja_s3_card1_desc", "25 900 PLN jednorazowo. Zadnych ukrytych oplat. 100% transparentnosci") },
+                    { icon: <Key size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card1_title", "Płacisz raz"), desc: t("prezentacja_s3_card1_desc", "25 900 PLN jednorazowo. Żadnych ukrytych kosztów wejścia. Gwarancja transparentności") },
                     { icon: <Home size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card2_title", "Korzystasz po kosztach"), desc: t("prezentacja_s3_card2_desc", "~692 PLN za tydzień zamiast 5 600 PLN w hotelu. Płacisz tylko realne koszty mediów i sprzątania.") },
                     { icon: <Shield size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card3_title", "Jesteś klubowiczem"), desc: t("prezentacja_s3_card3_desc", "Karta Członkowska to Twój prawny dokument prawa do korzystania. Możesz ją sprzedać, przekazać rodzinie lub zachować na zawsze.") }
                 ].map((card, i) => (
@@ -308,7 +308,7 @@ const S8 = ({ leadForm, setLeadForm, leadConsent, setLeadConsent, leadStatus, ha
                     <blockquote className="border-l-4 border-[#C9A84C] pl-4 mb-5">
                         <p className="font-playfair text-lg text-[#F5F0E8] italic">{t("prezentacja_s8_quote", "\u201EKupiłem tę ziemię za własne pieniądze zanim sprzedałem pierwsze członkostwo. Nie możesz mi zaufać bardziej niż ja zaufałem tej idei.\u201D")}</p>
                     </blockquote>
-                    <p className="text-[#8A9E8A] text-sm leading-relaxed mb-5">{t("prezentacja_s8_desc", "Buduję transparentną i elitarną społeczność wokół pierwszej w Polsce wioski turystycznej zaprojektowanej pod nowoczesne standardy.")}</p>
+                    <p className="text-[#8A9E8A] text-sm leading-relaxed mb-5">{t("prezentacja_s8_desc", "Mam 22 lata i buduję prywatny klub wakacyjny, który rozlicza się z członkami co do grosza. Bez gwiazdek. Bez ukrytych kosztów. 100% transparentności")}</p>
                     {/* CTA */}
                     <div className="mt-8 flex flex-col items-start">
                         <a href="/kontakt" style={{ background: '#C9A84C', color: '#0E1208', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '18px', padding: '16px 40px', border: 'none', borderRadius: '4px', cursor: 'pointer', letterSpacing: '0.02em', textDecoration: 'none', display: 'inline-flex' }} onMouseEnter={e => e.currentTarget.style.background = '#B8973B'} onMouseLeave={e => e.currentTarget.style.background = '#C9A84C'}>
@@ -459,11 +459,10 @@ const SPaymentModel = ({ t }) => (
 
             <div className="space-y-4">
                 {[
-                    { id: 0, name: 'Rezerwacja miejsca', trigger: 'Dostępne teraz', amount: 2000, refundable: true, active: true },
-                    { id: 1, name: 'Fundament', trigger: 'Po uzyskaniu PNB', amount: 5000, refundable: false, active: false },
-                    { id: 2, name: 'Stan surowy otwarty', trigger: 'Po stanie surowym', amount: 5000, refundable: false, active: false },
-                    { id: 3, name: 'Wykończenie', trigger: 'Instalacje i stolarka', amount: 3000, refundable: false, active: false },
-                    { id: 4, name: 'Aktywacja członkostwa', trigger: 'Po otwarciu', amount: 4990, refundable: false, active: false }
+                    { id: 0, name: 'Etap 0 — Rezerwacja', trigger: 'Teraz', amount: 2000, refundable: true, active: true },
+                    { id: 1, name: 'Etap 1 — Stan surowy zamknięty', trigger: 'Po wylaniu fundamentów', amount: 12000, refundable: false, active: false },
+                    { id: 2, name: 'Etap 2 — Stan deweloperski', trigger: 'Po stanie surowym zamkniętym', amount: 8900, refundable: false, active: false },
+                    { id: 3, name: 'Etap 3 — Aktywacja członkostwa', trigger: 'Po otwarciu resortu', amount: 3000, refundable: false, active: false }
                 ].map(stage => (
                     <div key={stage.id}
                         className={`flex items-center justify-between bg-[#1C2614] border ${stage.active ? 'border-[#C9A84C]' : 'border-[#2D5A3D]/40 opacity-70'} rounded-xl p-4 mb-3 hover:bg-[#1C2614]/80 transition-all`}>
@@ -649,7 +648,7 @@ const S11 = ({ t }) => {
     const faqs = [
         { q: t("prezentacja_s11_q1", "„Kiedy faktycznie powstanie resort i skąd mam wiedzieć, że nie za 10 lat?”"), a: t("prezentacja_s11_a1", "Mamy działkę, podpisanych architektów i wkrótce składamy wniosek o pozwolenie na budowę. Budowa startuje po spełnieniu dwóch warunków: pozwolenie na budowę + 100 podpisanych umów rezerwacyjnych. Termin graniczny to 30 października 2026 - jeśli do tego czasu oba warunki nie są spełnione, dostajesz zwrot 2 000 PLN bez żadnych potrąceń. Postęp projektu widzisz na bieżąco w aplikacji projektu, liczba rezerwacji i status pozwolenia aktualizowane co 30 dni.") },
         { q: t("prezentacja_s11_q2", "„Co się dzieje z moimi pieniędzmi jeśli nie zbierze się 150 osób?”"), a: t("prezentacja_s11_a2", "Etap 0 to 2 000 PLN i jest w 100% zwrotny. Zwrot następuje automatycznie w ciągu 14 dni roboczych jeśli do 30 września 2026 nie mamy 100 rezerwacji lub pozwolenia na budowę. Bez wniosków, bez tłumaczenia się, bez potrąceń. Etapy 1–4 startują gdy budowa rusza, bo płatność powiązana jest z konkretnymi etapami prac.") },
-        { q: t("prezentacja_s11_q3", "„Ile realnie zapłacę przez 10/20 lat?”"), a: t("prezentacja_s11_a3", "Wejście płatne jednorazowo. Pobyt: ~567 PLN za tydzień dla 4 osób - tyle płacisz za prąd, wodę, jacuzzi i sprzątanie. Zero wysokich opłat rocznych gdy nie przyjeżdżasz. Przez 20 lat przy 2 tygodniach rocznie: 25 900 PLN + 26 680 PLN kosztów operacyjnych = ~52 580 PLN łącznie. Ten sam standard w hotelu: 5 600–8 000 PLN za tydzień × 40 tygodni = 224 000–320 000 PLN. Różnica: ~270 000 PLN zostaje w Twojej kieszeni. W hotelu pewnie wydasz jeszcze więcej bo inflacja.") },
+        { q: t("prezentacja_s11_q3", "„Ile realnie zapłacę przez 10/20 lat?”"), a: t("prezentacja_s11_a3", "Wejście płatne jednorazowo. Pobyt: ~692 PLN za tydzień dla 4 osób - tyle płacisz za prąd, wodę, jacuzzi i sprzątanie. Zero wysokich opłat rocznych gdy nie przyjeżdżasz. Przez 20 lat przy 2 tygodniach rocznie: 25 900 PLN + 27 680 PLN kosztów operacyjnych = ~53 580 PLN łącznie. Ten sam standard w hotelu: 5 600–8 000 PLN za tydzień × 40 tygodni = 224 000–320 000 PLN. Różnica: ~270 000 PLN zostaje w Twojej kieszeni. W hotelu pewnie wydasz jeszcze więcej bo inflacja.") },
         { q: t("prezentacja_s11_q4", "„Kto podejmuje decyzje i czy mój głos cokolwiek zmienia?”"), a: t("prezentacja_s11_a4", "Spółka zarządza operacyjnie - codzienne decyzje, dostawcy do 50 000 PLN, personel. Społeczność głosuje nad wszystkim co dotyczy Twoich pieniędzy i komfortu: zmiany kosztów operacyjnych, fundusz remontowy, zakup nowych działek, zmiany regulaminu. Działka nie może być sprzedana bez zgody 90% memberów. Każda transakcja z funduszu widoczna publicznie w panelu aplikacji. Głosowania mają charakter konsultacyjny - zarząd uwzględnia wynik, ale odpowiada prawnie za decyzje.") },
         { q: t("prezentacja_s11_q5", "„Co się dzieje z moim miejscem jeśli nie pojadę w danym roku?”"), a: t("prezentacja_s11_a5", "Masz trzy opcje. Pierwsza: rezerwujesz termin i jedziesz. Druga: udostępniasz swój termin Członkowi swojej rodziny. Trzecia: nie robisz nic -limit 14 nocy nie przenosi się na kolejny rok, ale też nic nie tracisz finansowo. Płacisz za pobyt tylko gdy faktycznie korzystasz.") }
     ];
@@ -779,8 +778,8 @@ export default function Prezentacja({ onConnect }) {
             <S1 onConnect={onConnect} t={t} />
             <S2 t={t} />
             <S3 t={t} />
-            <S8 leadForm={leadForm} setLeadForm={setLeadForm} leadConsent={leadConsent} setLeadConsent={setLeadConsent} leadStatus={leadStatus} handleLeadSubmit={handleLeadSubmit} t={t} />
             <S4 t={t} />
+            <S8 leadForm={leadForm} setLeadForm={setLeadForm} leadConsent={leadConsent} setLeadConsent={setLeadConsent} leadStatus={leadStatus} handleLeadSubmit={handleLeadSubmit} t={t} />
 
             <S5 t={t} />
             <S6 t={t} />

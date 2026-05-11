@@ -37,7 +37,7 @@ export default function Regulamin() {
                             <span className="text-4xl text-gold-500 font-playfair font-bold">02.</span>
                             <div className="md:mt-1">
                                 <h3 className="text-xl font-bold text-[#F5F0E8] mb-2">Płacisz tylko za pobyt</h3>
-                                <p className="leading-relaxed text-[#8A9E8A]">Nie pobieramy marży za bycie członkiem. Jedyne koszty to proporcjonalnie podzielone podatki oraz ubezpieczenie infrastruktury wspólnej. Od drugiego sezonu obowiązuje roczna składka członkowska w wysokości 250 PLN — płacisz dopiero gdy przekonasz się że Klub spełnia Twoje oczekiwania.</p>
+                                <p className="leading-relaxed text-[#8A9E8A]">Nie pobieramy marży za bycie członkiem. Jedyne koszty to proporcjonalnie podzielone podatki oraz ubezpieczenie infrastruktury wspólnej. Nie ma żadnych rocznych opłat członkowskich ani abonamentów — płacisz tylko wtedy, gdy korzystasz z resortu.</p>
                             </div>
                         </li>
 

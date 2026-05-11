@@ -121,43 +121,49 @@ export default function OProjekcie() {
 
                 <section className="flex flex-col space-y-4">
                     <h2 className="text-3xl font-playfair text-[#F5F0E8]">Model ekonomiczny</h2>
-                    <p className="leading-relaxed"><strong className="text-[#F5F0E8]">Cena członkostwa:</strong> ~25 900 PLN brutto, w trzech etapach:</p>
+                    <p className="leading-relaxed"><strong className="text-[#F5F0E8]">Cena członkostwa:</strong> 25 900 PLN brutto, w czterech etapach:</p>
                     
                     <div className="overflow-x-auto mt-4">
                         <table className="min-w-full text-left border-collapse border border-[#8A9E8A]/30">
                             <thead className="bg-[#161B10]">
                                 <tr>
                                     <th className="py-3 px-4 font-bold text-[#F5F0E8] border-b border-[#8A9E8A]/30">Etap</th>
-                                    <th className="py-3 px-4 font-bold text-[#F5F0E8] border-b border-[#8A9E8A]/30">Kwota orientacyjna</th>
+                                    <th className="py-3 px-4 font-bold text-[#F5F0E8] border-b border-[#8A9E8A]/30">Kwota</th>
                                     <th className="py-3 px-4 font-bold text-[#F5F0E8] border-b border-[#8A9E8A]/30">Moment płatności</th>
                                     <th className="py-3 px-4 font-bold text-[#F5F0E8] border-b border-[#8A9E8A]/30">Charakter</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#8A9E8A]/30 text-sm">
                                 <tr>
-                                    <td className="py-3 px-4 font-bold text-[#F5F0E8]">Etap 0 — Opłata Rezerwacyjna</td>
+                                    <td className="py-3 px-4 font-bold text-[#F5F0E8]">Etap 0 — Rezerwacja</td>
                                     <td className="py-3 px-4">2 000 PLN</td>
-                                    <td className="py-3 px-4">Przy podpisaniu Umowy Rezerwacji</td>
-                                    <td className="py-3 px-4">Zwrotna w pełnej wysokości w przypadkach określonych w Umowie</td>
+                                    <td className="py-3 px-4">Teraz</td>
+                                    <td className="py-3 px-4">Zwrotna (wpisowe)</td>
                                 </tr>
                                 <tr>
-                                    <td className="py-3 px-4 font-bold text-[#F5F0E8]">Etap 1 — Pierwsza transza</td>
-                                    <td className="py-3 px-4">~12 000 PLN</td>
-                                    <td className="py-3 px-4">Po uzyskaniu pozwolenia na budowę, przy podpisaniu Umowy Członkowskiej</td>
-                                    <td className="py-3 px-4">Finansowanie budowy infrastruktury i domków do stanu deweloperskiego</td>
+                                    <td className="py-3 px-4 font-bold text-[#F5F0E8]">Etap 1 — Stan surowy zamknięty</td>
+                                    <td className="py-3 px-4">12 000 PLN</td>
+                                    <td className="py-3 px-4">Po wylaniu fundamentów</td>
+                                    <td className="py-3 px-4">Uruchomienie budowy</td>
                                 </tr>
                                 <tr>
-                                    <td className="py-3 px-4 font-bold text-[#F5F0E8]">Etap 2 — Druga transza</td>
-                                    <td className="py-3 px-4">~12 000 PLN</td>
-                                    <td className="py-3 px-4">Po osiągnięciu stanu deweloperskiego, potwierdzonego przez niezależnego inspektora nadzoru</td>
-                                    <td className="py-3 px-4">Wykończenie, wyposażenie, jacuzzi, uruchomienie Klubu</td>
+                                    <td className="py-3 px-4 font-bold text-[#F5F0E8]">Etap 2 — Stan deweloperski</td>
+                                    <td className="py-3 px-4">8 900 PLN</td>
+                                    <td className="py-3 px-4">Po stanie surowym zamkniętym</td>
+                                    <td className="py-3 px-4">Postęp prac</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-3 px-4 font-bold text-[#F5F0E8]">Etap 3 — Aktywacja członkostwa</td>
+                                    <td className="py-3 px-4">3 000 PLN</td>
+                                    <td className="py-3 px-4">Po otwarciu resortu</td>
+                                    <td className="py-3 px-4">Finalizacja</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <p className="leading-relaxed mt-4">
-                        <strong className="text-[#F5F0E8]">Od drugiego sezonu działania Klubu</strong> obowiązuje roczna składka członkowska w wysokości 250 PLN brutto, płatna do 31 stycznia każdego roku.
+                        <strong className="text-[#F5F0E8]">Od momentu aktywacji członkostwa</strong> jedynym kosztem są realne koszty operacyjne za Twój pobyt — bez żadnych dodatkowych opłat rocznych czy abonamentów.
                     </p>
 
                     <p className="leading-relaxed mt-4">

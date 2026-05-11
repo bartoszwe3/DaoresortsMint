@@ -72,7 +72,7 @@ export default function KontaktPage() {
                         Porozmawiajmy o projekcie
                     </h1>
                     <p className="text-[#8A9E8A] text-sm leading-relaxed">
-                        Zostaw swoje dane — Bartosz oddzwoni osobiście i odpowie na wszystkie pytania.
+                        Zostaw swoje dane - Oddzwonię osobiście i odpowiem na wszystkie pytania.
                     </p>
                 </div>
 
@@ -84,7 +84,7 @@ export default function KontaktPage() {
                     >
                         <CheckCircle size={48} className="text-[#C9A84C] mx-auto mb-4" />
                         <h2 className="font-playfair text-2xl text-[#F5F0E8] mb-2">Dziękuję!</h2>
-                        <p className="text-[#8A9E8A] text-sm mb-1">Bartosz oddzwoni osobiście w ciągu 24h.</p>
+                        <p className="text-[#8A9E8A] text-sm mb-1">Oddzwonię osobiście w ciągu 24h.</p>
                         <p className="text-[#8A9E8A] text-sm">Bez zobowiązań - ewentualna rezerwacja dopiero po rozmowie.</p>
                         <a href="/" className="inline-block mt-6 text-[#C9A84C] text-sm hover:underline no-underline">
                             ← Wróć do strony
@@ -181,7 +181,7 @@ export default function KontaktPage() {
 
                         {/* Trust copy */}
                         <p className="text-[#8A9E8A] text-xs text-center leading-relaxed pt-2">
-                            Bartosz oddzwoni osobiście w ciągu 24h.<br />
+                            Oddzwonię osobiście w ciągu 24h.<br />
                             Bez zobowiązań - ewentualna rezerwacja dopiero po rozmowie.
                         </p>
                     </form>

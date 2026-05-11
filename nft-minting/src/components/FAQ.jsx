@@ -26,7 +26,7 @@ export default function FAQ() {
                 },
                 {
                     q: t("faq_timeline_q3", "Ile realnie zapłacę przez 10/20 lat?"),
-                    a: t("faq_timeline_a3", "Wejście płatne jednorazowo. Pobyt: ~567 PLN za tydzień dla 4 osób - tyle płacisz za prąd, wodę, jacuzzi i sprzątanie...")
+                    a: t("faq_timeline_a3", "Wejście płatne jednorazowo. Pobyt: ~692 PLN za tydzień dla 4 osób - tyle płacisz za prąd, wodę, jacuzzi i sprzątanie...")
                 },
                 {
                     q: t("faq_timeline_q4", "Kto podejmuje decyzje i czy mój głos cokolwiek zmienia?"),

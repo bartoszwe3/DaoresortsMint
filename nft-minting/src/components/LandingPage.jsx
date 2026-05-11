@@ -437,11 +437,10 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                     <div className="space-y-4">
                         {/* Payment Stages mapped for mobile-friendly compact stack */}
                         {[
-                            { id: 0, name: 'Rezerwacja miejsca', trigger: 'Dostępne teraz', amount: 2000, refundable: true, active: true },
-                            { id: 1, name: 'Fundament', trigger: 'Po uzyskaniu PNB', amount: 5000, refundable: false, active: false },
-                            { id: 2, name: 'Stan surowy otwarty', trigger: 'Po stanie surowym', amount: 5000, refundable: false, active: false },
-                            { id: 3, name: 'Wykończenie', trigger: 'Instalacje i stolarka', amount: 3000, refundable: false, active: false },
-                            { id: 4, name: 'Aktywacja członkostwa', trigger: 'Po otwarciu', amount: 4990, refundable: false, active: false }
+                            { id: 0, name: 'Etap 0 — Rezerwacja', trigger: 'Teraz', amount: 2000, refundable: true, active: true },
+                            { id: 1, name: 'Etap 1 — Stan surowy zamknięty', trigger: 'Po wylaniu fundamentów', amount: 12000, refundable: false, active: false },
+                            { id: 2, name: 'Etap 2 — Stan deweloperski', trigger: 'Po stanie surowym zamkniętym', amount: 8900, refundable: false, active: false },
+                            { id: 3, name: 'Etap 3 — Aktywacja członkostwa', trigger: 'Po otwarciu resortu', amount: 3000, refundable: false, active: false }
                         ].map(stage => (
                             <div key={stage.id}
                                 className={`flex items-center justify-between bg-[#1C2614] border ${stage.active ? 'border-[#C9A84C]' : 'border-[#2D5A3D]/40 opacity-70'} rounded-xl p-4 mb-3 hover:bg-[#1C2614]/80 transition-all`}>
