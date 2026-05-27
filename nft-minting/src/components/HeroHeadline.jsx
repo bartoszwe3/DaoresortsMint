@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+
 
 export default function HeroHeadline({ text1, text2 }) {
     const [s1Chars, setS1Chars] = useState(0);
@@ -59,7 +59,7 @@ export default function HeroHeadline({ text1, text2 }) {
     }, [s1Text, s2]);
 
     return (
-        <h1 className="text-[3.5rem] leading-[1.1] md:text-7xl lg:text-8xl text-center font-playfair font-semibold !text-white mb-8 tracking-tight drop-shadow-lg break-words w-full max-w-full px-4 relative z-[30]">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] text-center font-playfair font-semibold !text-white mb-8 tracking-tight drop-shadow-lg break-words w-full max-w-full px-4 relative z-[30]">
             <span>
                 {s1Chars === 0 ? "" : s1Text.split("").map((char, index) => (
                     <span key={`s1-${index}`} style={{ opacity: index < s1Chars ? 1 : 0 }}>

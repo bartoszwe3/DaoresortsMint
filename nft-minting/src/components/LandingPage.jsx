@@ -145,9 +145,9 @@ export default function LandingPage({ onConnect, scrollContainer, hasNft, onNavi
                         </motion.div>
 
                         {/* Quiet Luxury Headline */}
-                        <h1 className="text-5xl md:text-7xl lg:text-8xl text-center font-playfair font-semibold leading-[1.1] text-text-primary mb-8 tracking-tight drop-shadow-lg break-words w-full">
+                        <div className="w-full">
                             <HeroHeadline text1={t("prezentacja_hero_title1", "Hotele zarabiają na Tobie. ").trim()} text2={t("prezentacja_hero_title2", "Czas to zmienić.")} />
-                        </h1>
+                        </div>
 
                         <p className="text-base md:text-xl text-text-secondary max-w-2xl leading-relaxed mb-10 font-sans font-light break-words w-full px-4 md:px-0 text-center">
                             {t("prezentacja_hero_desc", "Jedno członkostwo. 14 nocy rocznie. Dożywotnio po kosztach.")}

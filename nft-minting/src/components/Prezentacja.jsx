@@ -193,7 +193,7 @@ function CounterCard({ value, prefix = "", suffix = "", label, sublabel, accent 
    ============================================================ */
 
 const S1 = ({ onConnect, t }) => (
-    <div id="s1" className="relative w-full h-[calc(100vh-72px)] md:h-screen flex flex-col items-center justify-center overflow-visible bg-[#0E1208]">
+    <div id="s1" className="relative w-full min-h-[calc(100vh-72px)] py-12 md:py-0 md:h-screen flex flex-col items-center justify-center overflow-visible bg-[#0E1208]">
         <video src="/silnawebvideo.mp4" autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0 opacity-60 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0E1208]/70 via-[#0E1208]/40 to-[#0E1208] z-[1] pointer-events-none" />
         <div className="relative z-[20] w-full max-w-4xl mx-auto px-6 text-center flex flex-col items-center">
