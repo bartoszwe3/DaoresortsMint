@@ -1,9 +1,8 @@
 // src/components/ProjectsShowcase.jsx
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, ArrowRight, Layout, Image as ImageIcon, Sparkles, Building2, Trees, Flame, Zap, Wifi, waves } from "lucide-react";
-import { useTranslation, Trans } from "react-i18next";
-import { RESERVATION_FEE } from "../constants/tokenomics";
+import { MapPin, ArrowRight, Layout, Sparkles, Building2, Flame } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function ProjectsShowcase() {
     const { t } = useTranslation();
@@ -66,7 +65,6 @@ export default function ProjectsShowcase() {
 
     const TAB_LABELS = {
         overview: t("tab_overview"),
-        gallery: t("tab_gallery"),
         features: t("tab_features")
     };
 
@@ -197,21 +195,6 @@ export default function ProjectsShowcase() {
                             </div>
                         )}
 
-                        {activeTab === "gallery" && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                <div className="aspect-video bg-[#161C10] border border-[#2D5A3D]/30 overflow-hidden relative group shadow-2xl">
-                                    <img src="https://images.unsplash.com/photo-1449156493391-d2cfa28e468b?q=80&w=2600" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Interior" />
-                                    <div className="absolute inset-0 bg-black/30 group-hover:bg-transparent transition-all duration-500" />
-                                </div>
-                                <div className="aspect-video bg-[#161C10] border border-[#2D5A3D]/30 overflow-hidden relative group shadow-2xl">
-                                    <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=2600" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Exterior" />
-                                    <div className="absolute inset-0 bg-black/30 group-hover:bg-transparent transition-all duration-500" />
-                                </div>
-                                <div className="col-span-1 md:col-span-2 aspect-[21/9] bg-gray-800 rounded-none overflow-hidden relative group">
-                                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2600" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Landscape" />
-                                </div>
-                            </div>
-                        )}
 
                         {activeTab === "features" && (
                             <div className="grid md:grid-cols-2 gap-16">
