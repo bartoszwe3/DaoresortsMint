@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
+import { PAYMENT_STAGES } from "../constants/tokenomics";
 
 const AdminUsersManagement = () => {
     const { user, isAuthenticated } = useAuth();
@@ -49,7 +50,7 @@ const AdminUsersManagement = () => {
                 // Determine next stage (first not confirmed)
                 let next = 0;
                 if (u.paymentStages) {
-                    for (let i = 0; i <= 4; i++) {
+                    for (let i = 0; i < PAYMENT_STAGES.length; i++) {
                         if (!u.paymentStages[i] || u.paymentStages[i].status !== 'confirmed') {
                             next = i;
                             break;
@@ -172,7 +173,7 @@ const AdminUsersManagement = () => {
         <div className="w-full min-h-screen py-10 px-4 text-white">
             <header className="mb-10 text-center">
                 <h1 className="text-4xl font-bold font-sans text-white">Zarządzanie Użytkownikami</h1>
-                <p className="text-gray-400 mt-2">System Płatności Etapowych (5 Etapów)</p>
+                <p className="text-gray-400 mt-2">System Płatności Etapowych ({PAYMENT_STAGES.length} Etapów)</p>
             </header>
 
             {/* Stats */}
@@ -222,7 +223,7 @@ const AdminUsersManagement = () => {
                     <option value="none">Brak płatności</option>
                     <option value="awaiting">Oczekuje płatności</option>
                     <option value="verification">W weryfikacji</option>
-                    <option value="confirmed">Potwierdzone (etap 4)</option>
+                    <option value="confirmed">Potwierdzone (etap {PAYMENT_STAGES.length - 1})</option>
                 </select>
 
                 <input
@@ -272,16 +273,16 @@ const AdminUsersManagement = () => {
                                             </td>
                                             <td className="p-4 text-sm font-bold">
                                                 <div className="flex gap-1.5 items-center">
-                                                    {[0, 1, 2, 3, 4].map(s => {
-                                                        const stage = u.paymentStages?.[s];
+                                                    {PAYMENT_STAGES.map(s => {
+                                                        const stage = u.paymentStages?.[s.id];
                                                         const status = stage?.status || 'none';
                                                         let color = 'bg-gray-800'; // none
                                                         if (status === 'confirmed') color = 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]';
                                                         if (status === 'verification') color = 'bg-blue-400 animate-pulse';
                                                         if (status === 'awaiting') color = 'bg-yellow-400';
-
+ 
                                                         return (
-                                                            <div key={s} className={`w-3 h-3 rounded-full ${color} border border-white/5`} title={`Etap ${s}: ${status}`} />
+                                                            <div key={s.id} className={`w-3 h-3 rounded-full ${color} border border-white/5`} title={`Etap ${s.id}: ${status}`} />
                                                         );
                                                     })}
                                                 </div>
@@ -312,8 +313,8 @@ const AdminUsersManagement = () => {
                                                                     setUsersInfo(prev => prev.map(usr => usr.wallet === u.wallet ? { ...usr, nextStage: val } : usr));
                                                                 }}
                                                             >
-                                                                {[0, 1, 2, 3, 4].map(s => (
-                                                                    <option key={s} value={s}>Etap {s}</option>
+                                                                {PAYMENT_STAGES.map(s => (
+                                                                    <option key={s.id} value={s.id}>Etap {s.id}</option>
                                                                 ))}
                                                             </select>
                                                             <button
@@ -368,7 +369,7 @@ const AdminUsersManagement = () => {
                                 className="flex-1 bg-green-500 hover:bg-green-400 text-black font-bold py-3 rounded-xl transition-colors text-center shadow-lg shadow-green-500/20"
                             >
                                 ✅ Zatwierdź Etap {selectedUser.currentVerificationStage}
-                                {selectedUser.currentVerificationStage == 4 && " & Aktywuj Członkostwo"}
+                                {selectedUser.currentVerificationStage == (PAYMENT_STAGES.length - 1) && " & Aktywuj Członkostwo"}
                             </button>
                         </div>
                     </div>

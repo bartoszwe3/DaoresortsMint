@@ -91,10 +91,13 @@ router.post('/generate', async (req, res) => {
 
         const stageAmounts = {
             0: 2000,
-            1: 5000,
-            2: 5000,
+            1: 3000,
+            2: 3000,
             3: 3000,
-            4: 4990
+            4: 3000,
+            5: 3000,
+            6: 4900,
+            7: 2000
         };
 
         const amount = stageAmounts[stage] || 0;
@@ -216,8 +219,8 @@ router.patch('/:paymentId/verify', async (req, res) => {
         users[userIndex].paymentConfirmedAt = new Date().toISOString();
 
         let nftMsg = "";
-        // Only trigger NFT minting on Stage 4 (Activation)
-        if (stage === 4 || stage === "4") {
+        // Only trigger NFT minting on Stage 7 (Otwarcie)
+        if (stage === 7 || stage === "7") {
             // Check for duplicate NFT before minting
             try {
                 await checkDuplicateNFT(user.email, user.wallet, user.wallet);

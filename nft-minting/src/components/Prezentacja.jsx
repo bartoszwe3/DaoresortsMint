@@ -7,6 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import HeroHeadline from "./HeroHeadline";
 import MemberCarousel from "./MemberCarousel";
+import { PAYMENT_STAGES } from "../constants/tokenomics";
 
 const API_BASE = process.env.REACT_APP_API_BASE ?? "";
 
@@ -458,39 +459,37 @@ const SPaymentModel = ({ t }) => (
             </div>
 
             <div className="space-y-4">
-                {[
-                    { id: 0, name: 'Etap 0 — Rezerwacja', trigger: 'Teraz', amount: 2000, refundable: true, active: true },
-                    { id: 1, name: 'Etap 1 — Stan surowy zamknięty', trigger: 'Po wylaniu fundamentów', amount: 12000, refundable: false, active: false },
-                    { id: 2, name: 'Etap 2 — Stan deweloperski', trigger: 'Po stanie surowym zamkniętym', amount: 8900, refundable: false, active: false },
-                    { id: 3, name: 'Etap 3 — Aktywacja członkostwa', trigger: 'Po otwarciu resortu', amount: 3000, refundable: false, active: false }
-                ].map(stage => (
-                    <div key={stage.id}
-                        className={`flex items-center justify-between bg-[#1C2614] border ${stage.active ? 'border-[#C9A84C]' : 'border-[#2D5A3D]/40 opacity-70'} rounded-xl p-4 mb-3 hover:bg-[#1C2614]/80 transition-all`}>
-                        <div className="flex items-center gap-3">
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold ${stage.active ? 'bg-[#C9A84C] text-[#0E1208] shadow-lg shadow-[#C9A84C]/20' : 'bg-gray-700/50 text-gray-400 border border-gray-600/30'}`}>
-                                {stage.id}
+                {PAYMENT_STAGES.map(stage => {
+                    const isActive = stage.id === 0;
+                    return (
+                        <div key={stage.id}
+                            className={`flex items-center justify-between bg-[#1C2614] border ${isActive ? 'border-[#C9A84C]' : 'border-[#2D5A3D]/40 opacity-70'} rounded-xl p-4 mb-3 hover:bg-[#1C2614]/80 transition-all`}>
+                            <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold ${isActive ? 'bg-[#C9A84C] text-[#0E1208] shadow-lg shadow-[#C9A84C]/20' : 'bg-gray-700/50 text-gray-400 border border-gray-600/30'}`}>
+                                    {stage.id}
+                                </div>
+                                <div>
+                                    <p className={`font-medium text-sm ${isActive ? 'text-[#F5F0E8] font-bold' : 'text-[#F5F0E8]/90'}`}>
+                                        {stage.label_pl}
+                                    </p>
+                                    <p className="text-[#8A9E8A] text-xs flex items-center gap-2">
+                                        <span>{stage.desc_pl}</span>
+                                        {stage.id === 0 && (
+                                            <span className="bg-green-500/10 text-green-400 text-[9px] px-1.5 py-0.5 rounded-sm uppercase tracking-wider border border-green-500/20">
+                                                zwrotne
+                                            </span>
+                                        )}
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <p className={`font-medium text-sm ${stage.active ? 'text-[#F5F0E8] font-bold' : 'text-[#F5F0E8]/90'}`}>
-                                    {stage.name}
-                                </p>
-                                <p className="text-[#8A9E8A] text-xs flex items-center gap-2">
-                                    <span>{stage.trigger}</span>
-                                    {stage.refundable && (
-                                        <span className="bg-green-500/10 text-green-400 text-[9px] px-1.5 py-0.5 rounded-sm uppercase tracking-wider border border-green-500/20">
-                                            zwrotne
-                                        </span>
-                                    )}
+                            <div className="text-right flex-shrink-0 ml-2">
+                                <p className={`${isActive ? 'text-[#C9A84C]' : 'text-[#C9A84C]/60'} font-bold text-base font-sans`}>
+                                    {stage.amount.toLocaleString('pl-PL')} PLN
                                 </p>
                             </div>
                         </div>
-                        <div className="text-right flex-shrink-0 ml-2">
-                            <p className={`${stage.active ? 'text-[#C9A84C]' : 'text-[#C9A84C]/60'} font-bold text-base font-sans`}>
-                                {stage.amount.toLocaleString('pl-PL')} PLN
-                            </p>
-                        </div>
-                    </div>
-                ))}
+                    );
+                })}
 
                 <div className="border-t border-[#C9A84C]/50 mt-8 pt-6 flex justify-between items-center px-2">
                     <span className="text-sm font-sans font-bold uppercase tracking-[0.3em] text-[#8A9E8A]">ŁĄCZNIE</span>

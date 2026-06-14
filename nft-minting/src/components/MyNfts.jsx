@@ -46,7 +46,7 @@ function StageProgressBar({ stages = {}, currentStage = 0, onPayNext }) {
     <div className="bg-[#0d1117] border border-white/10 rounded-2xl p-6 mb-8">
       <h3 className="text-white font-bold mb-6 flex items-center gap-2">
         <Clock size={18} className="text-gold-500" />
-        Status Członkostwa (5 Etapów)
+        Status Członkostwa ({PAYMENT_STAGES.length} Etapów)
       </h3>
 
       <div className="relative">
@@ -54,7 +54,7 @@ function StageProgressBar({ stages = {}, currentStage = 0, onPayNext }) {
         <div className="absolute top-4 left-0 w-full h-0.5 bg-white/5 -z-0" />
         <div
           className="absolute top-4 left-0 h-0.5 bg-gold-500 transition-all duration-500 -z-0"
-          style={{ width: `${(Math.min(currentStage, 4) / 4) * 100}%` }}
+          style={{ width: `${(Math.min(currentStage, PAYMENT_STAGES.length - 1) / (PAYMENT_STAGES.length - 1)) * 100}%` }}
         />
 
         <div className="flex justify-between relative z-10">
@@ -87,7 +87,7 @@ function StageProgressBar({ stages = {}, currentStage = 0, onPayNext }) {
         </div>
       </div>
 
-      {currentStage < 5 && !Object.values(stages || {}).some(s => s.status === 'awaiting' || s.status === 'verification') && (
+      {currentStage < PAYMENT_STAGES.length && !Object.values(stages || {}).some(s => s.status === 'awaiting' || s.status === 'verification') && (
         <div className="mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <div>
             <p className="text-white font-bold text-sm">

@@ -4,9 +4,7 @@ import { Check, Copy, Clock, ArrowLeft } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import {
     STAGE_0_RESERVATION,
-    STAGE_1_STRUCTURE_CLOSED,
-    STAGE_2_DEVELOPER_STATE,
-    STAGE_3_ACTIVATION,
+    PAYMENT_STAGES,
     MEMBERSHIP_TOTAL
 } from "../constants/tokenomics";
 import toast from "react-hot-toast";
@@ -132,13 +130,16 @@ export default function CheckoutPage() {
     }, [isAuthenticated, user, isInitializing]);
 
     const getStageData = () => {
-        switch (stage) {
-            case 0: return { title: "Etap 0: Rezerwacja", amount: STAGE_0_RESERVATION, label: "wpisowe zwrotne", desc: "Zarezerwuj swoje miejsce w klubie." };
-            case 1: return { title: "Etap 1: Stan surowy zamknięty", amount: STAGE_1_STRUCTURE_CLOSED, label: "dopłata", desc: "Po wylaniu fundamentów." };
-            case 2: return { title: "Etap 2: Stan deweloperski", amount: STAGE_2_DEVELOPER_STATE, label: "dopłata", desc: "Po stanie surowym zamkniętym." };
-            case 3: return { title: "Etap 3: Aktywacja członkostwa", amount: STAGE_3_ACTIVATION, label: "finał", desc: "Po otwarciu resortu." };
-            default: return { title: "Aktywacja Członkostwa", amount: MEMBERSHIP_TOTAL, label: "jednorazowo", desc: "Pełny dostęp do klubu." };
+        const stageObj = PAYMENT_STAGES.find(s => s.id === stage);
+        if (stageObj) {
+            return {
+                title: stageObj.label_pl,
+                amount: stageObj.amount,
+                label: stage === 0 ? "wpisowe zwrotne" : "dopłata",
+                desc: stageObj.desc_pl
+            };
         }
+        return { title: "Aktywacja Członkostwa", amount: MEMBERSHIP_TOTAL, label: "jednorazowo", desc: "Pełny dostęp do klubu." };
     };
 
     const stageData = getStageData();

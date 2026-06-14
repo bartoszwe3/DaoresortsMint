@@ -1,4 +1,5 @@
 import React from "react";
+import { PAYMENT_STAGES } from "../../constants/tokenomics";
 
 export default function OProjekcie() {
     return (
@@ -121,7 +122,7 @@ export default function OProjekcie() {
 
                 <section className="flex flex-col space-y-4">
                     <h2 className="text-3xl font-playfair text-[#F5F0E8]">Model ekonomiczny</h2>
-                    <p className="leading-relaxed"><strong className="text-[#F5F0E8]">Cena członkostwa:</strong> 25 900 PLN brutto, w czterech etapach:</p>
+                    <p className="leading-relaxed"><strong className="text-[#F5F0E8]">Cena członkostwa:</strong> 25 900 PLN brutto, w ośmiu etapach:</p>
                     
                     <div className="overflow-x-auto mt-4">
                         <table className="min-w-full text-left border-collapse border border-[#8A9E8A]/30">
@@ -134,30 +135,14 @@ export default function OProjekcie() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#8A9E8A]/30 text-sm">
-                                <tr>
-                                    <td className="py-3 px-4 font-bold text-[#F5F0E8]">Etap 0 — Rezerwacja</td>
-                                    <td className="py-3 px-4">2 000 PLN</td>
-                                    <td className="py-3 px-4">Teraz</td>
-                                    <td className="py-3 px-4">Zwrotna (wpisowe)</td>
-                                </tr>
-                                <tr>
-                                    <td className="py-3 px-4 font-bold text-[#F5F0E8]">Etap 1 — Stan surowy zamknięty</td>
-                                    <td className="py-3 px-4">12 000 PLN</td>
-                                    <td className="py-3 px-4">Po wylaniu fundamentów</td>
-                                    <td className="py-3 px-4">Uruchomienie budowy</td>
-                                </tr>
-                                <tr>
-                                    <td className="py-3 px-4 font-bold text-[#F5F0E8]">Etap 2 — Stan deweloperski</td>
-                                    <td className="py-3 px-4">8 900 PLN</td>
-                                    <td className="py-3 px-4">Po stanie surowym zamkniętym</td>
-                                    <td className="py-3 px-4">Postęp prac</td>
-                                </tr>
-                                <tr>
-                                    <td className="py-3 px-4 font-bold text-[#F5F0E8]">Etap 3 — Aktywacja członkostwa</td>
-                                    <td className="py-3 px-4">3 000 PLN</td>
-                                    <td className="py-3 px-4">Po otwarciu resortu</td>
-                                    <td className="py-3 px-4">Finalizacja</td>
-                                </tr>
+                                {PAYMENT_STAGES.map((stage) => (
+                                    <tr key={stage.id}>
+                                        <td className="py-3 px-4 font-bold text-[#F5F0E8]">{stage.label_pl}</td>
+                                        <td className="py-3 px-4">{stage.amount.toLocaleString("pl-PL")} PLN</td>
+                                        <td className="py-3 px-4">{stage.desc_pl}</td>
+                                        <td className="py-3 px-4">{stage.char_pl}</td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
