@@ -256,7 +256,7 @@ export default function AboutProject() {
                                         { val: "6", label: "Domków 70m²" },
                                         { val: "150", label: "Paszportów na 150 członków" },
                                         { val: "14", label: "Nocy / rok" },
-                                        { val: "3200m²", label: "Działka" },
+                                        { val: "2533m²", label: "Działka" },
                                     ].map((s, i) => (
                                         <div key={i} className="bg-white/5 border border-white/8 rounded-2xl p-4 text-center">
                                             <div className="text-2xl font-black text-white">{s.val}</div>

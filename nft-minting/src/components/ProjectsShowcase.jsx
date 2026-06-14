@@ -53,7 +53,7 @@ export default function ProjectsShowcase() {
             t("project_feature_4")
         ],
         technical_specs: [
-            { label: "Powierzchnia Działki", value: "3200 m²" },
+            { label: "Powierzchnia Działki", value: "2533 m²" },
             { label: "Liczba Domków", value: "6 x 70m²" },
             { label: "Standard", value: "Premium (5★)" },
             { label: "Energia", value: "PV + Pompy Ciepła" }
