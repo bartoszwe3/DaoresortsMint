@@ -122,7 +122,7 @@ export default function OProjekcie() {
 
                 <section className="flex flex-col space-y-4">
                     <h2 className="text-3xl font-playfair text-[#F5F0E8]">Model ekonomiczny</h2>
-                    <p className="leading-relaxed"><strong className="text-[#F5F0E8]">Cena członkostwa:</strong> 25 900 PLN brutto, w ośmiu etapach:</p>
+                    <p className="leading-relaxed"><strong className="text-[#F5F0E8]">Cena członkostwa:</strong> 27 000 PLN brutto, w ośmiu etapach:</p>
                     
                     <div className="overflow-x-auto mt-4">
                         <table className="min-w-full text-left border-collapse border border-[#8A9E8A]/30">

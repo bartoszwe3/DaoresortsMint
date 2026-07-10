@@ -275,7 +275,7 @@ const S3 = ({ t }) => (
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
-                    { icon: <Key size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card1_title", "Płacisz raz"), desc: t("prezentacja_s3_card1_desc", "25 900 PLN jednorazowo. Żadnych ukrytych kosztów wejścia. Gwarancja transparentności") },
+                    { icon: <Key size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card1_title", "Płacisz raz"), desc: t("prezentacja_s3_card1_desc", "27 000 PLN jednorazowo. Żadnych ukrytych kosztów wejścia. Gwarancja transparentności") },
                     { icon: <Home size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card2_title", "Korzystasz po kosztach"), desc: t("prezentacja_s3_card2_desc", "~692 PLN za tydzień zamiast 5 600 PLN w hotelu. Płacisz tylko realne koszty mediów i sprzątania.") },
                     { icon: <Shield size={28} className="text-[#C9A84C]" />, title: t("prezentacja_s3_card3_title", "Jesteś klubowiczem"), desc: t("prezentacja_s3_card3_desc", "Karta Członkowska to Twój prawny dokument prawa do korzystania. Możesz ją sprzedać, przekazać rodzinie lub zachować na zawsze.") }
                 ].map((card, i) => (
@@ -343,7 +343,7 @@ const S4 = ({ t }) => (
                     </thead>
                     <tbody className="text-[#F5F0E8]">
                         {[
-                            [t("prezentacja_s4_row1", "Koszt jednorazowy"), "0 PLN", "25 900 PLN"],
+                            [t("prezentacja_s4_row1", "Koszt jednorazowy"), "0 PLN", "27 000 PLN"],
                             [t("prezentacja_s4_row2", "Koszt rocznie (dziś)"), "11 200 PLN", "1 384 PLN"],
                             [t("prezentacja_s4_row3", "Łącznie 20 lat z inflacją"), "~370 000 PLN", "~59 500 PLN"]
                         ].map(([label, hotel, dao], i) => (
@@ -421,7 +421,7 @@ const S6 = ({ t }) => (
                 {[
                     { step: "01", icon: <Users size={24} />, title: t("prezentacja_s6_step1_title", "Umów rozmowę z założycielem"), desc: t("prezentacja_s6_step1_desc", "15 minut. Odpowiadam na każde pytanie zanim wpłacisz złotówkę.") },
                     { step: "02", icon: <Key size={24} />, title: t("prezentacja_s6_step2_title", "Zarezerwuj miejsce"), desc: t("prezentacja_s6_step2_desc", "2 000 PLN depozytu. Zabezpieczasz numer członkowski. W 100% zwrotne do momentu uzyskania pozwolenia na budowę.") },
-                    { step: "03", icon: <Home size={24} />, title: t("prezentacja_s6_step3_title", "Płać etapami z budową"), desc: t("prezentacja_s6_step3_desc", "Nie płacisz 25 900 PLN z góry. Każda wpłata odpowiada konkretnemu etapowi — fundament, stan surowy, wykończenie, otwarcie.") },
+                    { step: "03", icon: <Home size={24} />, title: t("prezentacja_s6_step3_title", "Płać etapami z budową"), desc: t("prezentacja_s6_step3_desc", "Nie płacisz 27 000 PLN z góry. Każda wpłata odpowiada konkretnemu etapowi — fundament, stan surowy, wykończenie, otwarcie.") },
                     { step: "04", icon: <Calendar size={24} />, title: t("prezentacja_s6_step4_title", "Rezerwuj terminy"), desc: t("prezentacja_s6_step4_desc", "14 nocy rocznie przez aplikację. Płacisz tylko koszty operacyjne — bez marży hotelowej.") },
                     { step: "05", icon: <Vote size={24} />, title: t("prezentacja_s6_step5_title", "Głosuj i współdecyduj"), desc: t("prezentacja_s6_step5_desc", "Jeden członek, jeden głos. Budżet, modernizacje, zasady. To Twój resort.") }
                 ].map((item, i, arr) => (
@@ -454,7 +454,7 @@ const SPaymentModel = ({ t }) => (
                     {t("prezentacja_spayment_title", "Płacisz razem z budową")}
                 </h2>
                 <p className="text-base md:text-lg text-[#8A9E8A] font-light leading-relaxed max-w-2xl mx-auto">
-                    {t("prezentacja_spayment_desc", "Nie płacisz 25 900 PLN z góry. Każda wpłata jest powiązana z konkretnym etapem budowy - widzisz za co płacisz.")}
+                    {t("prezentacja_spayment_desc", "Nie płacisz 27 000 PLN z góry. Każda wpłata jest powiązana z konkretnym etapem budowy - widzisz za co płacisz.")}
                 </p>
             </div>
 
@@ -493,7 +493,7 @@ const SPaymentModel = ({ t }) => (
 
                 <div className="border-t border-[#C9A84C]/50 mt-8 pt-6 flex justify-between items-center px-2">
                     <span className="text-sm font-sans font-bold uppercase tracking-[0.3em] text-[#8A9E8A]">ŁĄCZNIE</span>
-                    <span className="text-2xl md:text-3xl font-bold font-sans text-[#F5F0E8] tracking-tight">25 900 PLN</span>
+                    <span className="text-2xl md:text-3xl font-bold font-sans text-[#F5F0E8] tracking-tight">27 000 PLN</span>
                 </div>
             </div>
 
@@ -633,7 +633,7 @@ const S10 = ({ t }) => (
             <div className="flex justify-center text-left">
                 <div className="bg-[#C9A84C]/10 border border-[#C9A84C]/30 rounded-xl p-6 max-w-md w-full">
                     <p className="text-[#C9A84C] text-xs uppercase tracking-widest mb-3">{t("prezentacja_s10_card2_tag", "Karta Członkowska")}</p>
-                    <div className="font-playfair text-2xl text-[#C9A84C] font-bold mb-1">25 900 PLN</div>
+                    <div className="font-playfair text-2xl text-[#C9A84C] font-bold mb-1">27 000 PLN</div>
                     <p className="text-[#F5F0E8] text-sm mb-1">{t("prezentacja_s10_card2_count", "150 sztuk · Płatność w 5 etapach")}</p>
                     <p className="text-[#8A9E8A] text-xs">{t("prezentacja_s10_card2_desc", "Zaczynasz od 2000 PLN wpisowego (zwrotnego). Dożywotnie prawo do 14 nocy rocznie + głos w społeczności.")}</p>
                 </div>
@@ -647,7 +647,7 @@ const S11 = ({ t }) => {
     const faqs = [
         { q: t("prezentacja_s11_q1", "„Kiedy faktycznie powstanie resort i skąd mam wiedzieć, że nie za 10 lat?”"), a: t("prezentacja_s11_a1", "Mamy działkę, podpisanych architektów i wkrótce składamy wniosek o pozwolenie na budowę. Budowa startuje po spełnieniu dwóch warunków: pozwolenie na budowę + 100 podpisanych umów rezerwacyjnych. Termin graniczny to 30 października 2026 - jeśli do tego czasu oba warunki nie są spełnione, dostajesz zwrot 2 000 PLN bez żadnych potrąceń. Postęp projektu widzisz na bieżąco w aplikacji projektu, liczba rezerwacji i status pozwolenia aktualizowane co 30 dni.") },
         { q: t("prezentacja_s11_q2", "„Co się dzieje z moimi pieniędzmi jeśli nie zbierze się 150 osób?”"), a: t("prezentacja_s11_a2", "Etap 0 to 2 000 PLN i jest w 100% zwrotny. Zwrot następuje automatycznie w ciągu 14 dni roboczych jeśli do 30 września 2026 nie mamy 100 rezerwacji lub pozwolenia na budowę. Bez wniosków, bez tłumaczenia się, bez potrąceń. Etapy 1–4 startują gdy budowa rusza, bo płatność powiązana jest z konkretnymi etapami prac.") },
-        { q: t("prezentacja_s11_q3", "„Ile realnie zapłacę przez 10/20 lat?”"), a: t("prezentacja_s11_a3", "Wejście płatne jednorazowo. Pobyt: ~692 PLN za tydzień dla 4 osób - tyle płacisz za prąd, wodę, jacuzzi i sprzątanie. Zero wysokich opłat rocznych gdy nie przyjeżdżasz. Przez 20 lat przy 2 tygodniach rocznie: 25 900 PLN + 27 680 PLN kosztów operacyjnych = ~53 580 PLN łącznie. Ten sam standard w hotelu: 5 600–8 000 PLN za tydzień × 40 tygodni = 224 000–320 000 PLN. Różnica: ~270 000 PLN zostaje w Twojej kieszeni. W hotelu pewnie wydasz jeszcze więcej bo inflacja.") },
+        { q: t("prezentacja_s11_q3", "„Ile realnie zapłacę przez 10/20 lat?”"), a: t("prezentacja_s11_a3", "Wejście płatne jednorazowo. Pobyt: ~692 PLN za tydzień dla 4 osób - tyle płacisz za prąd, wodę, jacuzzi i sprzątanie. Zero wysokich opłat rocznych gdy nie przyjeżdżasz. Przez 20 lat przy 2 tygodniach rocznie: 27 000 PLN + 27 680 PLN kosztów operacyjnych = ~54 680 PLN łącznie. Ten sam standard w hotelu: 5 600–8 000 PLN za tydzień × 40 tygodni = 224 000–320 000 PLN. Różnica: ~270 000 PLN zostaje w Twojej kieszeni. W hotelu pewnie wydasz jeszcze więcej bo inflacja.") },
         { q: t("prezentacja_s11_q4", "„Kto podejmuje decyzje i czy mój głos cokolwiek zmienia?”"), a: t("prezentacja_s11_a4", "Spółka zarządza operacyjnie - codzienne decyzje, dostawcy do 50 000 PLN, personel. Społeczność głosuje nad wszystkim co dotyczy Twoich pieniędzy i komfortu: zmiany kosztów operacyjnych, fundusz remontowy, zakup nowych działek, zmiany regulaminu. Działka nie może być sprzedana bez zgody 90% memberów. Każda transakcja z funduszu widoczna publicznie w panelu aplikacji. Głosowania mają charakter konsultacyjny - zarząd uwzględnia wynik, ale odpowiada prawnie za decyzje.") },
         { q: t("prezentacja_s11_q5", "„Co się dzieje z moim miejscem jeśli nie pojadę w danym roku?”"), a: t("prezentacja_s11_a5", "Masz trzy opcje. Pierwsza: rezerwujesz termin i jedziesz. Druga: udostępniasz swój termin Członkowi swojej rodziny. Trzecia: nie robisz nic -limit 14 nocy nie przenosi się na kolejny rok, ale też nic nie tracisz finansowo. Płacisz za pobyt tylko gdy faktycznie korzystasz.") }
     ];

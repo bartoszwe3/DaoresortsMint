@@ -213,8 +213,8 @@ Tytuł przelewu: Silna.club Rezerwacja #${assignedTokenNumber} ${userEmail}`;
                         {[
                             ['Numer miejsca', `#${assignedTokenNumber}`],
                             ['Paszport', `#${passportId} - ${userName}`],
-                            ['Dopłata po PNB', '23 900 PLN (termin: 30 dni od PNB)'],
-                            ['Łącznie', '25 900 PLN'],
+                            ['Dopłata po PNB', '25 000 PLN (termin: 30 dni od PNB)'],
+                            ['Łącznie', '27 000 PLN'],
                             ['Pozostało miejsc', `${150 - reservedCount} z 150`],
                         ].map(([label, value]) => (
                             <div key={label} className="flex justify-between text-sm">

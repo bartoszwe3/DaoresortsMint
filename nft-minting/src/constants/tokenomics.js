@@ -9,7 +9,7 @@ export const STAGE_2_FOUNDATION = 3000;
 export const STAGE_3_STRUCTURE = 3000;
 export const STAGE_4_STRUCTURE_CLOSED = 3000;
 export const STAGE_5_DEVELOPER_STATE = 3000;
-export const STAGE_6_FINISHING = 4900;
+export const STAGE_6_FINISHING = 6000;
 export const STAGE_7_OPENING = 2000;
 
 export const PAYMENT_STAGES = [
@@ -23,7 +23,7 @@ export const PAYMENT_STAGES = [
     { id: 7, amount: STAGE_7_OPENING, label_pl: "Etap 7 — Otwarcie", desc_pl: "resort gotowy", char_pl: "Finalizacja" }
 ];
 
-export const MEMBERSHIP_TOTAL = 25900;      // łączna cena PLN
+export const MEMBERSHIP_TOTAL = 27000;      // łączna cena PLN
 
 // Supply
 export const TOTAL_PASSPORT_SUPPLY = 5000;

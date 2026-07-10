@@ -675,7 +675,7 @@ export default function MyNfts() {
                       </div>
                       <div className="space-y-3 mb-6">
                         {[
-                          { label: "Kwota", value: payment.bankDetails?.amount || "25 900,00 PLN", copy: "25900" },
+                          { label: "Kwota", value: payment.bankDetails?.amount || "27 000,00 PLN", copy: "27000" },
                           { label: "Numer konta", value: payment.bankDetails?.accountNumber, copy: payment.bankDetails?.accountNumber },
                           { label: "Odbiorca", value: payment.bankDetails?.recipientName },
                         ].map(({ label, value, copy }) => (
